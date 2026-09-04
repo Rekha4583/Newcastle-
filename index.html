@@ -3,299 +3,317 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Newcastle International School - Academic Result System</title>
+  <title>Newcastle International School - Smart Result Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary: #0f3460;
-      --primary-hover: #16213e;
-      --bg: #f1f5f9;
+      --primary: #1e3a8a;
+      --primary-dark: #0f172a;
+      --primary-light: #3b82f6;
+      --accent: #f59e0b;
+      --accent-hover: #d97706;
+      --bg: #f8fafc;
       --card: #ffffff;
       --text: #0f172a;
-      --muted: #64748b;
-      --border: #cbd5e1;
-      --success: #16a34a;
-      --danger: #dc2626;
-      --highlight: #fef3c7;
-      --whatsapp: #25d366;
-      --whatsapp-hover: #1da851;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --success: #10b981;
+      --danger: #ef4444;
+      --wa: #25d366;
+      --wa-dark: #1da851;
+      --radius: 16px;
+      --shadow-sm: 0 2px 4px rgba(15, 23, 42, 0.04);
+      --shadow-md: 0 10px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+      --shadow-lg: 0 20px 30px -10px rgba(30, 58, 138, 0.15);
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-    body { background-color: var(--bg); color: var(--text); padding: 20px 10px; display: flex; justify-content: center; }
-    .app-container { width: 100%; max-width: 1600px; background: var(--card); border-radius: 12px; padding: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
-    
-    .school-brand-banner {
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', 'Hind Siliguri', sans-serif; }
+    body { background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%); color: var(--text); padding: 30px 16px; display: flex; justify-content: center; min-height: 100vh; }
+    .app-container { width: 100%; max-width: 1640px; background: var(--card); border-radius: var(--radius); padding: 36px; box-shadow: var(--shadow-lg); border: 1px solid rgba(255, 255, 255, 0.8); }
+
+    /* Modern Hero Branding */
+    .brand-hero {
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 16px;
-      padding-bottom: 14px;
-      border-bottom: 2px solid #e2e8f0;
-      margin-bottom: 16px;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+      padding: 24px 32px;
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #172554 100%);
+      border-radius: var(--radius);
+      color: #ffffff;
+      margin-bottom: 28px;
+      box-shadow: 0 12px 24px -6px rgba(30, 58, 138, 0.3);
+      position: relative;
+      overflow: hidden;
     }
-    .school-brand-banner img {
-      width: 80px;
-      height: 80px;
+    .brand-hero::after {
+      content: "";
+      position: absolute;
+      top: -50%;
+      right: -10%;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(245, 158, 11, 0.2) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .brand-left { display: flex; align-items: center; gap: 20px; }
+    .brand-logo {
+      width: 78px;
+      height: 78px;
       object-fit: contain;
+      background: #ffffff;
+      border-radius: 14px;
+      padding: 6px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     }
-    .school-brand-text {
-      text-align: center;
-    }
-    .school-brand-text h1 {
-      font-size: 24px;
-      color: var(--primary);
-      margin-bottom: 2px;
-      font-weight: 800;
-      letter-spacing: 0.5px;
-    }
-    .school-brand-text .motto {
-      font-size: 13px;
-      font-style: italic;
-      color: #b45309;
-      font-weight: 600;
-      margin-bottom: 2px;
-    }
-    .school-brand-text .address {
-      font-size: 12px;
-      color: var(--muted);
-      font-weight: 500;
-    }
+    .brand-titles h1 { font-size: 26px; font-weight: 800; letter-spacing: 0.5px; margin-bottom: 4px; }
+    .brand-titles .motto { color: #fde68a; font-size: 13.5px; font-weight: 600; font-style: italic; margin-bottom: 4px; }
+    .brand-titles .address { color: #cbd5e1; font-size: 12px; font-weight: 500; display: flex; align-items: center; gap: 4px; }
+    
+    .brand-badges { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+    .pill-tag { background: rgba(255, 255, 255, 0.12); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.2); padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; color: #fff; }
 
-    .header-bar {
-      background: #eff6ff;
-      border: 1px solid #bfdbfe;
-      border-radius: 8px;
-      padding: 12px 18px;
+    /* Control Strip */
+    .control-panel {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px 20px;
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
-      gap: 12px;
-      margin-bottom: 20px;
+      gap: 16px;
+      margin-bottom: 26px;
+      box-shadow: var(--shadow-sm);
     }
+    .filters-group { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .input-label { font-size: 12.5px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    
+    select, input[type="text"], input[type="number"] {
+      padding: 10px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--text);
+      background: #fff;
+      transition: all 0.2s ease;
+      outline: none;
+    }
+    select:focus, input:focus {
+      border-color: var(--primary-light);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+    }
+    select { cursor: pointer; }
 
-    .selector-box { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-    .selector-box select { font-size: 14px; font-weight: 700; padding: 6px 12px; border: 2px solid var(--primary); border-radius: 6px; background: #fff; color: var(--primary); }
-
-    .btn-group { display: flex; gap: 8px; flex-wrap: wrap; }
-    .btn-action { padding: 6px 14px; font-size: 12px; font-weight: 600; border-radius: 6px; cursor: pointer; border: 1px solid var(--border); background: #fff; color: var(--text); }
-    .btn-action:hover { background: #e2e8f0; }
-
-    .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin-bottom: 24px; }
-    .dash-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; text-align: center; }
-    .dash-card .val { font-size: 20px; font-weight: 800; color: var(--primary); margin-top: 4px; }
-    .dash-card .lbl { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; }
-
-    .section-title {
+    .btn-toolbar { display: flex; gap: 10px; }
+    .btn-tool {
+      padding: 10px 16px;
+      border-radius: 10px;
       font-size: 13px;
       font-weight: 700;
-      color: var(--primary);
-      margin: 16px 0 8px 0;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      border-bottom: 1px solid #e2e8f0;
-      padding-bottom: 4px;
-    }
-    .form-group { margin-bottom: 10px; }
-    .row { display: flex; gap: 12px; flex-wrap: wrap; }
-    .row .form-group { flex: 1; min-width: 130px; }
-    label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 4px; color: #334155; }
-    input, select { width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px; font-size: 13px; outline: none; background: #fff; }
-    input:focus, select:focus { border-color: var(--primary); }
-
-    .btn-submit {
-      width: 100%;
-      padding: 12px;
-      background: var(--primary);
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-size: 15px;
-      font-weight: bold;
       cursor: pointer;
-      margin-top: 15px;
-      transition: 0.2s;
-    }
-    .btn-submit:hover { background: var(--primary-hover); }
-
-    .table-responsive { width: 100%; overflow-x: auto; margin-top: 15px; border: 1px solid #e2e8f0; border-radius: 8px; }
-    table.master-table { width: 100%; border-collapse: collapse; font-size: 11.5px; min-width: 1550px; background: #fff; }
-    table.master-table th, table.master-table td { border: 1px solid #e2e8f0; padding: 7px 8px; text-align: center; white-space: nowrap; }
-    table.master-table thead tr { background: var(--primary); color: #fff; font-size: 11.5px; font-weight: 600; }
-    table.master-table tbody tr:nth-child(even) { background: #f8fafc; }
-    table.master-table tbody tr.first-place { background: var(--highlight) !important; font-weight: 600; }
-
-    /* Action Buttons */
-    .btn-action-print { background: #eff6ff; border: 1px solid #93c5fd; color: var(--primary); font-size: 11px; font-weight: 600; cursor: pointer; padding: 4px 6px; border-radius: 4px; }
-    .btn-action-print:hover { background: #dbeafe; }
-    .btn-wa-action {
-      background: #25d366;
-      border: 1px solid #1da851;
-      color: #ffffff;
-      font-size: 11px;
-      font-weight: 700;
-      cursor: pointer;
-      padding: 4px 7px;
-      border-radius: 4px;
-      margin-left: 2px;
       display: inline-flex;
       align-items: center;
-      gap: 3px;
+      gap: 6px;
+      border: 1.5px solid var(--border);
+      background: #fff;
+      color: var(--text);
+      transition: all 0.2s;
     }
-    .btn-wa-action:hover { background: #1da851; }
-    .btn-delete { background: #fee2e2; border: 1px solid #fca5a5; color: var(--danger); font-size: 11px; font-weight: 600; cursor: pointer; padding: 4px 6px; border-radius: 4px; margin-left: 2px; }
-    .btn-delete:hover { background: #fecaca; }
+    .btn-tool:hover { background: #f1f5f9; border-color: #cbd5e1; transform: translateY(-1px); }
+    .btn-tool-sync { background: #eff6ff; color: var(--primary); border-color: #bfdbfe; }
+    .btn-tool-sync:hover { background: #dbeafe; }
 
-    .list-header-row { display: flex; justify-content: space-between; align-items: center; margin-top: 30px; margin-bottom: 12px; }
-    .btn-print-master { padding: 8px 16px; background: #fff; border: 1px solid var(--primary); color: var(--primary); border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; }
-    .search-box { width: 100%; padding: 10px 14px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; margin-bottom: 14px; }
+    /* Dashboard Stats Grid */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 16px;
+      margin-bottom: 30px;
+    }
+    .stat-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px 20px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .stat-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+    .stat-card .lbl { font-size: 11.5px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+    .stat-card .val { font-size: 24px; font-weight: 800; color: var(--text); }
+    .stat-card::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--primary); border-radius: 4px 0 0 4px; }
+    .stat-passed::before { background: var(--success); }
+    .stat-failed::before { background: var(--danger); }
+    .stat-highest::before { background: #0284c7; }
+    .stat-rate::before { background: var(--accent); }
 
-    /* Modal / Individual Transcript */
-    .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); z-index: 1000; justify-content: center; align-items: center; padding: 15px; }
-    .transcript-sheet { background: #fff; width: 100%; max-width: 850px; border-radius: 8px; padding: 28px; box-shadow: 0 5px 25px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto; }
-    
-    .transcript-header {
+    /* Entry Form Styling */
+    .card-panel {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px 28px;
+      margin-bottom: 30px;
+      box-shadow: var(--shadow-sm);
+    }
+    .panel-heading {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 16px;
-      border-bottom: 2px solid var(--primary);
+      gap: 8px;
+      margin-bottom: 20px;
       padding-bottom: 12px;
-      margin-bottom: 14px;
+      border-bottom: 2px solid #f1f5f9;
     }
-    .transcript-header img {
-      width: 75px;
-      height: 75px;
-      object-fit: contain;
-    }
-    .transcript-header .title-area { text-align: center; }
-    .transcript-header h2 { font-size: 20px; color: var(--primary); font-weight: 800; margin-bottom: 2px; }
-    .transcript-header .tagline { font-size: 12px; color: #b45309; font-weight: 600; font-style: italic; }
-    .transcript-header .addr { font-size: 11px; color: var(--muted); margin-top: 2px; }
-    .transcript-header .report-name {
-      display: inline-block;
-      margin-top: 5px;
-      padding: 3px 12px;
-      background: #eff6ff;
-      border: 1px solid #bfdbfe;
-      border-radius: 14px;
-      font-size: 11px;
+
+    .form-row { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 14px; }
+    .form-col { flex: 1; min-width: 140px; display: flex; flex-direction: column; gap: 5px; }
+    .form-col label { font-size: 12px; font-weight: 700; color: #334155; }
+
+    .sub-section-title {
+      font-size: 12.5px;
       font-weight: 700;
-      color: var(--primary);
+      color: var(--primary-light);
+      background: #f8fafc;
+      padding: 8px 12px;
+      border-radius: 8px;
+      border-left: 3px solid var(--primary-light);
+      margin: 18px 0 10px 0;
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
 
-    .student-meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 20px; font-size: 12px; margin-bottom: 12px; padding: 10px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; }
-    table.transcript-table { width: 100%; border-collapse: collapse; font-size: 11.5px; margin-bottom: 12px; }
-    table.transcript-table th, table.transcript-table td { border: 1px solid #cbd5e1; padding: 5px 6px; text-align: center; }
-    table.transcript-table th { background: #f1f5f9; color: #1e293b; font-weight: 600; }
+    .btn-submit-main {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 8px 18px -4px rgba(37, 99, 235, 0.4);
+      transition: all 0.2s;
+      margin-top: 15px;
+    }
+    .btn-submit-main:hover {
+      background: linear-gradient(135deg, #172554 0%, #1d4ed8 100%);
+      transform: translateY(-1px);
+      box-shadow: 0 12px 20px -4px rgba(37, 99, 235, 0.5);
+    }
 
-    .summary-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 16px; }
-    .summary-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px; text-align: center; }
-    .summary-card .s-lbl { font-size: 11px; color: var(--muted); font-weight: 600; }
-    .summary-card .s-val { font-size: 15px; font-weight: 700; color: var(--primary); margin-top: 2px; }
+    /* Master Table Styling */
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      box-shadow: var(--shadow-sm);
+    }
+    table.master-table { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 1600px; text-align: center; }
+    table.master-table th, table.master-table td { border: 1px solid #f1f5f9; padding: 10px 8px; white-space: nowrap; }
+    table.master-table thead tr { background: #0f172a; color: #ffffff; font-weight: 700; }
+    table.master-table tbody tr { transition: background 0.15s; }
+    table.master-table tbody tr:hover { background: #f8fafc; }
+    table.master-table tbody tr.first-place { background: #fefce8 !important; font-weight: 700; }
+    
+    .tag-status-pass { background: #dcfce7; color: #166534; padding: 3px 8px; border-radius: 6px; font-weight: 700; font-size: 11px; }
+    .tag-status-fail { background: #fee2e2; color: #991b1b; padding: 3px 8px; border-radius: 6px; font-weight: 700; font-size: 11px; }
+    .tag-rank { background: #e0e7ff; color: #3730a3; padding: 3px 8px; border-radius: 6px; font-weight: 800; font-size: 11px; }
 
-    .signature-area { display: none; margin-top: 45px; justify-content: space-between; }
-    .signature-box { border-top: 1px solid #334155; width: 160px; text-align: center; font-size: 11px; font-weight: 600; padding-top: 4px; }
+    /* Action Buttons */
+    .btn-act-card { background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; padding: 5px 8px; border-radius: 6px; font-weight: 700; cursor: pointer; transition: 0.15s; }
+    .btn-act-card:hover { background: #dcfce7; }
+    .btn-act-wa { background: #dcfce7; border: 1px solid #86efac; color: #15803d; padding: 5px 8px; border-radius: 6px; font-weight: 700; cursor: pointer; transition: 0.15s; display: inline-flex; align-items: center; gap: 4px; }
+    .btn-act-wa:hover { background: #bbf7d0; }
+    .btn-act-del { background: #fff1f2; border: 1px solid #fecdd3; color: #be123c; padding: 5px 8px; border-radius: 6px; font-weight: 700; cursor: pointer; transition: 0.15s; }
+    .btn-act-del:hover { background: #ffe4e6; }
 
+    /* Modal / Report Card Overlay */
+    .modal-backdrop { display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(4px); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
+    .transcript-box { background: #ffffff; width: 100%; max-width: 860px; border-radius: 16px; padding: 32px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); max-height: 92vh; overflow-y: auto; }
+    
     .print-header { display: none; }
 
     @media print {
-      html, body {
-        background: #ffffff !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
-      }
-
+      body { background: #ffffff !important; padding: 0 !important; }
       body.printing-individual .app-container { display: none !important; }
-      body.printing-individual .modal-overlay {
-        display: block !important;
-        position: static !important;
-        background: transparent !important;
-        padding: 0 !important;
-        width: 100% !important;
-      }
-      body.printing-individual .transcript-sheet {
-        display: block !important;
-        box-shadow: none !important;
-        max-width: 100% !important;
-        width: 100% !important;
-        padding: 0 !important;
-        border: none !important;
-      }
-      body.printing-individual .signature-area { display: flex !important; }
-      body.printing-individual .modal-footer,
+      body.printing-individual .modal-backdrop { display: block !important; position: static !important; background: transparent !important; padding: 0 !important; }
+      body.printing-individual .transcript-box { box-shadow: none !important; max-width: 100% !important; padding: 0 !important; border: none !important; }
       body.printing-individual .no-print { display: none !important; }
 
-      body.printing-master .modal-overlay { display: none !important; }
-      body.printing-master .app-container {
-        box-shadow: none !important;
-        max-width: 100% !important;
-        width: 100% !important;
-        padding: 0 !important;
-        border: none !important;
-      }
+      body.printing-master .modal-backdrop { display: none !important; }
+      body.printing-master .app-container { box-shadow: none !important; max-width: 100% !important; padding: 0 !important; border: none !important; }
       body.printing-master form,
-      body.printing-master .search-box,
-      body.printing-master .btn-print-master,
+      body.printing-master .control-panel,
       body.printing-master .dashboard-grid,
-      body.printing-master .school-brand-banner,
-      body.printing-master .header-bar,
-      body.printing-master .list-header-row,
+      body.printing-master .brand-hero,
       body.printing-master .no-print { display: none !important; }
-
-      body.printing-master .print-header {
-        display: flex !important;
-        align-items: center;
-        justify-content: center;
-        gap: 12px;
-        margin-bottom: 10px;
-        border-bottom: 1px solid #334155;
-        padding-bottom: 6px;
-      }
-      body.printing-master .print-header img { width: 55px; height: 55px; object-fit: contain; }
-      body.printing-master .table-responsive { display: block !important; border: none !important; overflow: visible !important; }
-      body.printing-master table.master-table { width: 100% !important; min-width: 100% !important; font-size: 7.2pt !important; }
-      body.printing-master table.master-table th, body.printing-master table.master-table td { padding: 3px 2px !important; border: 1px solid #334155 !important; }
-      body.printing-master table.master-table thead tr { background: #e2e8f0 !important; color: #000 !important; }
+      body.printing-master .print-header { display: flex !important; align-items: center; justify-content: center; gap: 14px; margin-bottom: 12px; border-bottom: 2px solid #0f172a; padding-bottom: 8px; }
+      body.printing-master table.master-table { font-size: 7.5pt !important; min-width: 100% !important; width: 100% !important; }
+      body.printing-master table.master-table th, body.printing-master table.master-table td { padding: 3px 2px !important; border: 1px solid #0f172a !important; }
     }
   </style>
 </head>
 <body>
 
 <div class="app-container">
-  <div class="school-brand-banner">
-    <img src="1000040018.jpg" alt="Newcastle Logo" onerror="this.style.display='none'">
-    <div class="school-brand-text">
-      <h1>NEWCASTLE INTERNATIONAL SCHOOL</h1>
-      <div class="motto">"A House of Creative Education"</div>
-      <div class="address">📍 Japani bazar, Zia soroni, Soniakra, Dhaka, Bangladesh, 1236</div>
+  <!-- Gorgeous Hero Branding Banner -->
+  <div class="brand-hero">
+    <div class="brand-left">
+      <img src="1000040018.png" alt="Logo" class="brand-logo" onerror="this.style.display='none'">
+      <div class="brand-titles">
+        <h1>NEWCASTLE INTERNATIONAL SCHOOL</h1>
+        <div class="motto">"A House of Creative Education"</div>
+        <div class="address">📍 Japani bazar, Zia soroni, Soniakra, Dhaka-1236, Bangladesh</div>
+      </div>
+    </div>
+    <div class="brand-badges">
+      <span class="pill-tag">🎓 Academic Year 2026</span>
+      <span class="pill-tag" style="background: rgba(245, 158, 11, 0.25); border-color: rgba(245, 158, 11, 0.4); color: #fef08a;">Smart Result Portal</span>
     </div>
   </div>
 
-  <div class="header-bar">
-    <div class="selector-box">
-      <label for="classSelect" style="font-weight: 700; color: var(--primary);">Academic Class:</label>
+  <!-- Interactive Control Strip -->
+  <div class="control-panel">
+    <div class="filters-group">
+      <span class="input-label">Select Class:</span>
       <select id="classSelect" onchange="onClassSwitched(this.value)">
         <option value="Class 6">Class 6 (Junior 750)</option>
         <option value="Class 7">Class 7 (Junior 750)</option>
-        <option value="Class 8" selected>Class 8 (Junior 750)</option>
+        <option value="Class 8">Class 8 (Junior 750)</option>
         <option value="Class 9">Class 9 (SSC Curriculum)</option>
         <option value="Class 10">Class 10 (SSC Curriculum)</option>
+        <option value="Class Std-6">Standrad 6 (Junior 750)</option>
+        <option value="Class Std-7">Standrad 7 (Junior 750)</option>
+        <option value="Class Std-8">Standrad 8 (Junior 750)</option>
+        <option value="Class Std-9">Standrad 9 (SSC Curriculum)</option>
+        <option value="Class std-10">Standrad 10 (SSC Curriculum)</option>
       </select>
 
-      <label for="examTermSelect" style="font-weight: 700; color: var(--primary); margin-left: 8px;">Examination:</label>
+      <span class="input-label" style="margin-left: 8px;">Exam Term:</span>
       <select id="examTermSelect" onchange="onExamTermChanged(this.value)">
         <option value="1st Semester">1st Semester Examination</option>
         <option value="2nd Semester">2nd Semester Examination</option>
         <option value="Annual Exam" selected>Annual Examination</option>
       </select>
 
-      <span id="groupFilterWrapper" style="display: none; align-items: center; gap: 6px;">
-        <label for="groupFilter" style="font-weight: 700; color: var(--primary); margin-left: 8px;">Group Filter:</label>
+      <span id="groupFilterWrapper" style="display: none; align-items: center; gap: 8px; margin-left: 8px;">
+        <span class="input-label">Group:</span>
         <select id="groupFilter" onchange="renderMasterTable()">
           <option value="ALL">All Groups</option>
           <option value="Science">Science</option>
@@ -305,177 +323,176 @@
       </span>
     </div>
 
-    <div class="btn-group">
-      <button class="btn-action" style="background:#eff6ff; border-color:#93c5fd; color:#1e40af;" onclick="loadDataFromGoogleDrive()">☁️ Sync Google Drive</button>
-      <button class="btn-action" onclick="exportCSV()">📥 Export CSV</button>
+    <div class="btn-toolbar">
+      <button class="btn-tool btn-tool-sync" onclick="loadDataFromGoogleDrive()">☁️ Sync Google Drive</button>
+      <button class="btn-tool" onclick="exportCSV()">📥 Export Excel (CSV)</button>
+      <button class="btn-tool" onclick="printMasterA4()">🖨️ Print Tabulation</button>
     </div>
   </div>
 
+  <!-- Stats Dashboard -->
   <div class="dashboard-grid">
-    <div class="dash-card"><div class="lbl">Class & Exam</div><div class="val" id="dashClass" style="font-size: 16px; padding-top: 4px;">Class 8 (Annual)</div></div>
-    <div class="dash-card"><div class="lbl">Class Highest Mark</div><div class="val" style="color: #0369a1;" id="dashHighest">0</div></div>
-    <div class="dash-card"><div class="lbl">Total Students</div><div class="val" id="dashTotal">0</div></div>
-    <div class="dash-card"><div class="lbl">Passed</div><div class="val" style="color: var(--success);" id="dashPassed">0</div></div>
-    <div class="dash-card"><div class="lbl">Failed</div><div class="val" style="color: var(--danger);" id="dashFailed">0</div></div>
-    <div class="dash-card"><div class="lbl">Pass Rate</div><div class="val" id="dashRate">0%</div></div>
-    <div class="dash-card"><div class="lbl">Avg GPA</div><div class="val" id="dashAvgGpa">0.00</div></div>
+    <div class="stat-card"><div class="lbl">Class & Exam</div><div class="val" id="dashClass" style="font-size: 18px; color: var(--primary);">Class 8</div></div>
+    <div class="stat-card stat-highest"><div class="lbl">Highest Mark</div><div class="val" id="dashHighest" style="color: #0284c7;">0</div></div>
+    <div class="stat-card"><div class="lbl">Total Students</div><div class="val" id="dashTotal">0</div></div>
+    <div class="stat-card stat-passed"><div class="lbl">Passed</div><div class="val" id="dashPassed" style="color: var(--success);">0</div></div>
+    <div class="stat-card stat-failed"><div class="lbl">Failed</div><div class="val" id="dashFailed" style="color: var(--danger);">0</div></div>
+    <div class="stat-card stat-rate"><div class="lbl">Pass Rate</div><div class="val" id="dashRate" style="color: var(--accent);">0%</div></div>
+    <div class="stat-card"><div class="lbl">Average GPA</div><div class="val" id="dashAvgGpa">0.00</div></div>
   </div>
 
-  <form id="marksForm" onsubmit="handleFormSubmit(event)">
-    <div class="row">
-      <div class="form-group" style="flex: 2;">
-        <label>Student Full Name</label>
-        <input type="text" id="name" placeholder="Name" required>
-      </div>
-      <div class="form-group">
-        <label>Class Roll</label>
-        <input type="number" id="roll" placeholder="Roll" required>
-      </div>
-      <div class="form-group">
-        <label>Student ID</label>
-        <input type="text" id="studentId" placeholder="e.g. C8-01 / SSC-01" required>
-      </div>
-      <div class="form-group" style="flex: 1.2;">
-        <label>Parent WhatsApp Number</label>
-        <input type="text" id="phone" placeholder="017xxxxxxxx">
-      </div>
-      <div class="form-group" style="flex: 1.2;">
-        <label>Exam Session</label>
-        <select id="formExamTerm">
-          <option value="1st Semester">1st Semester Exam</option>
-          <option value="2nd Semester">2nd Semester Exam</option>
-          <option value="Annual Exam" selected>Annual Exam</option>
-        </select>
-      </div>
-      <div class="form-group" id="grpInputWrapper" style="display: none; flex: 1.5;">
-        <label>Group / Stream</label>
-        <select id="streamSelect" onchange="onStreamChanged()">
-          <option value="Science">Science (বিজ্ঞান বিভাগ)</option>
-          <option value="Business Studies">Business Studies (ব্যবসায় শিক্ষা)</option>
-          <option value="Humanities">Humanities (মানবিক বিভাগ)</option>
-        </select>
-      </div>
-    </div>
-
-    <!-- Bangla -->
-    <div class="section-title" id="banTitle">1. Bangla 1st Paper & Bangla 2nd Paper</div>
-    <div class="row">
-      <div class="form-group"><label id="lbl_b1_cq">Bangla 1st CQ (70)</label><input type="number" id="b1_cq" min="0" max="70" required></div>
-      <div class="form-group"><label id="lbl_b1_mcq">Bangla 1st MCQ (30)</label><input type="number" id="b1_mcq" min="0" max="30" required></div>
-      <div class="form-group"><label id="lbl_b2_cq">Bangla 2nd CQ (35)</label><input type="number" id="b2_cq" min="0" max="70" required></div>
-      <div class="form-group"><label id="lbl_b2_mcq">Bangla 2nd MCQ (15)</label><input type="number" id="b2_mcq" min="0" max="30" required></div>
-    </div>
-
-    <!-- English -->
-    <div class="section-title" id="engTitle">2. English 1st Paper & English 2nd Paper</div>
-    <div class="row">
-      <div class="form-group"><label id="lbl_e1">English 1st Paper (100)</label><input type="number" id="e1" min="0" max="100" required></div>
-      <div class="form-group"><label id="lbl_e2">English 2nd Paper (50)</label><input type="number" id="e2" min="0" max="100" required></div>
-    </div>
-
-    <!-- Math -->
-    <div class="section-title">3. Mathematics (100) | Pass: CQ ≥ 23, MCQ ≥ 10</div>
-    <div class="row">
-      <div class="form-group"><label>Math CQ (70)</label><input type="number" id="m_cq" min="0" max="70" required></div>
-      <div class="form-group"><label>Math MCQ (30)</label><input type="number" id="m_mcq" min="0" max="30" required></div>
-    </div>
-
-    <!-- Religion -->
-    <div class="section-title">4. Religion & Moral Education (100) | Pass: CQ ≥ 23, MCQ ≥ 10</div>
-    <div class="row">
-      <div class="form-group"><label>Religion CQ (70)</label><input type="number" id="rel_cq" min="0" max="70" required></div>
-      <div class="form-group"><label>Religion MCQ (30)</label><input type="number" id="rel_mcq" min="0" max="30" required></div>
-    </div>
-
-    <!-- ICT -->
-    <div class="section-title">5. Information & Communication Technology - ICT (50) | Pass: MCQ ≥ 8, Practical ≥ 8, Total ≥ 17</div>
-    <div class="row">
-      <div class="form-group"><label>ICT MCQ (25)</label><input type="number" id="ict_mcq" min="0" max="25" required></div>
-      <div class="form-group"><label>ICT Practical (25)</label><input type="number" id="ict_prac" min="0" max="25" required></div>
-    </div>
-
-    <!-- Junior Science & BGS -->
-    <div id="juniorExtras">
-      <div class="section-title">6. General Science (100) & 7. Bangladesh & Global Studies (100)</div>
-      <div class="row">
-        <div class="form-group"><label>General Science CQ (70)</label><input type="number" id="j_sci_cq" min="0" max="70"></div>
-        <div class="form-group"><label>General Science MCQ (30)</label><input type="number" id="j_sci_mcq" min="0" max="30"></div>
-        <div class="form-group"><label>BGS CQ (70)</label><input type="number" id="j_bgs_cq" min="0" max="70"></div>
-        <div class="form-group"><label>BGS MCQ (30)</label><input type="number" id="j_bgs_mcq" min="0" max="30"></div>
-      </div>
-    </div>
-
-    <!-- Senior Group Core & Major Subjects -->
-    <div id="seniorExtras" style="display: none;">
-      <div class="section-title">6. Group Core: BGS / General Science (100)</div>
-      <div class="row">
-        <div class="form-group" style="flex: 2;">
-          <label>Subject</label>
-          <input type="text" id="s_core_name" value="Bangladesh & Global Studies (BGS)" readonly style="background: #f1f5f9;">
+  <!-- Marks Entry Card -->
+  <div class="card-panel">
+    <div class="panel-heading">📝 Student Marks Entry & Auto-Calculation Form</div>
+    <form id="marksForm" onsubmit="handleFormSubmit(event)">
+      <div class="form-row">
+        <div class="form-col" style="flex: 2;">
+          <label>Student Full Name</label>
+          <input type="text" id="name" placeholder="e.g. Abdullah Al Mamun" required>
         </div>
-        <div class="form-group"><label>CQ (70)</label><input type="number" id="s_core_cq" min="0" max="70"></div>
-        <div class="form-group"><label>MCQ (30)</label><input type="number" id="s_core_mcq" min="0" max="30"></div>
-      </div>
-
-      <div class="section-title">7. Group Major Subjects (100 each)</div>
-      <div class="row" style="margin-bottom: 6px;">
-        <div class="form-group" style="flex: 2;"><label>Major 1</label><input type="text" id="g1_name" value="Physics" readonly style="background:#f1f5f9;"></div>
-        <div class="form-group"><label id="lbl_g1_cq">CQ (50)</label><input type="number" id="g1_cq" min="0" max="70"></div>
-        <div class="form-group"><label id="lbl_g1_mcq">MCQ (25)</label><input type="number" id="g1_mcq" min="0" max="30"></div>
-        <div class="form-group" id="box_g1_prac"><label>Practical (25)</label><input type="number" id="g1_prac" min="0" max="25" value="0"></div>
-      </div>
-
-      <div class="row" style="margin-bottom: 6px;">
-        <div class="form-group" style="flex: 2;"><label>Major 2</label><input type="text" id="g2_name" value="Chemistry" readonly style="background:#f1f5f9;"></div>
-        <div class="form-group"><label id="lbl_g2_cq">CQ (50)</label><input type="number" id="g2_cq" min="0" max="70"></div>
-        <div class="form-group"><label id="lbl_g2_mcq">MCQ (25)</label><input type="number" id="g2_mcq" min="0" max="30"></div>
-        <div class="form-group" id="box_g2_prac"><label>Practical (25)</label><input type="number" id="g2_prac" min="0" max="25" value="0"></div>
-      </div>
-
-      <div class="row" style="margin-bottom: 6px;">
-        <div class="form-group" style="flex: 2;"><label>Major 3</label><input type="text" id="g3_name" value="Biology" readonly style="background:#f1f5f9;"></div>
-        <div class="form-group"><label id="lbl_g3_cq">CQ (50)</label><input type="number" id="g3_cq" min="0" max="70"></div>
-        <div class="form-group"><label id="lbl_g3_mcq">MCQ (25)</label><input type="number" id="g3_mcq" min="0" max="30"></div>
-        <div class="form-group" id="box_g3_prac"><label>Practical (25)</label><input type="number" id="g3_prac" min="0" max="25" value="0"></div>
-      </div>
-
-      <div class="section-title">8. 4th Optional Subject (100) | GP above 2.00 is Bonus Points</div>
-      <div class="row">
-        <div class="form-group" style="flex: 2;">
-          <label>Optional Subject</label>
-          <select id="opt_name" onchange="adjustSeniorPracticalFields()">
-            <option value="Higher Mathematics">Higher Mathematics (Practical)</option>
-            <option value="Agriculture Studies">Agriculture Studies (Practical)</option>
-            <option value="Home Science">Home Science (Practical)</option>
-            <option value="Economics">Economics</option>
+        <div class="form-col">
+          <label>Class Roll</label>
+          <input type="number" id="roll" placeholder="Roll Number" required>
+        </div>
+        <div class="form-col">
+          <label>Student ID</label>
+          <input type="text" id="studentId" placeholder="e.g. C8-01 / SSC-01" required>
+        </div>
+        <div class="form-col" style="flex: 1.2;">
+          <label>WhatsApp Number</label>
+          <input type="text" id="phone" placeholder="017xxxxxxxx">
+        </div>
+        <div class="form-col" style="flex: 1.2;">
+          <label>Exam Session</label>
+          <select id="formExamTerm">
+            <option value="1st Semester">1st Semester Exam</option>
+            <option value="2nd Semester">2nd Semester Exam</option>
+            <option value="Annual Exam" selected>Annual Exam</option>
           </select>
         </div>
-        <div class="form-group"><label id="lbl_opt_cq">CQ (50)</label><input type="number" id="opt_cq" min="0" max="70"></div>
-        <div class="form-group"><label id="lbl_opt_mcq">MCQ (25)</label><input type="number" id="opt_mcq" min="0" max="30"></div>
-        <div class="form-group" id="box_opt_prac"><label>Practical (25)</label><input type="number" id="opt_prac" min="0" max="25" value="0"></div>
+        <div class="form-col" id="grpInputWrapper" style="display: none; flex: 1.5;">
+          <label>Academic Stream</label>
+          <select id="streamSelect" onchange="onStreamChanged()">
+            <option value="Science">Science (বিজ্ঞান বিভাগ)</option>
+            <option value="Business Studies">Business Studies (ব্যবসায় শিক্ষা)</option>
+            <option value="Humanities">Humanities (মানবিক বিভাগ)</option>
+          </select>
+        </div>
       </div>
-    </div>
 
-    <button type="submit" class="btn-submit">💾 Calculate & Save Result</button>
-  </form>
+      <!-- Bangla Section -->
+      <div class="sub-section-title" id="banTitle">1. Bangla 1st Paper & Bangla 2nd Paper</div>
+      <div class="form-row">
+        <div class="form-col"><label id="lbl_b1_cq">Bangla 1st CQ (70)</label><input type="number" id="b1_cq" min="0" max="70" required></div>
+        <div class="form-col"><label id="lbl_b1_mcq">Bangla 1st MCQ (30)</label><input type="number" id="b1_mcq" min="0" max="30" required></div>
+        <div class="form-col"><label id="lbl_b2_cq">Bangla 2nd CQ (35)</label><input type="number" id="b2_cq" min="0" max="70" required></div>
+        <div class="form-col"><label id="lbl_b2_mcq">Bangla 2nd MCQ (15)</label><input type="number" id="b2_mcq" min="0" max="30" required></div>
+      </div>
 
-  <div class="list-header-row">
-    <h2 style="font-size: 16px;" id="tabulationHeading">Master Tabulation Sheet</h2>
-    <button class="btn-print-master" onclick="printMasterA4()">🖨️ Print Master Tabulation (A4 Landscape)</button>
+      <!-- English Section -->
+      <div class="sub-section-title" id="engTitle">2. English 1st Paper & English 2nd Paper</div>
+      <div class="form-row">
+        <div class="form-col"><label id="lbl_e1">English 1st (100)</label><input type="number" id="e1" min="0" max="100" required></div>
+        <div class="form-col"><label id="lbl_e2">English 2nd (50)</label><input type="number" id="e2" min="0" max="100" required></div>
+      </div>
+
+      <!-- Math Section -->
+      <div class="sub-section-title">3. Mathematics (100) | Pass Rule: CQ ≥ 23, MCQ ≥ 10</div>
+      <div class="form-row">
+        <div class="form-col"><label>Math CQ (70)</label><input type="number" id="m_cq" min="0" max="70" required></div>
+        <div class="form-col"><label>Math MCQ (30)</label><input type="number" id="m_mcq" min="0" max="30" required></div>
+      </div>
+
+      <!-- Religion Section -->
+      <div class="sub-section-title">4. Religion & Moral Education (100) | Pass Rule: CQ ≥ 23, MCQ ≥ 10</div>
+      <div class="form-row">
+        <div class="form-col"><label>Religion CQ (70)</label><input type="number" id="rel_cq" min="0" max="70" required></div>
+        <div class="form-col"><label>Religion MCQ (30)</label><input type="number" id="rel_mcq" min="0" max="30" required></div>
+      </div>
+
+      <!-- ICT Section -->
+      <div class="sub-section-title">5. Information & Communication Technology - ICT (50) | MCQ ≥ 8, Prac ≥ 8, Tot ≥ 17</div>
+      <div class="form-row">
+        <div class="form-col"><label>ICT MCQ (25)</label><input type="number" id="ict_mcq" min="0" max="25" required></div>
+        <div class="form-col"><label>ICT Practical (25)</label><input type="number" id="ict_prac" min="0" max="25" required></div>
+      </div>
+
+      <!-- Junior Science & BGS -->
+      <div id="juniorExtras">
+        <div class="sub-section-title">6. General Science (100) & 7. Bangladesh & Global Studies (100)</div>
+        <div class="form-row">
+          <div class="form-col"><label>Science CQ (70)</label><input type="number" id="j_sci_cq" min="0" max="70"></div>
+          <div class="form-col"><label>Science MCQ (30)</label><input type="number" id="j_sci_mcq" min="0" max="30"></div>
+          <div class="form-col"><label>BGS CQ (70)</label><input type="number" id="j_bgs_cq" min="0" max="70"></div>
+          <div class="form-col"><label>BGS MCQ (30)</label><input type="number" id="j_bgs_mcq" min="0" max="30"></div>
+        </div>
+      </div>
+
+      <!-- Senior Group Subjects -->
+      <div id="seniorExtras" style="display: none;">
+        <div class="sub-section-title">6. Group Core: BGS / General Science (100)</div>
+        <div class="form-row">
+          <div class="form-col" style="flex: 2;"><label>Subject Name</label><input type="text" id="s_core_name" readonly style="background:#f1f5f9;"></div>
+          <div class="form-col"><label>CQ (70)</label><input type="number" id="s_core_cq" min="0" max="70"></div>
+          <div class="form-col"><label>MCQ (30)</label><input type="number" id="s_core_mcq" min="0" max="30"></div>
+        </div>
+
+        <div class="sub-section-title">7. Group Major Subjects (100 each)</div>
+        <div class="form-row">
+          <div class="form-col" style="flex: 2;"><label>Major 1</label><input type="text" id="g1_name" readonly style="background:#f1f5f9;"></div>
+          <div class="form-col"><label id="lbl_g1_cq">CQ</label><input type="number" id="g1_cq" min="0" max="70"></div>
+          <div class="form-col"><label id="lbl_g1_mcq">MCQ</label><input type="number" id="g1_mcq" min="0" max="30"></div>
+          <div class="form-col" id="box_g1_prac"><label>Prac (25)</label><input type="number" id="g1_prac" min="0" max="25" value="0"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-col" style="flex: 2;"><label>Major 2</label><input type="text" id="g2_name" readonly style="background:#f1f5f9;"></div>
+          <div class="form-col"><label id="lbl_g2_cq">CQ</label><input type="number" id="g2_cq" min="0" max="70"></div>
+          <div class="form-col"><label id="lbl_g2_mcq">MCQ</label><input type="number" id="g2_mcq" min="0" max="30"></div>
+          <div class="form-col" id="box_g2_prac"><label>Prac (25)</label><input type="number" id="g2_prac" min="0" max="25" value="0"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-col" style="flex: 2;"><label>Major 3</label><input type="text" id="g3_name" readonly style="background:#f1f5f9;"></div>
+          <div class="form-col"><label id="lbl_g3_cq">CQ</label><input type="number" id="g3_cq" min="0" max="70"></div>
+          <div class="form-col"><label id="lbl_g3_mcq">MCQ</label><input type="number" id="g3_mcq" min="0" max="30"></div>
+          <div class="form-col" id="box_g3_prac"><label>Prac (25)</label><input type="number" id="g3_prac" min="0" max="25" value="0"></div>
+        </div>
+
+        <div class="sub-section-title">8. 4th Optional Subject (100) | GP > 2.00 is Bonus Points</div>
+        <div class="form-row">
+          <div class="form-col" style="flex: 2;">
+            <label>Optional Subject</label>
+            <select id="opt_name" onchange="adjustSeniorPracticalFields()">
+              <option value="Higher Mathematics">Higher Mathematics (Practical)</option>
+              <option value="Agriculture Studies">Agriculture Studies (Practical)</option>
+              <option value="Home Science">Home Science (Practical)</option>
+              <option value="Economics">Economics</option>
+            </select>
+          </div>
+          <div class="form-col"><label id="lbl_opt_cq">CQ</label><input type="number" id="opt_cq" min="0" max="70"></div>
+          <div class="form-col"><label id="lbl_opt_mcq">MCQ</label><input type="number" id="opt_mcq" min="0" max="30"></div>
+          <div class="form-col" id="box_opt_prac"><label>Prac (25)</label><input type="number" id="opt_prac" min="0" max="25" value="0"></div>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-submit-main">💾 Calculate & Save Student Result</button>
+    </form>
   </div>
 
-  <input type="text" id="searchBox" class="search-box" placeholder="Search by name, roll, student ID..." oninput="renderMasterTable()">
+  <!-- Search Bar -->
+  <input type="text" id="searchBox" class="search-box" style="width: 100%; padding: 12px 18px; border-radius: 12px; border: 1.5px solid var(--border); margin-bottom: 18px; font-size: 14px;" placeholder="🔍 Search students by Name, Roll, ID or Group..." oninput="renderMasterTable()">
 
+  <!-- Print Header for Master Tabulation -->
   <div class="print-header">
-    <img src="1000040018.jpg" alt="Logo" onerror="this.style.display='none'">
+    <img src="1000040018.jpg" alt="Logo" style="width: 60px; height: 60px; object-fit: contain;">
     <div style="text-align: center;">
-      <h2 style="font-size: 13pt; margin-bottom: 2px; color: var(--primary);">NEWCASTLE INTERNATIONAL SCHOOL</h2>
+      <h2 style="font-size: 14pt; margin-bottom: 2px; color: var(--primary-dark);">NEWCASTLE INTERNATIONAL SCHOOL</h2>
       <p style="font-size: 8.5pt; color: #b45309; font-style: italic; margin-bottom: 2px;">"A House of Creative Education"</p>
-      <p style="font-size: 8pt; color: #475569;" id="printHeaderSubtitle">Japani bazar, Zia soroni, Soniakra, Dhaka-1236 | Session 2026</p>
+      <p style="font-size: 8pt; color: #475569;" id="printHeaderSubtitle">Master Tabulation & Merit Sheet - Session 2026</p>
     </div>
   </div>
 
-  <div class="table-responsive">
+  <!-- Master Table -->
+  <div class="table-container">
     <table class="master-table">
       <thead id="masterTableHead"></thead>
       <tbody id="masterTableBody"></tbody>
@@ -483,52 +500,56 @@
   </div>
 </div>
 
-<!-- Modal: Transcript (A4 Portrait) -->
-<div class="modal-overlay" id="transcriptModal">
-  <div class="transcript-sheet">
-    <div class="transcript-header">
-      <img src="1000040018.jpg" alt="Newcastle Logo" onerror="this.style.display='none'">
-      <div class="title-area">
-        <h2>NEWCASTLE INTERNATIONAL SCHOOL</h2>
-        <div class="tagline">"A House of Creative Education"</div>
-        <div class="addr">Japani bazar, Zia soroni, Soniakra, Dhaka-1236, Bangladesh</div>
-        <div class="report-name" id="modalBoardLabel">ACADEMIC TRANSCRIPT & PROGRESS REPORT</div>
+<!-- Modal: Transcript Report Card -->
+<div class="modal-backdrop" id="transcriptModal">
+  <div class="transcript-box">
+    <div class="brand-hero" style="margin-bottom: 18px; padding: 20px 24px;">
+      <div class="brand-left">
+        <img src="1000040018.jpg" alt="Logo" class="brand-logo" onerror="this.style.display='none'">
+        <div class="brand-titles">
+          <h2 style="font-size: 19px; color: #fff; font-weight: 800;">NEWCASTLE INTERNATIONAL SCHOOL</h2>
+          <div class="motto" style="font-size: 12px;">"A House of Creative Education"</div>
+          <div class="address" style="font-size: 11px;">Japani bazar, Zia soroni, Soniakra, Dhaka-1236, Bangladesh</div>
+        </div>
+      </div>
+      <div class="brand-badges">
+        <span class="pill-tag" id="modalBoardLabel">PROGRESS REPORT</span>
       </div>
     </div>
 
-    <div class="student-meta-grid" id="modalStudentMeta"></div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px 20px; font-size: 12.5px; background: #f8fafc; border: 1px solid var(--border); border-radius: 10px; padding: 12px 16px; margin-bottom: 16px;" id="modalStudentMeta"></div>
 
-    <table class="transcript-table">
+    <table style="width: 100%; border-collapse: collapse; font-size: 12px; margin-bottom: 16px;">
       <thead>
-        <tr>
-          <th>SL</th>
-          <th>Subject Name</th>
-          <th>Full</th>
-          <th>CQ</th>
-          <th>MCQ</th>
-          <th>Prac</th>
-          <th>Total</th>
-          <th>Highest</th>
-          <th>GP</th>
-          <th>Grade</th>
-          <th>Status</th>
+        <tr style="background: #0f172a; color: #fff; text-align: center;">
+          <th style="padding: 8px; border: 1px solid #cbd5e1;">SL</th>
+          <th style="padding: 8px; border: 1px solid #cbd5e1; text-align: left;">Subject Name</th>
+          <th style="padding: 8px; border: 1px solid #cbd5e1;">Full</th>
+          <th style="padding: 8px; border: 1px solid #cbd5e1;">CQ</th>
+          <th style="padding: 8px; border: 1px solid #cbd5e1;">MCQ</th>
+          <th style="padding: 8px; border: 1px solid #cbd5e1;">Prac</th>
+          <th style="padding: 8px; border: 1px solid #cbd5e1;">Total</th>
+          <th style="padding: 8px; border: 1px solid #cbd5e1;">Highest</th>
+          <th style="padding: 8px; border: 1px solid #cbd5e1;">GP</th>
+          <th style="padding: 8px; border: 1px solid #cbd5e1;">Grade</th>
+          <th style="padding: 8px; border: 1px solid #cbd5e1;">Status</th>
         </tr>
       </thead>
       <tbody id="modalTranscriptBody"></tbody>
     </table>
 
-    <div class="summary-grid" id="modalSummaryGrid"></div>
+    <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 20px;" id="modalSummaryGrid"></div>
 
-    <div class="signature-area">
-      <div class="signature-box">Class Teacher</div>
-      <div class="signature-box">Exam Controller</div>
-      <div class="signature-box">Principal / Headmaster</div>
+    <div style="display: none; margin-top: 50px; justify-content: space-between;" class="signature-area">
+      <div style="border-top: 1.5px solid #0f172a; width: 150px; text-align: center; font-size: 11.5px; font-weight: 700; padding-top: 4px;">Class Teacher</div>
+      <div style="border-top: 1.5px solid #0f172a; width: 150px; text-align: center; font-size: 11.5px; font-weight: 700; padding-top: 4px;">Exam Controller</div>
+      <div style="border-top: 1.5px solid #0f172a; width: 150px; text-align: center; font-size: 11.5px; font-weight: 700; padding-top: 4px;">Principal / Headmaster</div>
     </div>
 
-    <div class="row no-print modal-footer" style="margin-top: 18px;">
-      <button class="btn-submit" style="background: #16a34a; margin-top: 0;" onclick="printIndividualA4()">🖨️ Print Transcript (A4 Portrait)</button>
-      <button class="btn-submit" id="modalWaBtn" style="background: var(--whatsapp); margin-top: 0;">💬 Send WhatsApp</button>
-      <button class="btn-submit" style="background: #64748b; margin-top: 0;" onclick="closeModal()">Close</button>
+    <div class="no-print" style="display: flex; gap: 10px; margin-top: 20px;">
+      <button class="btn-submit-main" style="margin-top: 0; background: var(--success);" onclick="printIndividualA4()">🖨️ Print A4 Transcript</button>
+      <button class="btn-submit-main" id="modalWaBtn" style="margin-top: 0; background: var(--wa);">💬 Send WhatsApp</button>
+      <button class="btn-submit-main" style="margin-top: 0; background: #64748b;" onclick="closeModal()">Close</button>
     </div>
   </div>
 </div>
@@ -538,20 +559,11 @@
 
   let activeClass = 'Class 8';
   let activeExamTerm = 'Annual Exam';
+  let unifiedDatabase = JSON.parse(localStorage.getItem('unified_result_db_clean') || '[]');
 
-  function isSeniorClass(cls) {
-    return cls === 'Class 9' || cls === 'Class 10';
-  }
-
-  function isPractical(name) {
-    const pr = ['Physics', 'Chemistry', 'Biology', 'Higher Mathematics', 'Agriculture Studies', 'Home Science'];
-    return pr.some(p => (name || '').includes(p));
-  }
-
-  function safeVal(val) {
-    const n = Number(val);
-    return isNaN(n) ? 0 : n;
-  }
+  function isSeniorClass(cls) { return cls === 'Class 9' || cls === 'Class 10'; }
+  function isPractical(name) { return ['Physics', 'Chemistry', 'Biology', 'Higher Mathematics', 'Agriculture Studies', 'Home Science'].some(p => (name || '').includes(p)); }
+  function safeVal(val) { const n = Number(val); return isNaN(n) ? 0 : n; }
 
   function getGP100(m) {
     if (m >= 80) return { gp: 5.0, grade: 'A+' };
@@ -578,8 +590,8 @@
     if (m >= 140) return { gp: 4.0, grade: 'A' };
     if (m >= 120) return { gp: 3.5, grade: 'A-' };
     if (m >= 100) return { gp: 3.0, grade: 'B' };
-    if (m >= 80)  return { gp: 2.0, grade: 'C' };
-    if (m >= 66)  return { gp: 1.0, grade: 'D' };
+    if (m >= 80) return { gp: 2.0, grade: 'C' };
+    if (m >= 66) return { gp: 1.0, grade: 'D' };
     return { gp: 0.0, grade: 'F' };
   }
 
@@ -674,10 +686,7 @@
       if (gpa > 5.0) gpa = 5.0;
       grandTotal = banTotal + engTotal + mathTotal + relTotal + ictTotal + sciTotal + bgsTotal;
 
-      extraObj = { 
-        j_sci_cq, j_sci_mcq, sciTotal, sciRes, sciFail,
-        j_bgs_cq, j_bgs_mcq, bgsTotal, bgsRes, bgsFail 
-      };
+      extraObj = { j_sci_cq, j_sci_mcq, sciTotal, sciRes, sciFail, j_bgs_cq, j_bgs_mcq, bgsTotal, bgsRes, bgsFail };
     } else {
       const s_core_cq = safeVal(raw.s_core_cq);
       const s_core_mcq = safeVal(raw.s_core_mcq !== undefined ? raw.s_core_mcq : raw.core_mcq);
@@ -686,43 +695,32 @@
       const coreRes = coreFail ? { gp: 0, grade: 'F' } : getGP100(coreTotal);
 
       function evalSeniorSub(cqRaw, mcqRaw, pracRaw, pr) {
-        const cq = safeVal(cqRaw);
-        const mcq = safeVal(mcqRaw);
-        const prac = pr ? safeVal(pracRaw) : 0;
+        const cq = safeVal(cqRaw), mcq = safeVal(mcqRaw), prac = pr ? safeVal(pracRaw) : 0;
         const tot = cq + mcq + prac;
         const fail = pr ? (cq < 17 || mcq < 8 || prac < 8 || tot < 33) : (cq < 23 || mcq < 10 || tot < 33);
         const res = fail ? { gp: 0, grade: 'F' } : getGP100(tot);
         return { cq, mcq, prac, tot, fail, res, pr };
       }
 
-      const s1Prac = isPractical(raw.g1_name);
-      const s1 = evalSeniorSub(raw.g1_cq, raw.g1_mcq, raw.g1_prac, s1Prac);
-
-      const s2Prac = isPractical(raw.g2_name);
-      const s2 = evalSeniorSub(raw.g2_cq, raw.g2_mcq, raw.g2_prac, s2Prac);
-
-      const s3Prac = isPractical(raw.g3_name);
-      const s3 = evalSeniorSub(raw.g3_cq, raw.g3_mcq, raw.g3_prac, s3Prac);
-
-      const optPrac = isPractical(raw.opt_name);
-      const opt = evalSeniorSub(raw.opt_cq, raw.opt_mcq, raw.opt_prac, optPrac);
+      const s1 = evalSeniorSub(raw.g1_cq, raw.g1_mcq, raw.g1_prac, isPractical(raw.g1_name));
+      const s2 = evalSeniorSub(raw.g2_cq, raw.g2_mcq, raw.g2_prac, isPractical(raw.g2_name));
+      const s3 = evalSeniorSub(raw.g3_cq, raw.g3_mcq, raw.g3_prac, isPractical(raw.g3_name));
+      const opt = evalSeniorSub(raw.opt_cq, raw.opt_mcq, raw.opt_prac, isPractical(raw.opt_name));
       const optBonus = opt.res.gp > 2.0 ? (opt.res.gp - 2.0) : 0.0;
 
       isPassed = !(banFail || engFail || mathFail || relFail || ictFail || coreFail || s1.fail || s2.fail || s3.fail);
       const compulsoryGP = banRes.gp + engRes.gp + mathRes.gp + relRes.gp + ictRes.gp + coreRes.gp + s1.res.gp + s2.res.gp + s3.res.gp;
-      const totalGP = compulsoryGP + optBonus;
-
-      gpa = isPassed ? (totalGP / 9.0) : 0.0;
+      gpa = isPassed ? ((compulsoryGP + optBonus) / 9.0) : 0.0;
       if (gpa > 5.0) gpa = 5.0;
       grandTotal = banTotal + engTotal + mathTotal + relTotal + ictTotal + coreTotal + s1.tot + s2.tot + s3.tot + opt.tot;
 
       extraObj = {
         coreName: raw.s_core_name || 'General Science',
         s_core_cq, s_core_mcq, coreTotal, coreRes, coreFail,
-        g1Name: raw.g1_name || 'Subject 1', g1Total: s1.tot, g1Res: s1.res, g1Fail: s1.fail, s1Prac,
-        g2Name: raw.g2_name || 'Subject 2', g2Total: s2.tot, g2Res: s2.res, g2Fail: s2.fail, s2Prac,
-        g3Name: raw.g3_name || 'Subject 3', g3Total: s3.tot, g3Res: s3.res, g3Fail: s3.fail, s3Prac,
-        optName: raw.opt_name || 'Optional', optTotal: opt.tot, optRes: opt.res, optBonus, optPrac
+        g1Name: raw.g1_name || 'Subject 1', g1Total: s1.tot, g1Res: s1.res, g1Fail: s1.fail, s1Prac: s1.pr,
+        g2Name: raw.g2_name || 'Subject 2', g2Total: s2.tot, g2Res: s2.res, g2Fail: s2.fail, s2Prac: s2.pr,
+        g3Name: raw.g3_name || 'Subject 3', g3Total: s3.tot, g3Res: s3.res, g3Fail: s3.fail, s3Prac: s3.pr,
+        optName: raw.opt_name || 'Optional', optTotal: opt.tot, optRes: opt.res, optBonus, optPrac: opt.pr
       };
     }
 
@@ -766,9 +764,9 @@
     text += `👤 *Student Name:* ${s.name}\n`;
     text += `🆔 *Student ID:* ${s.studentId}\n`;
     text += `🔢 *Class Roll:* ${s.roll}\n`;
-    text += `🎓 *Class & Stream:* ${s.studentClass} ${senior ? `(${s.group})` : ''}\n`;
+    text += `🎓 *Class:* ${s.studentClass} ${senior ? `(${s.group})` : ''}\n`;
     text += `━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
-    text += `📚 *SUBJECT-WISE MARKS BREAKDOWN:*\n`;
+    text += `📚 *MARKS BREAKDOWN:*\n`;
 
     let subList = [];
     if (!senior) {
@@ -810,11 +808,11 @@
     text += `📊 *RESULT SUMMARY:*\n`;
     text += `▫️ *Grand Total Marks:* ${s.grandTotal}\n`;
     text += `▫️ *GPA:* ${s.gpa.toFixed(2)} / 5.00\n`;
-    text += `▫️ *Final Letter Grade:* ${s.finalGrade}\n`;
-    text += `▫️ *Result Status:* ${s.isPassed ? '✅ PASSED' : '❌ FAILED'}\n`;
+    text += `▫️ *Letter Grade:* ${s.finalGrade}\n`;
+    text += `▫️ *Status:* ${s.isPassed ? '✅ PASSED' : '❌ FAILED'}\n`;
     text += `▫️ *Merit Position:* #${s.rank || '-'}\n`;
     text += `━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
-    text += `_Note: This is an official digital statement of results issued by the school administration._`;
+    text += `_Note: Official digital statement issued by Newcastle International School._`;
 
     return text;
   }
@@ -827,22 +825,18 @@
 
     let phone = s.phone ? String(s.phone).trim().replace(/[^0-9]/g, '') : '';
     if (!phone) {
-      phone = prompt(`Please enter guardian WhatsApp number for ${s.name}:`, '01');
+      phone = prompt(`Please enter WhatsApp number for ${s.name}:`, '01');
       if (!phone) return;
       s.phone = phone;
       saveDB();
       saveToGoogleDrive(s);
     }
     
-    if (phone.startsWith('0')) {
-      phone = '88' + phone;
-    } else if (!phone.startsWith('880')) {
-      phone = '880' + phone;
-    }
+    if (phone.startsWith('0')) { phone = '88' + phone; }
+    else if (!phone.startsWith('880')) { phone = '880' + phone; }
 
     const reportCardText = buildExactReportCardText(s);
-    const encodedMessage = encodeURIComponent(reportCardText);
-    window.open(`https://wa.me/${phone}?text=${encodedMessage}`, '_blank');
+    window.open(`https://wa.me/${phone}?text=${encodeURIComponent(reportCardText)}`, '_blank');
   }
 
   async function loadDataFromGoogleDrive() {
@@ -851,7 +845,7 @@
       const data = await res.json();
       if (Array.isArray(data)) {
         unifiedDatabase = data;
-        localStorage.setItem('unified_result_db_clean', JSON.stringify(unifiedDatabase));
+        saveDB();
         renderMasterTable();
         alert("✅ Google Drive থেকে ডেটা সিঙ্ক করা হয়েছে!");
       }
@@ -886,9 +880,6 @@
     }
   }
 
-  // Pure Empty State Database (No Mock / Demo Data)
-  let unifiedDatabase = JSON.parse(localStorage.getItem('unified_result_db_clean') || '[]');
-
   function saveDB() {
     unifiedDatabase.sort((a, b) => {
       if (a.studentClass !== b.studentClass) return a.studentClass.localeCompare(b.studentClass);
@@ -920,7 +911,6 @@
       document.getElementById('engTitle').innerText = '2. English 1st (100) & English 2nd (100) | Pass: Combined Total ≥ 66';
       document.getElementById('lbl_e2').innerText = 'English 2nd Paper (100)';
       document.getElementById('e2').max = 100;
-
       onStreamChanged();
     } else {
       document.getElementById('banTitle').innerText = '1. Bangla 1st (100) & Bangla 2nd (50) | Pass: CQ ≥ 33, MCQ ≥ 17, Total ≥ 50';
@@ -933,7 +923,6 @@
       document.getElementById('lbl_e2').innerText = 'English 2nd Paper (50)';
       document.getElementById('e2').max = 50;
     }
-
     renderMasterTable();
   }
 
@@ -992,8 +981,7 @@
   }
 
   function adjustSeniorPracticalFields() {
-    const grp = document.getElementById('streamSelect').value;
-    const isSci = (grp === 'Science');
+    const isSci = (document.getElementById('streamSelect').value === 'Science');
     ['1', '2', '3'].forEach(num => {
       document.getElementById(`box_g${num}_prac`).style.display = isSci ? 'block' : 'none';
       document.getElementById(`lbl_g${num}_cq`).innerText = isSci ? 'CQ (50)' : 'CQ (70)';
@@ -1002,8 +990,7 @@
       document.getElementById(`g${num}_mcq`).max = isSci ? 25 : 30;
     });
 
-    const optVal = document.getElementById('opt_name').value;
-    const optPr = isPractical(optVal);
+    const optPr = isPractical(document.getElementById('opt_name').value);
     document.getElementById('box_opt_prac').style.display = optPr ? 'block' : 'none';
     document.getElementById('lbl_opt_cq').innerText = optPr ? 'CQ (50)' : 'CQ (70)';
     document.getElementById('lbl_opt_mcq').innerText = optPr ? 'MCQ (25)' : 'MCQ (30)';
@@ -1045,7 +1032,6 @@
       const grp = document.getElementById('streamSelect').value;
       const isSci = (grp === 'Science');
       const optVal = document.getElementById('opt_name').value;
-      const optPr = isPractical(optVal);
 
       raw.group = grp;
       raw.s_core_name = document.getElementById('s_core_name').value;
@@ -1070,12 +1056,10 @@
       raw.opt_name = optVal;
       raw.opt_cq = parseInt(document.getElementById('opt_cq').value) || 0;
       raw.opt_mcq = parseInt(document.getElementById('opt_mcq').value) || 0;
-      raw.opt_prac = optPr ? (parseInt(document.getElementById('opt_prac').value) || 0) : 0;
+      raw.opt_prac = isPractical(optVal) ? (parseInt(document.getElementById('opt_prac').value) || 0) : 0;
     }
 
     const newRecord = calculateStudent(raw, activeClass, chosenTerm);
-    
-    // Check if duplicate roll exists in this class & term -> update it, else add
     const existingIdx = unifiedDatabase.findIndex(s => s.studentClass === activeClass && s.examTerm === chosenTerm && s.roll === newRecord.roll);
     if (existingIdx >= 0) {
       unifiedDatabase[existingIdx] = newRecord;
@@ -1108,16 +1092,12 @@
     const senior = isSeniorClass(activeClass);
 
     let list = unifiedDatabase.filter(s => s.studentClass === activeClass && (s.examTerm || 'Annual Exam') === activeExamTerm);
-
     if (senior) {
       const grpFilter = document.getElementById('groupFilter').value;
-      if (grpFilter !== 'ALL') {
-        list = list.filter(s => s.group === grpFilter);
-      }
+      if (grpFilter !== 'ALL') list = list.filter(s => s.group === grpFilter);
     }
 
     const ranked = list.map((s, idx) => ({ ...s, rank: idx + 1 }));
-
     const total = list.length;
     const passed = list.filter(s => s.isPassed).length;
     const failed = total - passed;
@@ -1131,60 +1111,25 @@
     document.getElementById('dashFailed').innerText = failed;
     document.getElementById('dashRate').innerText = `${rate}%`;
     document.getElementById('dashAvgGpa').innerText = avgGpa;
-    document.getElementById('tabulationHeading').innerText = `${activeClass} - ${activeExamTerm} Master Tabulation Sheet (${total} Students)`;
 
     if (!senior) {
       thead.innerHTML = `
         <tr>
-          <th>Roll</th>
-          <th>ID</th>
-          <th>Student Name</th>
-          <th>Exam Term</th>
-          <th>Ban 1st</th>
-          <th>Ban 2nd</th>
-          <th>Eng 1st</th>
-          <th>Eng 2nd</th>
-          <th>Math</th>
-          <th>Relig</th>
-          <th>Science</th>
-          <th>BGS</th>
-          <th>ICT (M+P)</th>
-          <th>Total</th>
-          <th>Highest</th>
-          <th>GPA</th>
-          <th>Grade</th>
-          <th>Status</th>
-          <th>Pos</th>
-          <th class="no-print">Actions</th>
+          <th>Roll</th><th>ID</th><th>Student Name</th><th>Exam Term</th>
+          <th>Ban 1st</th><th>Ban 2nd</th><th>Eng 1st</th><th>Eng 2nd</th>
+          <th>Math</th><th>Relig</th><th>Science</th><th>BGS</th><th>ICT</th>
+          <th>Total</th><th>Highest</th><th>GPA</th><th>Grade</th><th>Status</th><th>Pos</th>
+          <th class="no-print">Quick Actions</th>
         </tr>
       `;
     } else {
       thead.innerHTML = `
         <tr>
-          <th>Roll</th>
-          <th>ID</th>
-          <th>Student Name</th>
-          <th>Group</th>
-          <th>Exam Term</th>
-          <th>Ban 1st</th>
-          <th>Ban 2nd</th>
-          <th>Eng 1st</th>
-          <th>Eng 2nd</th>
-          <th>Math</th>
-          <th>Relig</th>
-          <th>ICT (M+P)</th>
-          <th>Core</th>
-          <th>Sub 1</th>
-          <th>Sub 2</th>
-          <th>Sub 3</th>
-          <th>4th Sub</th>
-          <th>Total</th>
-          <th>Highest</th>
-          <th>GPA</th>
-          <th>Grade</th>
-          <th>Status</th>
-          <th>Pos</th>
-          <th class="no-print">Actions</th>
+          <th>Roll</th><th>ID</th><th>Student Name</th><th>Group</th><th>Exam Term</th>
+          <th>Ban 1st</th><th>Ban 2nd</th><th>Eng 1st</th><th>Eng 2nd</th>
+          <th>Math</th><th>Relig</th><th>ICT</th><th>Core</th><th>Sub 1</th><th>Sub 2</th><th>Sub 3</th><th>4th Sub</th>
+          <th>Total</th><th>Highest</th><th>GPA</th><th>Grade</th><th>Status</th><th>Pos</th>
+          <th class="no-print">Quick Actions</th>
         </tr>
       `;
     }
@@ -1198,7 +1143,7 @@
 
     const cols = senior ? 24 : 20;
     if (filtered.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="${cols}" style="padding: 24px; color: #94a3b8; font-size: 13px;">No student records found in ${activeClass} (${activeExamTerm}). Please enter student marks above or click "Sync Google Drive".</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="${cols}" style="padding: 30px; color: #94a3b8; font-size: 13.5px; font-weight: 600;">No student records found in ${activeClass} (${activeExamTerm}). Please enter student marks above.</td></tr>`;
       return;
     }
 
@@ -1208,60 +1153,46 @@
 
       let actionButtons = `
         <td class="no-print">
-          <button class="btn-action-print" title="Open A4 Card" onclick="openTranscript(${s.id})">🖨️ Card</button>
-          <button class="btn-wa-action" title="Send Exact Report Card to WhatsApp" onclick="sendWhatsAppDirectReport(${s.id})">💬 WhatsApp</button>
-          <button class="btn-delete" title="Delete Record" onclick="deleteRecord(${s.id})">✕</button>
+          <button class="btn-act-card" onclick="openTranscript(${s.id})">🖨️ Card</button>
+          <button class="btn-act-wa" onclick="sendWhatsAppDirectReport(${s.id})">💬 WhatsApp</button>
+          <button class="btn-act-del" onclick="deleteRecord(${s.id})">✕</button>
         </td>
       `;
 
       if (!senior) {
         tr.innerHTML = `
-          <td><strong>${s.roll}</strong></td>
-          <td>${s.studentId}</td>
-          <td style="text-align: left; font-weight: 600;">${s.name}</td>
-          <td><span style="font-size:10px; background:#f1f5f9; color:#334155; padding:2px 5px; border-radius:3px;">${s.examTerm}</span></td>
-          <td>${s.b1_total}</td>
-          <td>${s.b2_total}</td>
-          <td>${s.e1}</td>
-          <td>${s.e2}</td>
-          <td>${s.mathTotal}</td>
-          <td>${s.relTotal}</td>
-          <td>${safeVal(s.sciTotal)}</td>
-          <td>${safeVal(s.bgsTotal)}</td>
-          <td>${s.ictTotal} <span style="font-size:10px; color:var(--muted);">(${s.ict_mcq}+${s.ict_prac})</span></td>
-          <td style="font-weight: 700;">${s.grandTotal}</td>
-          <td style="font-weight: 700; color:#0369a1; background:#f0f9ff;">${highestMark}</td>
-          <td style="font-weight: 700; color:${s.isPassed ? 'green' : 'red'};">${s.gpa.toFixed(2)}</td>
-          <td style="font-weight: 700;">${s.finalGrade}</td>
-          <td style="font-weight: 600; color:${s.isPassed ? 'green' : 'red'};">${s.isPassed ? 'Pass' : 'Fail'}</td>
-          <td style="font-weight: 700; background:${s.isPassed ? '#e0e7ff' : '#f1f5f9'};">${s.isPassed ? '#' + s.rank : '-'}</td>
+          <td><strong>#${s.roll}</strong></td>
+          <td style="font-weight: 600; color: var(--text-muted);">${s.studentId}</td>
+          <td style="text-align: left; font-weight: 700;">${s.name}</td>
+          <td><span style="font-size:11px; background:#f1f5f9; padding:2px 6px; border-radius:4px;">${s.examTerm}</span></td>
+          <td>${s.b1_total}</td><td>${s.b2_total}</td><td>${s.e1}</td><td>${s.e2}</td>
+          <td>${s.mathTotal}</td><td>${s.relTotal}</td><td>${safeVal(s.sciTotal)}</td><td>${safeVal(s.bgsTotal)}</td>
+          <td>${s.ictTotal}</td>
+          <td style="font-weight: 800; color: var(--primary);">${s.grandTotal}</td>
+          <td style="font-weight: 700; color: #0284c7;">${highestMark}</td>
+          <td style="font-weight: 800; color: ${s.isPassed ? 'var(--success)' : 'var(--danger)'};">${s.gpa.toFixed(2)}</td>
+          <td style="font-weight: 800;">${s.finalGrade}</td>
+          <td><span class="${s.isPassed ? 'tag-status-pass' : 'tag-status-fail'}">${s.isPassed ? 'Passed' : 'Failed'}</span></td>
+          <td><span class="tag-rank">${s.isPassed ? '#' + s.rank : '-'}</span></td>
           ${actionButtons}
         `;
       } else {
         tr.innerHTML = `
-          <td><strong>${s.roll}</strong></td>
-          <td>${s.studentId}</td>
-          <td style="text-align: left; font-weight: 600;">${s.name}</td>
-          <td><span style="font-size:11px; background:#eff6ff; color:#1e40af; padding:2px 5px; border-radius:3px;">${s.group}</span></td>
-          <td><span style="font-size:10px; background:#f1f5f9; color:#334155; padding:2px 5px; border-radius:3px;">${s.examTerm}</span></td>
-          <td>${s.b1_total}</td>
-          <td>${s.b2_total}</td>
-          <td>${s.e1}</td>
-          <td>${s.e2}</td>
-          <td>${s.mathTotal}</td>
-          <td>${s.relTotal}</td>
-          <td>${s.ictTotal} <span style="font-size:10px; color:var(--muted);">(${s.ict_mcq}+${s.ict_prac})</span></td>
-          <td>${safeVal(s.coreTotal)}</td>
-          <td>${safeVal(s.g1Total)}</td>
-          <td>${safeVal(s.g2Total)}</td>
-          <td>${safeVal(s.g3Total)}</td>
-          <td>${safeVal(s.optTotal)} <span style="font-size:10px; color:#16a34a;">(+${safeVal(s.optBonus).toFixed(1)})</span></td>
-          <td style="font-weight: 700;">${s.grandTotal}</td>
-          <td style="font-weight: 700; color:#0369a1; background:#f0f9ff;">${highestMark}</td>
-          <td style="font-weight: 700; color:${s.isPassed ? 'green' : 'red'};">${s.gpa.toFixed(2)}</td>
-          <td style="font-weight: 700;">${s.finalGrade}</td>
-          <td style="font-weight: 600; color:${s.isPassed ? 'green' : 'red'};">${s.isPassed ? 'Pass' : 'Fail'}</td>
-          <td style="font-weight: 700; background:${s.isPassed ? '#e0e7ff' : '#f1f5f9'};">${s.isPassed ? '#' + s.rank : '-'}</td>
+          <td><strong>#${s.roll}</strong></td>
+          <td style="font-weight: 600; color: var(--text-muted);">${s.studentId}</td>
+          <td style="text-align: left; font-weight: 700;">${s.name}</td>
+          <td><span style="font-size:11px; background:#eff6ff; color:#1e40af; padding:2px 6px; border-radius:4px; font-weight:700;">${s.group}</span></td>
+          <td><span style="font-size:11px; background:#f1f5f9; padding:2px 6px; border-radius:4px;">${s.examTerm}</span></td>
+          <td>${s.b1_total}</td><td>${s.b2_total}</td><td>${s.e1}</td><td>${s.e2}</td>
+          <td>${s.mathTotal}</td><td>${s.relTotal}</td><td>${s.ictTotal}</td>
+          <td>${safeVal(s.coreTotal)}</td><td>${safeVal(s.g1Total)}</td><td>${safeVal(s.g2Total)}</td><td>${safeVal(s.g3Total)}</td>
+          <td>${safeVal(s.optTotal)} <span style="font-size:10px; color:var(--success); font-weight:700;">(+${safeVal(s.optBonus).toFixed(1)})</span></td>
+          <td style="font-weight: 800; color: var(--primary);">${s.grandTotal}</td>
+          <td style="font-weight: 700; color: #0284c7;">${highestMark}</td>
+          <td style="font-weight: 800; color: ${s.isPassed ? 'var(--success)' : 'var(--danger)'};">${s.gpa.toFixed(2)}</td>
+          <td style="font-weight: 800;">${s.finalGrade}</td>
+          <td><span class="${s.isPassed ? 'tag-status-pass' : 'tag-status-fail'}">${s.isPassed ? 'Passed' : 'Failed'}</span></td>
+          <td><span class="tag-rank">${s.isPassed ? '#' + s.rank : '-'}</span></td>
           ${actionButtons}
         `;
       }
@@ -1300,8 +1231,7 @@
     const senior = isSeniorClass(s.studentClass);
     const classHighest = Math.max(...list.map(item => safeVal(item.grandTotal)));
 
-    document.getElementById('modalBoardLabel').innerText = `${s.examTerm.toUpperCase()} EVALUATION REPORT - 2026`;
-
+    document.getElementById('modalBoardLabel').innerText = `${s.examTerm.toUpperCase()} PROGRESS REPORT`;
     document.getElementById('modalStudentMeta').innerHTML = `
       <div><strong>Student Name:</strong> ${s.name}</div>
       <div><strong>Class:</strong> ${s.studentClass} ${senior ? `(${s.group})` : ''}</div>
@@ -1310,7 +1240,7 @@
       <div><strong>Parent Phone:</strong> ${s.phone || 'N/A'}</div>
       <div><strong>Exam Term:</strong> ${s.examTerm}</div>
       <div><strong>Class Highest:</strong> ${classHighest}</div>
-      <div><strong>Result Status:</strong> ${s.isPassed ? 'PASSED' : 'NEEDS IMPROVEMENT'}</div>
+      <div><strong>Status:</strong> ${s.isPassed ? 'PASSED' : 'NEEDS IMPROVEMENT'}</div>
     `;
 
     const r = s.rawMarks;
@@ -1336,7 +1266,7 @@
         { name: 'English 2nd Paper', full: 100, cq: safeVal(r.e2), mcq: '-', prac: '-', tot: safeVal(s.e2), highest: getSubjectHighestMark('eng2'), gp: s.engRes.gp.toFixed(2), gr: s.engRes.grade, f: s.engFail },
         { name: 'Mathematics', full: 100, cq: safeVal(r.m_cq), mcq: safeVal(r.m_mcq), prac: '-', tot: safeVal(s.mathTotal), highest: getSubjectHighestMark('math'), gp: s.mathRes.gp.toFixed(2), gr: s.mathRes.grade, f: s.mathFail },
         { name: 'Religion & Moral Edu.', full: 100, cq: safeVal(r.rel_cq), mcq: safeVal(r.rel_mcq), prac: '-', tot: safeVal(s.relTotal), highest: getSubjectHighestMark('rel'), gp: s.relRes.gp.toFixed(2), gr: s.relRes.grade, f: s.relFail },
-        { name: 'ICT (MCQ: 25, Practical: 25)', full: 50, cq: '-', mcq: safeVal(r.ict_mcq), prac: safeVal(r.ict_prac), tot: safeVal(s.ictTotal), highest: getSubjectHighestMark('ict'), gp: s.ictRes.gp.toFixed(2), gr: s.ictRes.grade, f: s.ictFail },
+        { name: 'ICT', full: 50, cq: '-', mcq: safeVal(r.ict_mcq), prac: safeVal(r.ict_prac), tot: safeVal(s.ictTotal), highest: getSubjectHighestMark('ict'), gp: s.ictRes.gp.toFixed(2), gr: s.ictRes.grade, f: s.ictFail },
         { name: s.coreName, full: 100, cq: safeVal(r.s_core_cq), mcq: safeVal(r.s_core_mcq), prac: '-', tot: safeVal(s.coreTotal), highest: getSubjectHighestMark('core'), gp: s.coreRes.gp.toFixed(2), gr: s.coreRes.grade, f: s.coreFail },
         { name: s.g1Name, full: 100, cq: safeVal(r.g1_cq), mcq: safeVal(r.g1_mcq), prac: s.s1Prac ? safeVal(r.g1_prac) : '-', tot: safeVal(s.g1Total), highest: getSubjectHighestMark('g1'), gp: s.g1Res.gp.toFixed(2), gr: s.g1Res.grade, f: s.g1Fail },
         { name: s.g2Name, full: 100, cq: safeVal(r.g2_cq), mcq: safeVal(r.g2_mcq), prac: s.s2Prac ? safeVal(r.g2_prac) : '-', tot: safeVal(s.g2Total), highest: getSubjectHighestMark('g2'), gp: s.g2Res.gp.toFixed(2), gr: s.g2Res.grade, f: s.g2Fail },
@@ -1349,72 +1279,56 @@
     tbody.innerHTML = '';
     subs.forEach((sub, i) => {
       const tr = document.createElement('tr');
+      tr.style.textAlign = 'center';
       tr.innerHTML = `
-        <td>${i+1}</td>
-        <td style="text-align: left; font-weight:600;">${sub.name}</td>
-        <td>${sub.full}</td>
-        <td>${sub.cq}</td>
-        <td>${sub.mcq}</td>
-        <td>${sub.prac}</td>
-        <td><strong>${sub.tot}</strong></td>
-        <td style="color:#0369a1; font-weight:600;">${sub.highest}</td>
-        <td>${sub.gp}</td>
-        <td>${sub.gr}</td>
-        <td style="color:${sub.f ? 'red' : 'green'}; font-weight:600;">${sub.f ? 'Fail' : 'Pass'}</td>
+        <td style="padding:6px; border:1px solid #cbd5e1;">${i+1}</td>
+        <td style="padding:6px; border:1px solid #cbd5e1; text-align:left; font-weight:700;">${sub.name}</td>
+        <td style="padding:6px; border:1px solid #cbd5e1;">${sub.full}</td>
+        <td style="padding:6px; border:1px solid #cbd5e1;">${sub.cq}</td>
+        <td style="padding:6px; border:1px solid #cbd5e1;">${sub.mcq}</td>
+        <td style="padding:6px; border:1px solid #cbd5e1;">${sub.prac}</td>
+        <td style="padding:6px; border:1px solid #cbd5e1; font-weight:800;">${sub.tot}</td>
+        <td style="padding:6px; border:1px solid #cbd5e1; color:#0284c7; font-weight:700;">${sub.highest}</td>
+        <td style="padding:6px; border:1px solid #cbd5e1;">${sub.gp}</td>
+        <td style="padding:6px; border:1px solid #cbd5e1; font-weight:700;">${sub.gr}</td>
+        <td style="padding:6px; border:1px solid #cbd5e1; font-weight:700; color:${sub.f ? 'var(--danger)' : 'var(--success)'};">${sub.f ? 'Fail' : 'Pass'}</td>
       `;
       tbody.appendChild(tr);
     });
 
-    const maxMarksStr = senior ? `${s.grandTotal}` : `${s.grandTotal} / 750`;
     document.getElementById('modalSummaryGrid').innerHTML = `
-      <div class="summary-card"><div class="s-lbl">Grand Total</div><div class="s-val">${maxMarksStr}</div></div>
-      <div class="summary-card"><div class="s-lbl">Class Highest</div><div class="s-val" style="color:#0369a1;">${classHighest}</div></div>
-      <div class="summary-card"><div class="s-lbl">GPA (0 - 5.00)</div><div class="s-val" style="color:${s.isPassed ? 'green' : 'red'}">${s.gpa.toFixed(2)}</div></div>
-      <div class="summary-card"><div class="s-lbl">Letter Grade</div><div class="s-val">${s.finalGrade}</div></div>
-      <div class="summary-card"><div class="s-lbl">Merit Position</div><div class="s-val">${s.isPassed ? '#' + s.rank : 'Failed'}</div></div>
+      <div class="stat-card" style="padding:10px;"><div class="lbl">Total Marks</div><div class="val" style="font-size:18px;">${s.grandTotal}</div></div>
+      <div class="stat-card" style="padding:10px;"><div class="lbl">Class Highest</div><div class="val" style="font-size:18px; color:#0284c7;">${classHighest}</div></div>
+      <div class="stat-card" style="padding:10px;"><div class="lbl">GPA</div><div class="val" style="font-size:18px; color:${s.isPassed ? 'var(--success)' : 'var(--danger)'};">${s.gpa.toFixed(2)}</div></div>
+      <div class="stat-card" style="padding:10px;"><div class="lbl">Letter Grade</div><div class="val" style="font-size:18px;">${s.finalGrade}</div></div>
+      <div class="stat-card" style="padding:10px;"><div class="lbl">Merit Position</div><div class="val" style="font-size:18px;">${s.isPassed ? '#' + s.rank : '-'}</div></div>
     `;
 
     document.getElementById('modalWaBtn').onclick = () => sendWhatsAppDirectReport(s.id);
     document.getElementById('transcriptModal').style.display = 'flex';
   }
 
-  function closeModal() {
-    document.getElementById('transcriptModal').style.display = 'none';
-  }
+  function closeModal() { document.getElementById('transcriptModal').style.display = 'none'; }
 
   function printIndividualA4() {
-    const oldStyle = document.getElementById('dynamic-print-style');
-    if (oldStyle) oldStyle.remove();
-
-    const style = document.createElement('style');
-    style.id = 'dynamic-print-style';
-    style.innerHTML = `
-      @page {
-        size: A4 portrait !important;
-        margin: 8mm 10mm !important;
-      }
-    `;
-    document.head.appendChild(style);
-
+    const old = document.getElementById('dyn-print-style');
+    if (old) old.remove();
+    const st = document.createElement('style');
+    st.id = 'dyn-print-style';
+    st.innerHTML = `@page { size: A4 portrait !important; margin: 8mm 10mm !important; }`;
+    document.head.appendChild(st);
     document.body.className = 'printing-individual';
     window.print();
     document.body.className = '';
   }
 
   function printMasterA4() {
-    const oldStyle = document.getElementById('dynamic-print-style');
-    if (oldStyle) oldStyle.remove();
-
-    const style = document.createElement('style');
-    style.id = 'dynamic-print-style';
-    style.innerHTML = `
-      @page {
-        size: A4 landscape !important;
-        margin: 6mm 6mm !important;
-      }
-    `;
-    document.head.appendChild(style);
-
+    const old = document.getElementById('dyn-print-style');
+    if (old) old.remove();
+    const st = document.createElement('style');
+    st.id = 'dyn-print-style';
+    st.innerHTML = `@page { size: A4 landscape !important; margin: 6mm 6mm !important; }`;
+    document.head.appendChild(st);
     document.body.className = 'printing-master';
     window.print();
     document.body.className = '';
@@ -1445,7 +1359,6 @@
     document.body.removeChild(link);
   }
 
-  // Initial Boot with Clean Storage
   loadDataFromGoogleDrive();
   onClassSwitched('Class 8');
 </script>
