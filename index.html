@@ -140,7 +140,6 @@
     table.master-table tbody tr:nth-child(even) { background: #f8fafc; }
     table.master-table tbody tr.first-place { background: var(--highlight) !important; font-weight: 600; }
 
-    /* Action Buttons */
     .btn-action-print { background: #eff6ff; border: 1px solid #93c5fd; color: var(--primary); font-size: 11px; font-weight: 600; cursor: pointer; padding: 5px 8px; border-radius: 5px; }
     .btn-action-print:hover { background: #dbeafe; }
     .btn-wa-action {
@@ -215,7 +214,6 @@
 
     .print-header { display: none; }
 
-    /* Print Rules */
     @media print {
       html, body {
         background: #ffffff !important;
@@ -296,16 +294,20 @@
     <div class="selector-box">
       <label for="classSelect" style="font-weight: 700; color: var(--primary);">Academic Class:</label>
       <select id="classSelect" onchange="onClassSwitched(this.value)">
-        <option value="Class 6">Class 6 </option>
-        <option value="Class 7">Class 7 </option>
-        <option value="Class 8">Class 8 </option>
-        <option value="Class 9">Class 9 </option>
-        <option value="Class 10">Class 10 </option>
-        <option value="Class STD-6">STD-6 </option>
-        <option value="Class STD-7">STD-7 </option>
-        <option value="Class STD-8">STD-8 </option>
-        <option value="Class STD-9">STD-9 </option>
-        <option value="Class STD-10">STD-10 </option>
+        <optgroup label="Standard Curriculum (Std)">
+          <option value="Std-6">Std-6 </option>
+          <option value="Std-7">Std-7 </option>
+          <option value="Std-8">Std-8 </option>
+          <option value="Std-9">Std-9 </option>
+          <option value="Std-10">Std-10 </option>
+        </optgroup>
+        <optgroup label="Class Curriculum">
+          <option value="Class 6">Class 6 </option>
+          <option value="Class 7">Class 7 </option>
+          <option value="Class 8">Class 8 </option>
+          <option value="Class 9">Class 9</option>
+          <option value="Class 10">Class 10 </option>
+        </optgroup>
       </select>
 
       <label for="examTermSelect" style="font-weight: 700; color: var(--primary); margin-left: 8px;">Examination:</label>
@@ -333,7 +335,7 @@
   </div>
 
   <div class="dashboard-grid">
-    <div class="dash-card"><div class="lbl">Class & Exam</div><div class="val" id="dashClass" style="font-size: 16px; padding-top: 4px;">Class 8 (Annual)</div></div>
+    <div class="dash-card"><div class="lbl">Class & Exam</div><div class="val" id="dashClass" style="font-size: 16px; padding-top: 4px;">Std-8 (Annual)</div></div>
     <div class="dash-card"><div class="lbl">Class Highest Mark</div><div class="val" style="color: #0369a1;" id="dashHighest">0</div></div>
     <div class="dash-card"><div class="lbl">Total Students</div><div class="val" id="dashTotal">0</div></div>
     <div class="dash-card"><div class="lbl">Passed</div><div class="val" style="color: var(--success);" id="dashPassed">0</div></div>
@@ -350,11 +352,11 @@
       </div>
       <div class="form-group">
         <label>Class Roll</label>
-        <input type="number" id="roll" placeholder="Roll" required>
+        <input type="number" id="roll" placeholder="Roll" oninput="autoGenerateId()" required>
       </div>
       <div class="form-group">
         <label>Student ID</label>
-        <input type="text" id="studentId" placeholder="e.g. C8-01 / SSC-01" required>
+        <input type="text" id="studentId" placeholder="e.g. S8-01 / SSC-01" required>
       </div>
       <div class="form-group" style="flex: 1.2;">
         <label>Parent WhatsApp Number</label>
@@ -414,22 +416,22 @@
     <!-- Math -->
     <div class="section-title">3. Mathematics (100) | Pass: CQ ≥ 23, MCQ ≥ 10</div>
     <div class="row">
-      <div class="form-group"><label> CQ (70)</label><input type="number" id="m_cq" min="0" max="70" required></div>
-      <div class="form-group"><label> MCQ (30)</label><input type="number" id="m_mcq" min="0" max="30" required></div>
+      <div class="form-group"><label>Math CQ (70)</label><input type="number" id="m_cq" min="0" max="70" required></div>
+      <div class="form-group"><label>Math MCQ (30)</label><input type="number" id="m_mcq" min="0" max="30" required></div>
     </div>
 
     <!-- Religion -->
     <div class="section-title">4. Religion & Moral Education (100) | Pass: CQ ≥ 23, MCQ ≥ 10</div>
     <div class="row">
-      <div class="form-group"><label> CQ (70)</label><input type="number" id="rel_cq" min="0" max="70" required></div>
-      <div class="form-group"><label> MCQ (30)</label><input type="number" id="rel_mcq" min="0" max="30" required></div>
+      <div class="form-group"><label>Religion CQ (70)</label><input type="number" id="rel_cq" min="0" max="70" required></div>
+      <div class="form-group"><label>Religion MCQ (30)</label><input type="number" id="rel_mcq" min="0" max="30" required></div>
     </div>
 
     <!-- ICT -->
     <div class="section-title">5. Information & Communication Technology - ICT (50) | Pass: MCQ ≥ 8, Practical ≥ 8, Total ≥ 17</div>
     <div class="row">
-      <div class="form-group"><label> MCQ (25)</label><input type="number" id="ict_mcq" min="0" max="25" required></div>
-      <div class="form-group"><label> Practical (25)</label><input type="number" id="ict_prac" min="0" max="25" required></div>
+      <div class="form-group"><label>ICT MCQ (25)</label><input type="number" id="ict_mcq" min="0" max="25" required></div>
+      <div class="form-group"><label>ICT Practical (25)</label><input type="number" id="ict_prac" min="0" max="25" required></div>
     </div>
 
     <!-- Junior Science & BGS -->
@@ -499,7 +501,7 @@
 
   <div class="list-header-row">
     <h2 style="font-size: 16px;" id="tabulationHeading">Master Tabulation Sheet</h2>
-    <button class="btn-print-master" onclick="printMasterA4()">🖨️ Print Master Tabulation </button>
+    <button class="btn-print-master" onclick="printMasterA4()">🖨️ Print Master Tabulation (A4 Landscape)</button>
   </div>
 
   <input type="text" id="searchBox" class="search-box" placeholder="Search by name, roll, student ID..." oninput="renderMasterTable()">
@@ -575,7 +577,7 @@
 <script>
   const GOOGLE_DRIVE_API_URL = "https://script.google.com/macros/s/AKfycbza8bKmXhFZtMIDrM5F-vu4GQ0p4RgS6UEoKhJ_EPHcf7KNQqVOKvmzmni5iiSpG2dfaw/exec";
 
-  let activeClass = 'Class 8';
+  let activeClass = 'Std-8';
   let activeExamTerm = 'Annual Exam';
   let unifiedDatabase = JSON.parse(localStorage.getItem('unified_result_db_clean') || '[]');
 
@@ -585,9 +587,32 @@
     if (crest) crest.style.display = 'flex';
   }
 
-  function isSeniorClass(cls) { return cls === 'Class 9' || cls === 'Class 10'; }
-  function isPractical(name) { return ['Physics', 'Chemistry', 'Biology', 'Higher Mathematics', 'Agriculture Studies', 'Home Science'].some(p => (name || '').includes(p)); }
-  function safeVal(val) { const n = Number(val); return (isNaN(n) || val === null || val === undefined) ? 0 : n; }
+  function isSeniorClass(cls) { 
+    return cls === 'Std-9' || cls === 'Std-10' || cls === 'Class 9' || cls === 'Class 10'; 
+  }
+
+  function autoGenerateId() {
+    const rollVal = document.getElementById('roll').value;
+    if (!rollVal) return;
+    const padded = String(rollVal).padStart(2, '0');
+    let prefix = 'STD';
+    if (activeClass.includes('6')) prefix = 'S6';
+    else if (activeClass.includes('7')) prefix = 'S7';
+    else if (activeClass.includes('8')) prefix = 'S8';
+    else if (activeClass.includes('9')) prefix = 'SSC-9';
+    else if (activeClass.includes('10')) prefix = 'SSC-10';
+    
+    document.getElementById('studentId').value = `${prefix}-${padded}`;
+  }
+
+  function isPractical(name) { 
+    return ['Physics', 'Chemistry', 'Biology', 'Higher Mathematics', 'Agriculture Studies', 'Home Science'].some(p => (name || '').includes(p)); 
+  }
+
+  function safeVal(val) { 
+    const n = Number(val); 
+    return (isNaN(n) || val === null || val === undefined) ? 0 : n; 
+  }
 
   function getGP100(m) {
     if (m >= 80) return { gp: 5.0, grade: 'A+' };
@@ -776,7 +801,6 @@
     };
   }
 
-  // Guaranteed Non-Undefined Subject Highest Mark Function
   function getSubjectHighestMark(subKey) {
     const list = unifiedDatabase.filter(s => s.studentClass === activeClass && (s.examTerm || 'Annual Exam') === activeExamTerm);
     if (!list || list.length === 0) return 0;
@@ -984,6 +1008,7 @@
       document.getElementById('lbl_e2').innerText = 'English 2nd Paper (50)';
       document.getElementById('e2').max = 50;
     }
+    autoGenerateId();
     renderMasterTable();
   }
 
@@ -1205,7 +1230,7 @@
 
     const cols = senior ? 25 : 21;
     if (filtered.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="${cols}" style="padding: 24px; color: #94a3b8;">No student records found. Enter student marks above.</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="${cols}" style="padding: 24px; color: #94a3b8;">No student records found in ${activeClass} (${activeExamTerm}). Enter marks above.</td></tr>`;
       return;
     }
 
@@ -1412,7 +1437,7 @@
   }
 
   loadDataFromGoogleDrive();
-  onClassSwitched('Class 8');
+  onClassSwitched('Std-8');
 </script>
 </body>
 </html>
