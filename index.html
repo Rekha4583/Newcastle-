@@ -13,7 +13,7 @@
       --primary-dark: #0f172a;
       --primary-light: #2563eb;
       --accent: #f59e0b;
-      --bg: #f1f5f9;
+      --bg: #f8fafc;
       --surface: #ffffff;
       --text: #0f172a;
       --text-muted: #64748b;
@@ -25,9 +25,9 @@
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', 'Hind Siliguri', sans-serif; -webkit-tap-highlight-color: transparent; }
-    body { background: var(--bg); color: var(--text); padding-bottom: 90px; }
+    body { background: var(--bg); color: var(--text); }
 
-    /* Top App Bar */
+    /* Top App Navbar */
     .top-navbar {
       background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
       color: #ffffff;
@@ -37,14 +37,16 @@
       z-index: 100;
       box-shadow: 0 4px 16px rgba(15, 23, 42, 0.15);
     }
-    .navbar-brand { display: flex; align-items: center; gap: 14px; }
-    .nav-logo { width: 46px; height: 46px; object-fit: contain; background: #fff; border-radius: 10px; padding: 4px; }
+    .navbar-brand { display: flex; align-items: center; justify-content: space-between; max-width: 1400px; margin: 0 auto; }
+    .brand-left { display: flex; align-items: center; gap: 12px; }
+    .nav-logo { width: 44px; height: 44px; object-fit: contain; background: #fff; border-radius: 10px; padding: 3px; }
     .nav-titles h1 { font-size: 16px; font-weight: 800; line-height: 1.2; }
     .nav-titles p { font-size: 11px; color: #fde68a; font-weight: 600; }
+    .portal-tag { display: none; background: rgba(255, 255, 255, 0.15); padding: 5px 12px; border-radius: 20px; font-size: 11.5px; font-weight: 700; }
 
     .main-wrapper { max-width: 1400px; margin: 0 auto; padding: 16px; }
 
-    /* Filter Pill Strip */
+    /* Universal Controls Card */
     .filter-card {
       background: var(--surface);
       border-radius: var(--radius);
@@ -58,12 +60,12 @@
       align-items: center;
       justify-content: space-between;
     }
-    .filter-group { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; width: 100%; }
-    .select-item { flex: 1; min-width: 140px; display: flex; flex-direction: column; gap: 4px; }
+    .filter-group { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; flex: 1; }
+    .select-item { flex: 1; min-width: 130px; display: flex; flex-direction: column; gap: 4px; }
     .select-item label { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; }
     select, input[type="text"], input[type="number"] {
       width: 100%;
-      padding: 11px 13px;
+      padding: 10px 12px;
       border-radius: 10px;
       border: 1.5px solid var(--border);
       font-size: 13.5px;
@@ -75,63 +77,24 @@
     }
     select:focus, input:focus { border-color: var(--primary-light); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12); }
 
-    /* Bottom App Navigation Bar */
-    .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: #ffffff;
-      border-top: 1px solid var(--border);
-      display: flex;
-      justify-content: space-around;
-      padding: 8px 12px 14px 12px;
-      z-index: 500;
-      box-shadow: 0 -4px 16px rgba(0,0,0,0.06);
-    }
-    .nav-btn {
-      background: none;
-      border: none;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-      color: var(--text-muted);
-      font-size: 11.5px;
-      font-weight: 700;
-      cursor: pointer;
-      flex: 1;
-      padding: 6px 0;
-      border-radius: 10px;
-      transition: all 0.2s;
-    }
-    .nav-btn .icon { font-size: 18px; }
-    .nav-btn.active { color: var(--primary-light); background: #eff6ff; }
-
-    /* Tab Content Panes */
-    .tab-pane { display: none; }
-    .tab-pane.active { display: block; animation: fadeIn 0.25s ease; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
-
-    /* Dashboard Widgets Grid */
-    .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 20px; }
-    @media (min-width: 768px) { .stats-grid { grid-template-columns: repeat(4, 1fr); } }
+    /* Stats Grid */
+    .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; }
     .stat-widget {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 14px;
-      padding: 16px;
+      padding: 14px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.03);
       position: relative;
     }
     .stat-widget .w-lbl { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; }
-    .stat-widget .w-val { font-size: 22px; font-weight: 800; color: var(--text); }
+    .stat-widget .w-val { font-size: 20px; font-weight: 800; color: var(--text); }
     .stat-widget::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; border-radius: 10px 0 0 10px; background: var(--primary-light); }
     .sw-pass::before { background: var(--success); }
     .sw-fail::before { background: var(--danger); }
     .sw-high::before { background: #0284c7; }
 
-    /* Card Panels */
+    /* General Card Component */
     .ui-card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -141,7 +104,7 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.03);
     }
     .card-title {
-      font-size: 14.5px;
+      font-size: 14px;
       font-weight: 800;
       color: var(--primary);
       text-transform: uppercase;
@@ -150,25 +113,24 @@
       margin-bottom: 16px;
       display: flex;
       align-items: center;
-      gap: 8px;
+      justify-content: space-between;
     }
 
-    /* Form Rows */
-    .f-row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; }
+    /* Form Fields */
+    .f-row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; }
     .f-col { flex: 1; min-width: 130px; display: flex; flex-direction: column; gap: 4px; }
     .f-col label { font-size: 11.5px; font-weight: 700; color: #334155; }
     .f-section-title {
-      font-size: 12px;
+      font-size: 11.5px;
       font-weight: 700;
       color: var(--primary-light);
       background: #eff6ff;
       padding: 8px 10px;
       border-radius: 8px;
-      margin: 14px 0 8px 0;
+      margin: 12px 0 8px 0;
       text-transform: uppercase;
       border-left: 3px solid var(--primary-light);
     }
-
     .btn-submit-action {
       width: 100%;
       padding: 14px;
@@ -181,21 +143,31 @@
       cursor: pointer;
       box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
       margin-top: 14px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 8px;
     }
-    .btn-submit-action:active { transform: scale(0.98); }
 
-    /* Master Table Container with Smooth Scroll */
-    .table-responsive-box {
-      width: 100%;
-      overflow-x: auto;
-      border-radius: 12px;
+    /* Mobile Result Cards List */
+    .mobile-student-list { display: flex; flex-direction: column; gap: 12px; }
+    .student-card-item {
+      background: var(--surface);
       border: 1px solid var(--border);
-      background: #fff;
+      border-radius: 14px;
+      padding: 16px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
+    .student-card-header { display: flex; justify-content: space-between; align-items: flex-start; }
+    .st-name { font-size: 14px; font-weight: 800; color: var(--text); }
+    .st-sub { font-size: 11.5px; color: var(--text-muted); font-weight: 600; }
+    .student-card-stats { display: flex; justify-content: space-between; background: #f8fafc; padding: 8px 12px; border-radius: 8px; font-size: 12px; }
+    .student-card-stats div { text-align: center; }
+    .student-card-stats strong { display: block; font-size: 14px; font-weight: 800; }
+    .student-card-actions { display: flex; gap: 8px; }
+    .student-card-actions button { flex: 1; padding: 9px; border-radius: 8px; font-size: 12px; font-weight: 700; border: none; cursor: pointer; }
+
+    /* Desktop Table Container */
+    .desktop-table-container { display: none; width: 100%; overflow-x: auto; border-radius: 12px; border: 1px solid var(--border); }
     table.data-table { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 1400px; text-align: center; }
     table.data-table th, table.data-table td { border: 1px solid #f1f5f9; padding: 10px 8px; white-space: nowrap; }
     table.data-table thead tr { background: #0f172a; color: #ffffff; font-weight: 700; }
@@ -204,14 +176,63 @@
 
     .tag-pass { background: #dcfce7; color: #166534; padding: 3px 8px; border-radius: 6px; font-weight: 700; font-size: 11px; }
     .tag-fail { background: #fee2e2; color: #991b1b; padding: 3px 8px; border-radius: 6px; font-weight: 700; font-size: 11px; }
-    .tag-rank { background: #e0e7ff; color: #3730a3; padding: 3px 8px; border-radius: 6px; font-weight: 800; font-size: 11px; }
 
-    /* Action Buttons */
-    .btn-act-card { background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; padding: 6px 10px; border-radius: 8px; font-weight: 700; cursor: pointer; }
-    .btn-act-wa { background: #dcfce7; border: 1px solid #86efac; color: #15803d; padding: 6px 10px; border-radius: 8px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; }
-    .btn-act-del { background: #fff1f2; border: 1px solid #fecdd3; color: #be123c; padding: 6px 10px; border-radius: 8px; font-weight: 700; cursor: pointer; }
+    /* ==========================================================================
+       DEVICE BASED CONDITIONAL VISIBILITY (Mobile vs Desktop Rules)
+       ========================================================================== */
+    
+    /* 1. MOBILE VIEW RULES (< 768px) */
+    @media (max-width: 767px) {
+      body { padding-bottom: 90px; }
+      .tab-pane { display: none; }
+      .tab-pane.active { display: block; animation: fadeIn 0.2s ease; }
+      .desktop-table-container { display: none !important; }
+      .mobile-student-list { display: flex !important; }
+      
+      .bottom-nav {
+        position: fixed;
+        bottom: 0; left: 0; right: 0;
+        background: #ffffff;
+        border-top: 1px solid var(--border);
+        display: flex;
+        justify-content: space-around;
+        padding: 8px 12px 14px 12px;
+        z-index: 500;
+        box-shadow: 0 -4px 16px rgba(0,0,0,0.06);
+      }
+      .nav-btn {
+        background: none; border: none;
+        display: flex; flex-direction: column; align-items: center; gap: 4px;
+        color: var(--text-muted); font-size: 11px; font-weight: 700;
+        cursor: pointer; flex: 1; padding: 6px 0; border-radius: 10px;
+      }
+      .nav-btn.active { color: var(--primary-light); background: #eff6ff; }
+      .desktop-only-btn { display: none !important; }
+    }
 
-    /* Modal / Individual Transcript Card */
+    /* 2. DESKTOP VIEW RULES (>= 768px) */
+    @media (min-width: 768px) {
+      body { padding-bottom: 30px; }
+      .portal-tag { display: inline-block; }
+      .bottom-nav { display: none !important; }
+      
+      /* In desktop, all sections stay active as a comprehensive dashboard */
+      .tab-pane { display: block !important; }
+      .stats-grid { grid-template-columns: repeat(4, 1fr); }
+      .desktop-table-container { display: block !important; }
+      .mobile-student-list { display: none !important; }
+
+      .desktop-layout-grid {
+        display: grid;
+        grid-template-columns: 420px 1fr;
+        gap: 20px;
+        align-items: start;
+      }
+    }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Modal Sheet */
     .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(4px); z-index: 1000; justify-content: center; align-items: center; padding: 14px; }
     .transcript-sheet { background: #ffffff; width: 100%; max-width: 860px; border-radius: var(--radius); padding: 24px 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.25); max-height: 92vh; overflow-y: auto; }
 
@@ -222,10 +243,10 @@
       body.printing-individual .transcript-sheet { box-shadow: none !important; max-width: 100% !important; padding: 0 !important; border: none !important; }
       body.printing-individual .no-print { display: none !important; }
 
-      body.printing-master .modal-overlay, body.printing-master .top-navbar, body.printing-master .bottom-nav { display: none !important; }
-      body.printing-master .tab-pane { display: none !important; }
-      body.printing-master #paneTabulation { display: block !important; }
+      body.printing-master .modal-overlay, body.printing-master .top-navbar, body.printing-master .bottom-nav, body.printing-master #paneEntry, body.printing-master #paneDashboard { display: none !important; }
+      body.printing-master #paneTabulation { display: block !important; width: 100% !important; }
       body.printing-master .no-print { display: none !important; }
+      body.printing-master .desktop-table-container { display: block !important; border: none !important; }
       body.printing-master table.data-table { font-size: 7.2pt !important; min-width: 100% !important; width: 100% !important; }
       body.printing-master table.data-table th, body.printing-master table.data-table td { padding: 2px 2px !important; border: 1px solid #0f172a !important; }
     }
@@ -233,43 +254,41 @@
 </head>
 <body>
 
-<!-- Header Navbar -->
+<!-- Top Header -->
 <div class="top-navbar">
   <div class="navbar-brand">
-    <img src="1000040018.jpg" alt="Logo" class="nav-logo" onerror="this.style.display='none'">
-    <div class="nav-titles">
-      <h1>NEWCASTLE INTERNATIONAL SCHOOL</h1>
-      <p>"A House of Creative Education" | Session 2026</p>
+    <div class="brand-left">
+      <img src="1000040018.jpg" alt="Logo" class="nav-logo" onerror="this.style.display='none'">
+      <div class="nav-titles">
+        <h1>NEWCASTLE INTERNATIONAL SCHOOL</h1>
+        <p>"A House of Creative Education" | Session 2026</p>
+      </div>
     </div>
+    <span class="portal-tag">🖥️ Desktop Software View</span>
   </div>
 </div>
 
 <div class="main-wrapper">
-  <!-- Class & Term Selector Strip -->
+  <!-- Filter & Action Strip -->
   <div class="filter-card no-print">
     <div class="filter-group">
       <div class="select-item">
         <label>Academic Class</label>
         <select id="classSelect" onchange="onClassSwitched(this.value)">
-          <option value="Class 6">Class 6 </option>
-          <option value="Class 7">Class 7 </option>
-          <option value="Class 8">Class 8 </option>
-          <option value="Class 9">Class 9 </option>
-          <option value="Class 10">Class 10 </option>
-          <option value="Class Std-6">Std-6 </option>
-          <option value="Class Std-7">Std-7 </option>
-          <option value="Class Std-8">Std-8 </option>
-          <option value="Class Std-9">Std-9 </option>
-          <option value="Class Std-10">Std-10 </option>
+          <option value="Class 6">Class 6 (Junior 750)</option>
+          <option value="Class 7">Class 7 (Junior 750)</option>
+          <option value="Class 8" selected>Class 8 (Junior 750)</option>
+          <option value="Class 9">Class 9 (SSC Curriculum)</option>
+          <option value="Class 10">Class 10 (SSC Curriculum)</option>
         </select>
       </div>
 
       <div class="select-item">
-        <label>Examination Term</label>
+        <label>Exam Term</label>
         <select id="examTermSelect" onchange="onExamTermChanged(this.value)">
-          <option value="1st Semester">1st Semester Exam</option>
-          <option value="2nd Semester">2nd Semester Exam</option>
-          <option value="Annual Exam" selected>Annual Exam</option>
+          <option value="1st Semester">1st Semester</option>
+          <option value="2nd Semester">2nd Semester</option>
+          <option value="Annual Exam" >Annual Exam</option>
         </select>
       </div>
 
@@ -283,9 +302,15 @@
         </select>
       </div>
     </div>
+
+    <div style="display: flex; gap: 8px;">
+      <button onclick="loadDataFromGoogleDrive()" style="background:#eff6ff; border:1px solid #bfdbfe; color:var(--primary); font-weight:700; padding:10px 14px; border-radius:10px; cursor:pointer;">☁️ Sync</button>
+      <button onclick="exportCSV()" class="desktop-only-btn" style="background:#fff; border:1px solid var(--border); font-weight:700; padding:10px 14px; border-radius:10px; cursor:pointer;">📥 CSV</button>
+      <button onclick="printMasterA4()" class="desktop-only-btn" style="background:#fff; border:1px solid var(--border); font-weight:700; padding:10px 14px; border-radius:10px; cursor:pointer;">🖨️ Print</button>
+    </div>
   </div>
 
-  <!-- TAB 1: DASHBOARD -->
+  <!-- Stats Grid (Mobile Tab 1 / Desktop Top) -->
   <div class="tab-pane active" id="paneDashboard">
     <div class="stats-grid">
       <div class="stat-widget"><div class="w-lbl">Class & Term</div><div class="w-val" id="dashClass" style="font-size: 16px; color: var(--primary);">Class 8</div></div>
@@ -295,187 +320,171 @@
       <div class="stat-widget sw-fail"><div class="w-lbl">Failed</div><div class="w-val" id="dashFailed" style="color: var(--danger);">0</div></div>
       <div class="stat-widget"><div class="w-lbl">Pass Rate</div><div class="w-val" id="dashRate" style="color: var(--accent);">0%</div></div>
       <div class="stat-widget"><div class="w-lbl">Average GPA</div><div class="w-val" id="dashAvgGpa">0.00</div></div>
-      <div class="stat-widget" style="display: flex; align-items: center; justify-content: center;">
-        <button onclick="loadDataFromGoogleDrive()" style="background:#eff6ff; border:1px solid #bfdbfe; color:var(--primary); font-weight:700; padding:10px; border-radius:10px; width:100%; cursor:pointer;">☁️ Sync Drive</button>
-      </div>
     </div>
   </div>
 
-  <!-- TAB 2: MARKS ENTRY FORM -->
-  <div class="tab-pane" id="paneEntry">
-    <div class="ui-card">
-      <div class="card-title">📝 Student Marks Entry Form</div>
-      <form id="marksForm" onsubmit="handleFormSubmit(event)">
-        <div class="f-row">
-          <div class="f-col" style="flex: 2;">
-            <label>Student Full Name</label>
-            <input type="text" id="name" placeholder="Student Name" required>
-          </div>
-          <div class="f-col">
-            <label>Class Roll</label>
-            <input type="number" id="roll" placeholder="Roll" required>
-          </div>
-          <div class="f-col">
-            <label>Student ID</label>
-            <input type="text" id="studentId" placeholder="e.g. C8-01" required>
-          </div>
-          <div class="f-col" style="flex: 1.2;">
-            <label>WhatsApp Number</label>
-            <input type="text" id="phone" placeholder="017xxxxxxxx">
-          </div>
-          <div class="f-col" style="flex: 1.2;">
-            <label>Exam Session</label>
-            <select id="formExamTerm">
-              <option value="1st Semester">1st Semester</option>
-              <option value="2nd Semester">2nd Semester</option>
-              <option value="Annual Exam" selected>Annual Exam</option>
-            </select>
-          </div>
-          <div class="f-col" id="grpInputWrapper" style="display: none; flex: 1.5;">
-            <label>Academic Group</label>
-            <select id="streamSelect" onchange="onStreamChanged()">
-              <option value="Science">Science (বিজ্ঞান)</option>
-              <option value="Business Studies">Business Studies (ব্যবসায়)</option>
-              <option value="Humanities">Humanities (মানবিক)</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- Bangla -->
-        <div class="f-section-title" id="banTitle">1. Bangla 1st & 2nd Paper</div>
-        <div class="f-row">
-          <div class="f-col"><label id="lbl_b1_cq">Ban 1st CQ (70)</label><input type="number" id="b1_cq" min="0" max="70" required></div>
-          <div class="f-col"><label id="lbl_b1_mcq">Ban 1st MCQ (30)</label><input type="number" id="b1_mcq" min="0" max="30" required></div>
-          <div class="f-col"><label id="lbl_b2_cq">Ban 2nd CQ (35)</label><input type="number" id="b2_cq" min="0" max="70" required></div>
-          <div class="f-col"><label id="lbl_b2_mcq">Ban 2nd MCQ (15)</label><input type="number" id="b2_mcq" min="0" max="30" required></div>
-        </div>
-
-        <!-- English -->
-        <div class="f-section-title" id="engTitle">2. English 1st & 2nd Paper</div>
-        <div class="f-row">
-          <div class="f-col"><label id="lbl_e1">English 1st (100)</label><input type="number" id="e1" min="0" max="100" required></div>
-          <div class="f-col"><label id="lbl_e2">English 2nd (50)</label><input type="number" id="e2" min="0" max="100" required></div>
-        </div>
-
-        <!-- Math -->
-        <div class="f-section-title">3. Mathematics (100) | Pass: CQ ≥ 23, MCQ ≥ 10</div>
-        <div class="f-row">
-          <div class="f-col"><label>Math CQ (70)</label><input type="number" id="m_cq" min="0" max="70" required></div>
-          <div class="f-col"><label>Math MCQ (30)</label><input type="number" id="m_mcq" min="0" max="30" required></div>
-        </div>
-
-        <!-- Religion -->
-        <div class="f-section-title">4. Religion & Moral Edu (100) | Pass: CQ ≥ 23, MCQ ≥ 10</div>
-        <div class="f-row">
-          <div class="f-col"><label>Religion CQ (70)</label><input type="number" id="rel_cq" min="0" max="70" required></div>
-          <div class="f-col"><label>Religion MCQ (30)</label><input type="number" id="rel_mcq" min="0" max="30" required></div>
-        </div>
-
-        <!-- ICT -->
-        <div class="f-section-title">5. ICT (50) | MCQ ≥ 8, Prac ≥ 8, Tot ≥ 17</div>
-        <div class="f-row">
-          <div class="f-col"><label>ICT MCQ (25)</label><input type="number" id="ict_mcq" min="0" max="25" required></div>
-          <div class="f-col"><label>ICT Practical (25)</label><input type="number" id="ict_prac" min="0" max="25" required></div>
-        </div>
-
-        <!-- Junior Science & BGS -->
-        <div id="juniorExtras">
-          <div class="f-section-title">6. General Science (100) & 7. BGS (100)</div>
+  <!-- Desktop Grid Container (Holds Form & Table side-by-side or stacked on Desktop) -->
+  <div class="desktop-layout-grid">
+    <!-- Marks Entry (Mobile Tab 2 / Desktop Left Column) -->
+    <div class="tab-pane" id="paneEntry">
+      <div class="ui-card">
+        <div class="card-title"><span>📝 Marks Entry</span></div>
+        <form id="marksForm" onsubmit="handleFormSubmit(event)">
           <div class="f-row">
-            <div class="f-col"><label>Science CQ (70)</label><input type="number" id="j_sci_cq" min="0" max="70"></div>
-            <div class="f-col"><label>Science MCQ (30)</label><input type="number" id="j_sci_mcq" min="0" max="30"></div>
-            <div class="f-col"><label>BGS CQ (70)</label><input type="number" id="j_bgs_cq" min="0" max="70"></div>
-            <div class="f-col"><label>BGS MCQ (30)</label><input type="number" id="j_bgs_mcq" min="0" max="30"></div>
-          </div>
-        </div>
-
-        <!-- Senior Subjects -->
-        <div id="seniorExtras" style="display: none;">
-          <div class="f-section-title">6. Group Core: BGS / General Science (100)</div>
-          <div class="f-row">
-            <div class="f-col" style="flex: 2;"><label>Subject Name</label><input type="text" id="s_core_name" readonly style="background:#f1f5f9;"></div>
-            <div class="f-col"><label>CQ (70)</label><input type="number" id="s_core_cq" min="0" max="70"></div>
-            <div class="f-col"><label>MCQ (30)</label><input type="number" id="s_core_mcq" min="0" max="30"></div>
-          </div>
-
-          <div class="f-section-title">7. Group Major Subjects (100 each)</div>
-          <div class="f-row">
-            <div class="f-col" style="flex: 2;"><label>Major 1</label><input type="text" id="g1_name" readonly style="background:#f1f5f9;"></div>
-            <div class="f-col"><label id="lbl_g1_cq">CQ</label><input type="number" id="g1_cq" min="0" max="70"></div>
-            <div class="f-col"><label id="lbl_g1_mcq">MCQ</label><input type="number" id="g1_mcq" min="0" max="30"></div>
-            <div class="f-col" id="box_g1_prac"><label>Prac (25)</label><input type="number" id="g1_prac" min="0" max="25" value="0"></div>
+            <div class="f-col" style="flex: 2;"><label>Student Name</label><input type="text" id="name" placeholder="Name" required></div>
+            <div class="f-col"><label>Roll</label><input type="number" id="roll" placeholder="Roll" required></div>
           </div>
           <div class="f-row">
-            <div class="f-col" style="flex: 2;"><label>Major 2</label><input type="text" id="g2_name" readonly style="background:#f1f5f9;"></div>
-            <div class="f-col"><label id="lbl_g2_cq">CQ</label><input type="number" id="g2_cq" min="0" max="70"></div>
-            <div class="f-col"><label id="lbl_g2_mcq">MCQ</label><input type="number" id="g2_mcq" min="0" max="30"></div>
-            <div class="f-col" id="box_g2_prac"><label>Prac (25)</label><input type="number" id="g2_prac" min="0" max="25" value="0"></div>
+            <div class="f-col"><label>Student ID</label><input type="text" id="studentId" placeholder="e.g. C8-01" required></div>
+            <div class="f-col"><label>WhatsApp No.</label><input type="text" id="phone" placeholder="017xxxxxxxx"></div>
           </div>
           <div class="f-row">
-            <div class="f-col" style="flex: 2;"><label>Major 3</label><input type="text" id="g3_name" readonly style="background:#f1f5f9;"></div>
-            <div class="f-col"><label id="lbl_g3_cq">CQ</label><input type="number" id="g3_cq" min="0" max="70"></div>
-            <div class="f-col"><label id="lbl_g3_mcq">MCQ</label><input type="number" id="g3_mcq" min="0" max="30"></div>
-            <div class="f-col" id="box_g3_prac"><label>Prac (25)</label><input type="number" id="g3_prac" min="0" max="25" value="0"></div>
-          </div>
-
-          <div class="f-section-title">8. 4th Optional Subject (100) | GP > 2.00 is Bonus</div>
-          <div class="f-row">
-            <div class="f-col" style="flex: 2;">
-              <label>Optional Subject</label>
-              <select id="opt_name" onchange="adjustSeniorPracticalFields()">
-                <option value="Higher Mathematics">Higher Mathematics (Practical)</option>
-                <option value="Agriculture Studies">Agriculture Studies (Practical)</option>
-                <option value="Home Science">Home Science (Practical)</option>
-                <option value="Economics">Economics</option>
+            <div class="f-col"><label>Exam Session</label>
+              <select id="formExamTerm">
+                <option value="1st Semester">1st Semester</option>
+                <option value="2nd Semester">2nd Semester</option>
+                <option value="Annual Exam" selected>Annual Exam</option>
               </select>
             </div>
-            <div class="f-col"><label id="lbl_opt_cq">CQ</label><input type="number" id="opt_cq" min="0" max="70"></div>
-            <div class="f-col"><label id="lbl_opt_mcq">MCQ</label><input type="number" id="opt_mcq" min="0" max="30"></div>
-            <div class="f-col" id="box_opt_prac"><label>Prac (25)</label><input type="number" id="opt_prac" min="0" max="25" value="0"></div>
+            <div class="f-col" id="grpInputWrapper" style="display: none;">
+              <label>Academic Group</label>
+              <select id="streamSelect" onchange="onStreamChanged()">
+                <option value="Science">Science (বিজ্ঞান)</option>
+                <option value="Business Studies">Business Studies (ব্যবসায়)</option>
+                <option value="Humanities">Humanities (মানবিক)</option>
+              </select>
+            </div>
           </div>
-        </div>
 
-        <button type="submit" class="btn-submit-action">💾 Calculate & Save Result</button>
-      </form>
-    </div>
-  </div>
+          <!-- Bangla -->
+          <div class="f-section-title" id="banTitle">1. Bangla 1st & 2nd Paper</div>
+          <div class="f-row">
+            <div class="f-col"><label id="lbl_b1_cq">1st CQ (70)</label><input type="number" id="b1_cq" min="0" max="70" required></div>
+            <div class="f-col"><label id="lbl_b1_mcq">1st MCQ (30)</label><input type="number" id="b1_mcq" min="0" max="30" required></div>
+            <div class="f-col"><label id="lbl_b2_cq">2nd CQ (35)</label><input type="number" id="b2_cq" min="0" max="70" required></div>
+            <div class="f-col"><label id="lbl_b2_mcq">2nd MCQ (15)</label><input type="number" id="b2_mcq" min="0" max="30" required></div>
+          </div>
 
-  <!-- TAB 3: TABULATION SHEET -->
-  <div class="tab-pane" id="paneTabulation">
-    <div class="ui-card">
-      <div class="card-title" style="justify-content: space-between;">
-        <span>📋 Master Tabulation Sheet</span>
-        <div class="no-print" style="display: flex; gap: 8px;">
-          <button onclick="exportCSV()" style="padding:6px 10px; border-radius:8px; border:1px solid var(--border); font-size:11px; font-weight:700; cursor:pointer;">📥 CSV</button>
-          <button onclick="printMasterA4()" style="padding:6px 10px; border-radius:8px; background:#eff6ff; border:1px solid #bfdbfe; color:var(--primary); font-size:11px; font-weight:700; cursor:pointer;">🖨️ Print</button>
-        </div>
+          <!-- English -->
+          <div class="f-section-title" id="engTitle">2. English 1st & 2nd Paper</div>
+          <div class="f-row">
+            <div class="f-col"><label id="lbl_e1">English 1st (100)</label><input type="number" id="e1" min="0" max="100" required></div>
+            <div class="f-col"><label id="lbl_e2">English 2nd (50)</label><input type="number" id="e2" min="0" max="100" required></div>
+          </div>
+
+          <!-- Math & Religion -->
+          <div class="f-section-title">3. Math & 4. Religion</div>
+          <div class="f-row">
+            <div class="f-col"><label>Math CQ (70)</label><input type="number" id="m_cq" min="0" max="70" required></div>
+            <div class="f-col"><label>Math MCQ (30)</label><input type="number" id="m_mcq" min="0" max="30" required></div>
+            <div class="f-col"><label>Relig CQ (70)</label><input type="number" id="rel_cq" min="0" max="70" required></div>
+            <div class="f-col"><label>Relig MCQ (30)</label><input type="number" id="rel_mcq" min="0" max="30" required></div>
+          </div>
+
+          <!-- ICT -->
+          <div class="f-section-title">5. ICT (50)</div>
+          <div class="f-row">
+            <div class="f-col"><label>ICT MCQ (25)</label><input type="number" id="ict_mcq" min="0" max="25" required></div>
+            <div class="f-col"><label>ICT Prac (25)</label><input type="number" id="ict_prac" min="0" max="25" required></div>
+          </div>
+
+          <!-- Junior Science & BGS -->
+          <div id="juniorExtras">
+            <div class="f-section-title">6. Science & 7. BGS</div>
+            <div class="f-row">
+              <div class="f-col"><label>Sci CQ</label><input type="number" id="j_sci_cq" min="0" max="70"></div>
+              <div class="f-col"><label>Sci MCQ</label><input type="number" id="j_sci_mcq" min="0" max="30"></div>
+              <div class="f-col"><label>BGS CQ</label><input type="number" id="j_bgs_cq" min="0" max="70"></div>
+              <div class="f-col"><label>BGS MCQ</label><input type="number" id="j_bgs_mcq" min="0" max="30"></div>
+            </div>
+          </div>
+
+          <!-- Senior Subjects -->
+          <div id="seniorExtras" style="display: none;">
+            <div class="f-section-title">6. Core & 7. Major Subjects</div>
+            <div class="f-row">
+              <div class="f-col" style="flex: 2;"><label>Core Sub</label><input type="text" id="s_core_name" readonly style="background:#f1f5f9;"></div>
+              <div class="f-col"><label>CQ</label><input type="number" id="s_core_cq" min="0" max="70"></div>
+              <div class="f-col"><label>MCQ</label><input type="number" id="s_core_mcq" min="0" max="30"></div>
+            </div>
+            <div class="f-row">
+              <div class="f-col" style="flex: 2;"><label>Major 1</label><input type="text" id="g1_name" readonly style="background:#f1f5f9;"></div>
+              <div class="f-col"><label id="lbl_g1_cq">CQ</label><input type="number" id="g1_cq" min="0" max="70"></div>
+              <div class="f-col"><label id="lbl_g1_mcq">MCQ</label><input type="number" id="g1_mcq" min="0" max="30"></div>
+              <div class="f-col" id="box_g1_prac"><label>Prac</label><input type="number" id="g1_prac" min="0" max="25" value="0"></div>
+            </div>
+            <div class="f-row">
+              <div class="f-col" style="flex: 2;"><label>Major 2</label><input type="text" id="g2_name" readonly style="background:#f1f5f9;"></div>
+              <div class="f-col"><label id="lbl_g2_cq">CQ</label><input type="number" id="g2_cq" min="0" max="70"></div>
+              <div class="f-col"><label id="lbl_g2_mcq">MCQ</label><input type="number" id="g2_mcq" min="0" max="30"></div>
+              <div class="f-col" id="box_g2_prac"><label>Prac</label><input type="number" id="g2_prac" min="0" max="25" value="0"></div>
+            </div>
+            <div class="f-row">
+              <div class="f-col" style="flex: 2;"><label>Major 3</label><input type="text" id="g3_name" readonly style="background:#f1f5f9;"></div>
+              <div class="f-col"><label id="lbl_g3_cq">CQ</label><input type="number" id="g3_cq" min="0" max="70"></div>
+              <div class="f-col"><label id="lbl_g3_mcq">MCQ</label><input type="number" id="g3_mcq" min="0" max="30"></div>
+              <div class="f-col" id="box_g3_prac"><label>Prac</label><input type="number" id="g3_prac" min="0" max="25" value="0"></div>
+            </div>
+
+            <div class="f-section-title">8. 4th Optional Subject</div>
+            <div class="f-row">
+              <div class="f-col" style="flex: 2;">
+                <label>Optional Subject</label>
+                <select id="opt_name" onchange="adjustSeniorPracticalFields()">
+                  <option value="Higher Mathematics">Higher Mathematics</option>
+                  <option value="Agriculture Studies">Agriculture Studies</option>
+                  <option value="Home Science">Home Science</option>
+                  <option value="Economics">Economics</option>
+                </select>
+              </div>
+              <div class="f-col"><label id="lbl_opt_cq">CQ</label><input type="number" id="opt_cq" min="0" max="70"></div>
+              <div class="f-col"><label id="lbl_opt_mcq">MCQ</label><input type="number" id="opt_mcq" min="0" max="30"></div>
+              <div class="f-col" id="box_opt_prac"><label>Prac</label><input type="number" id="opt_prac" min="0" max="25" value="0"></div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-submit-action">💾 Save Result</button>
+        </form>
       </div>
+    </div>
 
-      <input type="text" id="searchBox" class="no-print" style="width: 100%; padding: 10px 14px; border-radius: 10px; border: 1.5px solid var(--border); margin-bottom: 12px; font-size: 13px;" placeholder="🔍 Search by Roll, Name or ID..." oninput="renderMasterTable()">
+    <!-- Tabulation View (Mobile Tab 3 / Desktop Right Column) -->
+    <div class="tab-pane" id="paneTabulation">
+      <div class="ui-card">
+        <div class="card-title">
+          <span>📋 Student Results List</span>
+        </div>
 
-      <div class="table-responsive-box">
-        <table class="data-table">
-          <thead id="masterTableHead"></thead>
-          <tbody id="masterTableBody"></tbody>
-        </table>
+        <input type="text" id="searchBox" style="width: 100%; padding: 10px 14px; border-radius: 10px; border: 1.5px solid var(--border); margin-bottom: 14px; font-size: 13px;" placeholder="🔍 Search by Roll, Name or ID..." oninput="renderMasterTable()">
+
+        <!-- 1. MOBILE ONLY: Interactive Result Cards -->
+        <div class="mobile-student-list" id="mobileCardsContainer"></div>
+
+        <!-- 2. DESKTOP ONLY: Full Master Sheet Table -->
+        <div class="desktop-table-container">
+          <table class="data-table">
+            <thead id="masterTableHead"></thead>
+            <tbody id="masterTableBody"></tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Bottom Navigation Menu -->
-<div class="bottom-nav no-print">
+<!-- Mobile Bottom App Bar Navigation -->
+<div class="bottom-nav">
   <button class="nav-btn active" onclick="switchTab('paneDashboard', this)">
-    <span class="icon">📊</span>
+    <span style="font-size: 18px;">📊</span>
     <span>Dashboard</span>
   </button>
   <button class="nav-btn" onclick="switchTab('paneEntry', this)">
-    <span class="icon">📝</span>
-    <span>Entry Marks</span>
+    <span style="font-size: 18px;">📝</span>
+    <span>Add Marks</span>
   </button>
   <button class="nav-btn" onclick="switchTab('paneTabulation', this)">
-    <span class="icon">📋</span>
-    <span>Tabulation</span>
+    <span style="font-size: 18px;">📋</span>
+    <span>Results</span>
   </button>
 </div>
 
@@ -484,9 +493,8 @@
   <div class="transcript-sheet">
     <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--primary); padding-bottom: 12px; margin-bottom: 14px;">
       <div>
-        <h2 style="font-size: 18px; color: var(--primary); font-weight: 800;">NEWCASTLE INTERNATIONAL SCHOOL</h2>
+        <h2 style="font-size: 17px; color: var(--primary); font-weight: 800;">NEWCASTLE INTERNATIONAL SCHOOL</h2>
         <p style="font-size: 11px; color: #b45309; font-weight: 600; font-style: italic;">"A House of Creative Education"</p>
-        <p style="font-size: 10.5px; color: var(--text-muted);">Japani bazar, Zia soroni, Soniakra, Dhaka-1236</p>
       </div>
       <span style="background: #eff6ff; color: var(--primary); font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 14px;" id="modalBoardLabel">REPORT</span>
     </div>
@@ -530,10 +538,12 @@
   let unifiedDatabase = JSON.parse(localStorage.getItem('unified_result_db_clean') || '[]');
 
   function switchTab(tabId, el) {
-    document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById(tabId).classList.add('active');
-    el.classList.add('active');
+    if (window.innerWidth < 768) {
+      document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+      el.classList.add('active');
+    }
     if (tabId === 'paneTabulation') renderMasterTable();
   }
 
@@ -926,19 +936,19 @@
       g1.value = 'Physics';
       g2.value = 'Chemistry';
       g3.value = 'Biology';
-      opt.innerHTML = `<option value="Higher Mathematics">Higher Mathematics (Practical)</option><option value="Agriculture Studies">Agriculture Studies (Practical)</option><option value="Home Science">Home Science (Practical)</option>`;
+      opt.innerHTML = `<option value="Higher Mathematics">Higher Mathematics</option><option value="Agriculture Studies">Agriculture Studies</option><option value="Home Science">Home Science</option>`;
     } else if (grp === 'Business Studies') {
       core.value = 'General Science';
       g1.value = 'Accounting';
       g2.value = 'Business Entrepreneurship';
       g3.value = 'Finance & Banking';
-      opt.innerHTML = `<option value="Agriculture Studies">Agriculture Studies (Practical)</option><option value="Economics">Economics</option><option value="Home Science">Home Science (Practical)</option>`;
+      opt.innerHTML = `<option value="Agriculture Studies">Agriculture Studies</option><option value="Economics">Economics</option><option value="Home Science">Home Science</option>`;
     } else {
       core.value = 'General Science';
       g1.value = 'Geography & Environment';
       g2.value = 'History of BD & World Civ.';
       g3.value = 'Civics & Citizenship';
-      opt.innerHTML = `<option value="Economics">Economics</option><option value="Agriculture Studies">Agriculture Studies (Practical)</option><option value="Home Science">Home Science (Practical)</option>`;
+      opt.innerHTML = `<option value="Economics">Economics</option><option value="Agriculture Studies">Agriculture Studies</option><option value="Home Science">Home Science</option>`;
     }
     adjustSeniorPracticalFields();
   }
@@ -1029,7 +1039,7 @@
     e.target.reset();
     document.getElementById('formExamTerm').value = activeExamTerm;
     if (senior) onStreamChanged();
-    switchTab('paneTabulation', document.querySelectorAll('.nav-btn')[2]);
+    renderMasterTable();
   }
 
   function deleteRecord(id) {
@@ -1044,7 +1054,9 @@
   function renderMasterTable() {
     const thead = document.getElementById('masterTableHead');
     const tbody = document.getElementById('masterTableBody');
+    const mobileCards = document.getElementById('mobileCardsContainer');
     tbody.innerHTML = '';
+    mobileCards.innerHTML = '';
     const q = document.getElementById('searchBox').value.toLowerCase().trim();
     const senior = isSeniorClass(activeClass);
 
@@ -1100,19 +1112,21 @@
 
     const cols = senior ? 24 : 20;
     if (filtered.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="${cols}" style="padding: 24px; color: var(--text-muted); font-weight: 600;">No records found. Enter marks from "Entry Marks" tab.</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="${cols}" style="padding: 24px; color: var(--text-muted); font-weight: 600;">No records found.</td></tr>`;
+      mobileCards.innerHTML = `<div style="text-align:center; padding:30px 10px; color:var(--text-muted); font-weight:600;">No student records found. Add marks from "Add Marks" tab.</div>`;
       return;
     }
 
     filtered.forEach(s => {
+      // 1. Desktop Row Builder
       const tr = document.createElement('tr');
       if (s.isPassed && s.rank === 1) tr.className = 'first-place';
 
       let actionButtons = `
         <td class="no-print">
-          <button class="btn-act-card" onclick="openTranscript(${s.id})">🖨️ Card</button>
-          <button class="btn-act-wa" onclick="sendWhatsAppDirectReport(${s.id})">💬 WA</button>
-          <button class="btn-act-del" onclick="deleteRecord(${s.id})">✕</button>
+          <button class="btn-act-card" style="padding:5px 8px; border-radius:6px; cursor:pointer;" onclick="openTranscript(${s.id})">🖨️ Card</button>
+          <button class="btn-act-wa" style="padding:5px 8px; border-radius:6px; cursor:pointer; background:#dcfce7; border:1px solid #86efac; color:#15803d;" onclick="sendWhatsAppDirectReport(${s.id})">💬 WA</button>
+          <button class="btn-act-del" style="padding:5px 8px; border-radius:6px; cursor:pointer; background:#fff1f2; border:1px solid #fecdd3; color:#be123c;" onclick="deleteRecord(${s.id})">✕</button>
         </td>
       `;
 
@@ -1154,6 +1168,31 @@
         `;
       }
       tbody.appendChild(tr);
+
+      // 2. Mobile Card Builder (App-Style Experience)
+      const mCard = document.createElement('div');
+      mCard.className = 'student-card-item';
+      mCard.innerHTML = `
+        <div class="student-card-header">
+          <div>
+            <div class="st-name">${s.name}</div>
+            <div class="st-sub">Roll: #${s.roll} | ID: ${s.studentId} ${senior ? `(${s.group})` : ''}</div>
+          </div>
+          <span class="${s.isPassed ? 'tag-pass' : 'tag-fail'}">${s.isPassed ? 'Passed' : 'Failed'}</span>
+        </div>
+        <div class="student-card-stats">
+          <div><span style="font-size:10px; color:var(--text-muted);">TOTAL</span><strong>${s.grandTotal}</strong></div>
+          <div><span style="font-size:10px; color:var(--text-muted);">GPA</span><strong style="color:${s.isPassed ? 'var(--success)' : 'var(--danger)'}">${s.gpa.toFixed(2)}</strong></div>
+          <div><span style="font-size:10px; color:var(--text-muted);">GRADE</span><strong>${s.finalGrade}</strong></div>
+          <div><span style="font-size:10px; color:var(--text-muted);">RANK</span><strong>${s.isPassed ? '#' + s.rank : '-'}</strong></div>
+        </div>
+        <div class="student-card-actions">
+          <button style="background:#eff6ff; color:var(--primary); border:1px solid #bfdbfe;" onclick="openTranscript(${s.id})">🖨️ View Card</button>
+          <button style="background:var(--wa); color:#fff;" onclick="sendWhatsAppDirectReport(${s.id})">💬 WhatsApp</button>
+          <button style="background:#fee2e2; color:var(--danger); flex:0.4;" onclick="deleteRecord(${s.id})">✕</button>
+        </div>
+      `;
+      mobileCards.appendChild(mCard);
     });
   }
 
@@ -1188,7 +1227,7 @@
     const senior = isSeniorClass(s.studentClass);
     const classHighest = Math.max(...list.map(item => safeVal(item.grandTotal)));
 
-    document.getElementById('modalBoardLabel').innerText = `${s.examTerm.toUpperCase()} PROGRESS REPORT`;
+    document.getElementById('modalBoardLabel').innerText = `${s.examTerm.toUpperCase()}`;
     document.getElementById('modalStudentMeta').innerHTML = `
       <div><strong>Student Name:</strong> ${s.name}</div>
       <div><strong>Class:</strong> ${s.studentClass} ${senior ? `(${s.group})` : ''}</div>
