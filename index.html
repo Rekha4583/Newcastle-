@@ -201,7 +201,6 @@
 
     .print-header { display: none; }
 
-    /* Print Rules (A4 Portrait & Landscape) */
     @media print {
       html, body {
         background: #ffffff !important;
@@ -309,7 +308,6 @@
     <div class="btn-group">
       <button class="btn-action" style="background:#eff6ff; border-color:#93c5fd; color:#1e40af;" onclick="loadDataFromGoogleDrive()">☁️ Sync Google Drive</button>
       <button class="btn-action" onclick="exportCSV()">📥 Export CSV</button>
-      <button class="btn-action" onclick="resetClassSampleData()">🔄 Load Default Sample</button>
     </div>
   </div>
 
@@ -753,7 +751,6 @@
     };
   }
 
-  // Exact Copy Format WhatsApp Message Builder
   function buildExactReportCardText(s) {
     const senior = isSeniorClass(s.studentClass);
     const term = s.examTerm || 'Annual Exam';
@@ -848,18 +845,15 @@
     window.open(`https://wa.me/${phone}?text=${encodedMessage}`, '_blank');
   }
 
-  // Google Drive Cloud API Operations
   async function loadDataFromGoogleDrive() {
     try {
       const res = await fetch(GOOGLE_DRIVE_API_URL);
       const data = await res.json();
-      if (Array.isArray(data) && data.length > 0) {
+      if (Array.isArray(data)) {
         unifiedDatabase = data;
-        localStorage.setItem('unified_result_db_newcastle_v6', JSON.stringify(unifiedDatabase));
+        localStorage.setItem('unified_result_db_clean', JSON.stringify(unifiedDatabase));
         renderMasterTable();
-        alert("✅ Google Drive থেকে সফলভাবে ডেটা সিঙ্ক করা হয়েছে!");
-      } else {
-        alert("ℹ️ Google Drive-এ বর্তমানে কোনো ডেটা নেই।");
+        alert("✅ Google Drive থেকে ডেটা সিঙ্ক করা হয়েছে!");
       }
     } catch (err) {
       console.warn("Cloud load fallback:", err);
@@ -892,39 +886,8 @@
     }
   }
 
-  const defaultJuniorSample = [
-    { roll: 1, studentId: "C8-01", name: "Abdullah Al Mamun", phone: "01711000001", examTerm: "Annual Exam", b1_cq: 58, b1_mcq: 27, b2_cq: 28, b2_mcq: 18, e1: 78, e2: 42, m_cq: 62, m_mcq: 28, rel_cq: 64, rel_mcq: 28, ict_mcq: 23, ict_prac: 23, j_sci_cq: 58, j_sci_mcq: 26, j_bgs_cq: 59, j_bgs_mcq: 25 },
-    { roll: 2, studentId: "C8-02", name: "Fatima Tuz Zohra", phone: "01711000002", examTerm: "Annual Exam", b1_cq: 60, b1_mcq: 28, b2_cq: 29, b2_mcq: 19, e1: 84, e2: 45, m_cq: 65, m_mcq: 29, rel_cq: 66, rel_mcq: 29, ict_mcq: 24, ict_prac: 24, j_sci_cq: 62, j_sci_mcq: 28, j_bgs_cq: 61, j_bgs_mcq: 27 },
-    { roll: 3, studentId: "C8-03", name: "Tanvir Ahmed", phone: "01711000003", examTerm: "Annual Exam", b1_cq: 48, b1_mcq: 24, b2_cq: 22, b2_mcq: 16, e1: 65, e2: 36, m_cq: 52, m_mcq: 22, rel_cq: 55, rel_mcq: 24, ict_mcq: 18, ict_prac: 19, j_sci_cq: 50, j_sci_mcq: 21, j_bgs_cq: 52, j_bgs_mcq: 20 },
-    { roll: 4, studentId: "C8-04", name: "Nusrat Jahan Mim", phone: "01711000004", examTerm: "Annual Exam", b1_cq: 42, b1_mcq: 22, b2_cq: 20, b2_mcq: 15, e1: 58, e2: 32, m_cq: 45, m_mcq: 20, rel_cq: 52, rel_mcq: 22, ict_mcq: 17, ict_prac: 17, j_sci_cq: 44, j_sci_mcq: 19, j_bgs_cq: 48, j_bgs_mcq: 19 },
-    { roll: 5, studentId: "C8-05", name: "Sabbir Hossain", phone: "01711000005", examTerm: "Annual Exam", b1_cq: 38, b1_mcq: 20, b2_cq: 18, b2_mcq: 14, e1: 52, e2: 28, m_cq: 40, m_mcq: 18, rel_cq: 46, rel_mcq: 20, ict_mcq: 15, ict_prac: 15, j_sci_cq: 38, j_sci_mcq: 18, j_bgs_cq: 42, j_bgs_mcq: 17 },
-    { roll: 6, studentId: "C8-06", name: "Sadia Islam", phone: "01711000006", examTerm: "Annual Exam", b1_cq: 55, b1_mcq: 26, b2_cq: 27, b2_mcq: 18, e1: 75, e2: 40, m_cq: 58, m_mcq: 26, rel_cq: 62, rel_mcq: 27, ict_mcq: 21, ict_prac: 21, j_sci_cq: 56, j_sci_mcq: 25, j_bgs_cq: 58, j_bgs_mcq: 24 },
-    { roll: 7, studentId: "C8-07", name: "Mehedi Hasan", phone: "01711000007", examTerm: "Annual Exam", b1_cq: 35, b1_mcq: 18, b2_cq: 15, b2_mcq: 12, e1: 45, e2: 25, m_cq: 35, m_mcq: 15, rel_cq: 42, rel_mcq: 18, ict_mcq: 14, ict_prac: 13, j_sci_cq: 32, j_sci_mcq: 16, j_bgs_cq: 36, j_bgs_mcq: 15 },
-    { roll: 8, studentId: "C8-08", name: "Ayesha Siddiqua", phone: "01711000008", examTerm: "Annual Exam", b1_cq: 59, b1_mcq: 27, b2_cq: 28, b2_mcq: 18, e1: 82, e2: 44, m_cq: 64, m_mcq: 28, rel_cq: 65, rel_mcq: 28, ict_mcq: 23, ict_prac: 22, j_sci_cq: 60, j_sci_mcq: 27, j_bgs_cq: 60, j_bgs_mcq: 26 },
-    { roll: 9, studentId: "C8-09", name: "Rakibul Islam", phone: "01711000009", examTerm: "Annual Exam", b1_cq: 46, b1_mcq: 23, b2_cq: 21, b2_mcq: 15, e1: 62, e2: 34, m_cq: 49, m_mcq: 21, rel_cq: 53, rel_mcq: 23, ict_mcq: 18, ict_prac: 17, j_sci_cq: 48, j_sci_mcq: 20, j_bgs_cq: 50, j_bgs_mcq: 19 },
-    { roll: 10, studentId: "C8-10", name: "Tasnim Anjum", phone: "01711000010", examTerm: "Annual Exam", b1_cq: 52, b1_mcq: 25, b2_cq: 25, b2_mcq: 17, e1: 70, e2: 38, m_cq: 55, m_mcq: 24, rel_cq: 60, rel_mcq: 26, ict_mcq: 20, ict_prac: 20, j_sci_cq: 54, j_sci_mcq: 24, j_bgs_cq: 55, j_bgs_mcq: 23 },
-    { roll: 11, studentId: "C8-11", name: "Nahid Parvez", phone: "01711000011", examTerm: "Annual Exam", b1_cq: 32, b1_mcq: 16, b2_cq: 12, b2_mcq: 10, e1: 40, e2: 22, m_cq: 30, m_mcq: 14, rel_cq: 38, rel_mcq: 16, ict_mcq: 12, ict_prac: 12, j_sci_cq: 28, j_sci_mcq: 14, j_bgs_cq: 32, j_bgs_mcq: 13 },
-    { roll: 12, studentId: "C8-12", name: "Sumaiya Akter", phone: "01711000012", examTerm: "Annual Exam", b1_cq: 56, b1_mcq: 27, b2_cq: 27, b2_mcq: 18, e1: 78, e2: 41, m_cq: 60, m_mcq: 27, rel_cq: 63, rel_mcq: 28, ict_mcq: 22, ict_prac: 21, j_sci_cq: 57, j_sci_mcq: 26, j_bgs_cq: 58, j_bgs_mcq: 25 },
-    { roll: 13, studentId: "C8-13", name: "Mahfuzur Rahman", phone: "01711000013", examTerm: "Annual Exam", b1_cq: 44, b1_mcq: 21, b2_cq: 19, b2_mcq: 14, e1: 60, e2: 33, m_cq: 47, m_mcq: 19, rel_cq: 50, rel_mcq: 21, ict_mcq: 16, ict_prac: 16, j_sci_cq: 45, j_sci_mcq: 19, j_bgs_cq: 46, j_bgs_mcq: 18 },
-    { roll: 14, studentId: "C8-14", name: "Farhana Yeasmin", phone: "01711000014", examTerm: "Annual Exam", b1_cq: 50, b1_mcq: 24, b2_cq: 24, b2_mcq: 16, e1: 68, e2: 37, m_cq: 53, m_mcq: 23, rel_cq: 58, rel_mcq: 25, ict_mcq: 19, ict_prac: 19, j_sci_cq: 52, j_sci_mcq: 23, j_bgs_cq: 54, j_bgs_mcq: 22 },
-    { roll: 15, studentId: "C8-15", name: "Arif Chowdhury", phone: "01711000015", examTerm: "Annual Exam", b1_cq: 20, b1_mcq: 10, b2_cq: 10, b2_mcq: 8, e1: 30, e2: 15, m_cq: 18, m_mcq: 8, rel_cq: 30, rel_mcq: 12, ict_mcq: 7, ict_prac: 9, j_sci_cq: 20, j_sci_mcq: 9, j_bgs_cq: 22, j_bgs_mcq: 10 }
-  ];
-
-  const defaultSeniorSample = [
-    { roll: 1, studentId: "SSC-01", name: "Abrar Fahim", phone: "01711000016", examTerm: "Annual Exam", group: "Science", b1_cq: 60, b1_mcq: 27, b2_cq: 62, b2_mcq: 28, e1: 82, e2: 85, m_cq: 65, m_mcq: 28, rel_cq: 64, rel_mcq: 27, ict_mcq: 23, ict_prac: 24, s_core_name: "Bangladesh & Global Studies (BGS)", s_core_cq: 62, s_core_mcq: 26, g1_name: "Physics", g1_cq: 45, g1_mcq: 24, g1_prac: 24, g2_name: "Chemistry", g2_cq: 46, g2_mcq: 23, g2_prac: 25, g3_name: "Biology", g3_cq: 44, g3_mcq: 24, g3_prac: 24, opt_name: "Higher Mathematics", opt_cq: 48, opt_mcq: 24, opt_prac: 25 },
-    { roll: 2, studentId: "SSC-02", name: "Farzana Yasmin", phone: "01711000017", examTerm: "Annual Exam", group: "Science", b1_cq: 58, b1_mcq: 26, b2_cq: 60, b2_mcq: 26, e1: 79, e2: 81, m_cq: 60, m_mcq: 26, rel_cq: 62, rel_mcq: 26, ict_mcq: 22, ict_prac: 23, s_core_name: "Bangladesh & Global Studies (BGS)", s_core_cq: 59, s_core_mcq: 25, g1_name: "Physics", g1_cq: 42, g1_mcq: 22, g1_prac: 23, g2_name: "Chemistry", g2_cq: 43, g2_mcq: 22, g2_prac: 24, g3_name: "Biology", g3_cq: 42, g3_mcq: 22, g3_prac: 24, opt_name: "Higher Mathematics", opt_cq: 44, opt_mcq: 22, opt_prac: 24 },
-    { roll: 3, studentId: "SSC-03", name: "Mahmud Hasan", phone: "01711000018", examTerm: "Annual Exam", group: "Business Studies", b1_cq: 50, b1_mcq: 23, b2_cq: 54, b2_mcq: 24, e1: 65, e2: 70, m_cq: 52, m_mcq: 22, rel_cq: 58, rel_mcq: 24, ict_mcq: 20, ict_prac: 20, s_core_name: "General Science", s_core_cq: 52, s_core_mcq: 23, g1_name: "Accounting", g1_cq: 58, g1_mcq: 26, g1_prac: 0, g2_name: "Business Entrepreneurship", g2_cq: 55, g2_mcq: 24, g2_prac: 0, g3_name: "Finance & Banking", g3_cq: 56, g3_mcq: 25, g3_prac: 0, opt_name: "Agriculture Studies", opt_cq: 42, opt_mcq: 21, opt_prac: 23 },
-    { roll: 4, studentId: "SSC-04", name: "Shamima Akter", phone: "01711000019", examTerm: "Annual Exam", group: "Humanities", b1_cq: 52, b1_mcq: 24, b2_cq: 56, b2_mcq: 25, e1: 68, e2: 72, m_cq: 48, m_mcq: 20, rel_cq: 60, rel_mcq: 25, ict_mcq: 21, ict_prac: 21, s_core_name: "General Science", s_core_cq: 50, s_core_mcq: 22, g1_name: "Geography & Environment", g1_cq: 54, g1_mcq: 24, g1_prac: 0, g2_name: "History of BD & World Civ.", g2_cq: 56, g2_mcq: 25, g2_prac: 0, g3_name: "Civics & Citizenship", g3_cq: 55, g3_mcq: 24, g3_prac: 0, opt_name: "Economics", opt_cq: 52, opt_mcq: 23, opt_prac: 0 }
-  ];
-
-  let unifiedDatabase = JSON.parse(localStorage.getItem('unified_result_db_newcastle_v6') || 'null');
-  if (!unifiedDatabase || unifiedDatabase.length === 0) {
-    unifiedDatabase = [
-      ...defaultJuniorSample.map(d => calculateStudent(d, 'Class 8', 'Annual Exam')),
-      ...defaultSeniorSample.map(d => calculateStudent(d, 'Class 9', 'Annual Exam'))
-    ];
-    saveDB();
-  }
+  // Pure Empty State Database (No Mock / Demo Data)
+  let unifiedDatabase = JSON.parse(localStorage.getItem('unified_result_db_clean') || '[]');
 
   function saveDB() {
     unifiedDatabase.sort((a, b) => {
@@ -934,7 +897,7 @@
       if (b.gpa !== a.gpa) return b.gpa - a.gpa;
       return b.grandTotal - a.grandTotal;
     });
-    localStorage.setItem('unified_result_db_newcastle_v6', JSON.stringify(unifiedDatabase));
+    localStorage.setItem('unified_result_db_clean', JSON.stringify(unifiedDatabase));
   }
 
   function onClassSwitched(cls) {
@@ -1111,7 +1074,15 @@
     }
 
     const newRecord = calculateStudent(raw, activeClass, chosenTerm);
-    unifiedDatabase.push(newRecord);
+    
+    // Check if duplicate roll exists in this class & term -> update it, else add
+    const existingIdx = unifiedDatabase.findIndex(s => s.studentClass === activeClass && s.examTerm === chosenTerm && s.roll === newRecord.roll);
+    if (existingIdx >= 0) {
+      unifiedDatabase[existingIdx] = newRecord;
+    } else {
+      unifiedDatabase.push(newRecord);
+    }
+
     saveDB();
     saveToGoogleDrive(newRecord);
     renderMasterTable();
@@ -1125,19 +1096,6 @@
       unifiedDatabase = unifiedDatabase.filter(s => s.id !== id);
       saveDB();
       deleteFromGoogleDrive(id);
-      renderMasterTable();
-    }
-  }
-
-  function resetClassSampleData() {
-    if (confirm(`Reset ${activeClass} (${activeExamTerm}) to default template demo students?`)) {
-      const senior = isSeniorClass(activeClass);
-      unifiedDatabase = unifiedDatabase.filter(s => !(s.studentClass === activeClass && s.examTerm === activeExamTerm));
-      const sample = senior ? defaultSeniorSample : defaultJuniorSample;
-      sample.forEach(d => {
-        unifiedDatabase.push(calculateStudent(d, activeClass, activeExamTerm));
-      });
-      saveDB();
       renderMasterTable();
     }
   }
@@ -1240,7 +1198,7 @@
 
     const cols = senior ? 24 : 20;
     if (filtered.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="${cols}" style="padding: 20px; color: #94a3b8;">No student records found in ${activeClass} (${activeExamTerm}). Click "Load Default Sample" above to restore data.</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="${cols}" style="padding: 24px; color: #94a3b8; font-size: 13px;">No student records found in ${activeClass} (${activeExamTerm}). Please enter student marks above or click "Sync Google Drive".</td></tr>`;
       return;
     }
 
@@ -1487,6 +1445,7 @@
     document.body.removeChild(link);
   }
 
+  // Initial Boot with Clean Storage
   loadDataFromGoogleDrive();
   onClassSwitched('Class 8');
 </script>
