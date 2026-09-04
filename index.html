@@ -2,8 +2,8 @@
 <html lang="bn">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Newcastle International School - Smart Result Portal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Newcastle International School - Smart Portal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
@@ -11,191 +11,165 @@
     :root {
       --primary: #1e3a8a;
       --primary-dark: #0f172a;
-      --primary-light: #3b82f6;
+      --primary-light: #2563eb;
       --accent: #f59e0b;
-      --accent-hover: #d97706;
-      --bg: #f8fafc;
-      --card: #ffffff;
+      --bg: #f1f5f9;
+      --surface: #ffffff;
       --text: #0f172a;
       --text-muted: #64748b;
       --border: #e2e8f0;
       --success: #10b981;
       --danger: #ef4444;
       --wa: #25d366;
-      --wa-dark: #1da851;
       --radius: 16px;
-      --shadow-sm: 0 2px 4px rgba(15, 23, 42, 0.04);
-      --shadow-md: 0 10px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
-      --shadow-lg: 0 20px 30px -10px rgba(30, 58, 138, 0.15);
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', 'Hind Siliguri', sans-serif; }
-    body { background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%); color: var(--text); padding: 30px 16px; display: flex; justify-content: center; min-height: 100vh; }
-    .app-container { width: 100%; max-width: 1640px; background: var(--card); border-radius: var(--radius); padding: 36px; box-shadow: var(--shadow-lg); border: 1px solid rgba(255, 255, 255, 0.8); }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', 'Hind Siliguri', sans-serif; -webkit-tap-highlight-color: transparent; }
+    body { background: var(--bg); color: var(--text); padding-bottom: 90px; }
 
-    /* Modern Hero Branding */
-    .brand-hero {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 20px;
-      padding: 24px 32px;
-      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #172554 100%);
-      border-radius: var(--radius);
+    /* Top App Bar */
+    .top-navbar {
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
       color: #ffffff;
-      margin-bottom: 28px;
-      box-shadow: 0 12px 24px -6px rgba(30, 58, 138, 0.3);
-      position: relative;
-      overflow: hidden;
-    }
-    .brand-hero::after {
-      content: "";
-      position: absolute;
-      top: -50%;
-      right: -10%;
-      width: 300px;
-      height: 300px;
-      background: radial-gradient(circle, rgba(245, 158, 11, 0.2) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    .brand-left { display: flex; align-items: center; gap: 20px; }
-    .brand-logo {
-      width: 78px;
-      height: 78px;
-      object-fit: contain;
-      background: #ffffff;
-      border-radius: 14px;
-      padding: 6px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    }
-    .brand-titles h1 { font-size: 26px; font-weight: 800; letter-spacing: 0.5px; margin-bottom: 4px; }
-    .brand-titles .motto { color: #fde68a; font-size: 13.5px; font-weight: 600; font-style: italic; margin-bottom: 4px; }
-    .brand-titles .address { color: #cbd5e1; font-size: 12px; font-weight: 500; display: flex; align-items: center; gap: 4px; }
-    
-    .brand-badges { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
-    .pill-tag { background: rgba(255, 255, 255, 0.12); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.2); padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; color: #fff; }
-
-    /* Control Strip */
-    .control-panel {
-      background: #ffffff;
-      border: 1px solid var(--border);
-      border-radius: 14px;
       padding: 16px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.15);
+    }
+    .navbar-brand { display: flex; align-items: center; gap: 14px; }
+    .nav-logo { width: 46px; height: 46px; object-fit: contain; background: #fff; border-radius: 10px; padding: 4px; }
+    .nav-titles h1 { font-size: 16px; font-weight: 800; line-height: 1.2; }
+    .nav-titles p { font-size: 11px; color: #fde68a; font-weight: 600; }
+
+    .main-wrapper { max-width: 1400px; margin: 0 auto; padding: 16px; }
+
+    /* Filter Pill Strip */
+    .filter-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-bottom: 16px;
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
       display: flex;
       flex-wrap: wrap;
-      justify-content: space-between;
+      gap: 12px;
       align-items: center;
-      gap: 16px;
-      margin-bottom: 26px;
-      box-shadow: var(--shadow-sm);
+      justify-content: space-between;
     }
-    .filters-group { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-    .input-label { font-size: 12.5px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
-    
+    .filter-group { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; width: 100%; }
+    .select-item { flex: 1; min-width: 140px; display: flex; flex-direction: column; gap: 4px; }
+    .select-item label { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; }
     select, input[type="text"], input[type="number"] {
-      padding: 10px 14px;
-      border: 1.5px solid var(--border);
+      width: 100%;
+      padding: 11px 13px;
       border-radius: 10px;
+      border: 1.5px solid var(--border);
       font-size: 13.5px;
       font-weight: 600;
       color: var(--text);
       background: #fff;
-      transition: all 0.2s ease;
       outline: none;
-    }
-    select:focus, input:focus {
-      border-color: var(--primary-light);
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
-    }
-    select { cursor: pointer; }
-
-    .btn-toolbar { display: flex; gap: 10px; }
-    .btn-tool {
-      padding: 10px 16px;
-      border-radius: 10px;
-      font-size: 13px;
-      font-weight: 700;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      border: 1.5px solid var(--border);
-      background: #fff;
-      color: var(--text);
       transition: all 0.2s;
     }
-    .btn-tool:hover { background: #f1f5f9; border-color: #cbd5e1; transform: translateY(-1px); }
-    .btn-tool-sync { background: #eff6ff; color: var(--primary); border-color: #bfdbfe; }
-    .btn-tool-sync:hover { background: #dbeafe; }
+    select:focus, input:focus { border-color: var(--primary-light); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12); }
 
-    /* Dashboard Stats Grid */
-    .dashboard-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-      gap: 16px;
-      margin-bottom: 30px;
-    }
-    .stat-card {
+    /* Bottom App Navigation Bar */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
       background: #ffffff;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-around;
+      padding: 8px 12px 14px 12px;
+      z-index: 500;
+      box-shadow: 0 -4px 16px rgba(0,0,0,0.06);
+    }
+    .nav-btn {
+      background: none;
+      border: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      color: var(--text-muted);
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+      flex: 1;
+      padding: 6px 0;
+      border-radius: 10px;
+      transition: all 0.2s;
+    }
+    .nav-btn .icon { font-size: 18px; }
+    .nav-btn.active { color: var(--primary-light); background: #eff6ff; }
+
+    /* Tab Content Panes */
+    .tab-pane { display: none; }
+    .tab-pane.active { display: block; animation: fadeIn 0.25s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Dashboard Widgets Grid */
+    .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 20px; }
+    @media (min-width: 768px) { .stats-grid { grid-template-columns: repeat(4, 1fr); } }
+    .stat-widget {
+      background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 14px;
-      padding: 16px 20px;
+      padding: 16px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
       position: relative;
-      overflow: hidden;
-      box-shadow: var(--shadow-sm);
-      transition: transform 0.2s, box-shadow 0.2s;
     }
-    .stat-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
-    .stat-card .lbl { font-size: 11.5px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
-    .stat-card .val { font-size: 24px; font-weight: 800; color: var(--text); }
-    .stat-card::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--primary); border-radius: 4px 0 0 4px; }
-    .stat-passed::before { background: var(--success); }
-    .stat-failed::before { background: var(--danger); }
-    .stat-highest::before { background: #0284c7; }
-    .stat-rate::before { background: var(--accent); }
+    .stat-widget .w-lbl { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; }
+    .stat-widget .w-val { font-size: 22px; font-weight: 800; color: var(--text); }
+    .stat-widget::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; border-radius: 10px 0 0 10px; background: var(--primary-light); }
+    .sw-pass::before { background: var(--success); }
+    .sw-fail::before { background: var(--danger); }
+    .sw-high::before { background: #0284c7; }
 
-    /* Entry Form Styling */
-    .card-panel {
-      background: #ffffff;
+    /* Card Panels */
+    .ui-card {
+      background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 24px 28px;
-      margin-bottom: 30px;
-      box-shadow: var(--shadow-sm);
+      border-radius: var(--radius);
+      padding: 20px 16px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
     }
-    .panel-heading {
-      font-size: 15px;
+    .card-title {
+      font-size: 14.5px;
       font-weight: 800;
       color: var(--primary);
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      padding-bottom: 12px;
+      border-bottom: 1.5px solid var(--border);
+      margin-bottom: 16px;
       display: flex;
       align-items: center;
       gap: 8px;
-      margin-bottom: 20px;
-      padding-bottom: 12px;
-      border-bottom: 2px solid #f1f5f9;
     }
 
-    .form-row { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 14px; }
-    .form-col { flex: 1; min-width: 140px; display: flex; flex-direction: column; gap: 5px; }
-    .form-col label { font-size: 12px; font-weight: 700; color: #334155; }
-
-    .sub-section-title {
-      font-size: 12.5px;
+    /* Form Rows */
+    .f-row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; }
+    .f-col { flex: 1; min-width: 130px; display: flex; flex-direction: column; gap: 4px; }
+    .f-col label { font-size: 11.5px; font-weight: 700; color: #334155; }
+    .f-section-title {
+      font-size: 12px;
       font-weight: 700;
       color: var(--primary-light);
-      background: #f8fafc;
-      padding: 8px 12px;
+      background: #eff6ff;
+      padding: 8px 10px;
       border-radius: 8px;
-      border-left: 3px solid var(--primary-light);
-      margin: 18px 0 10px 0;
+      margin: 14px 0 8px 0;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      border-left: 3px solid var(--primary-light);
     }
 
-    .btn-submit-main {
+    .btn-submit-action {
       width: 100%;
       padding: 14px;
       background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
@@ -205,351 +179,345 @@
       font-size: 15px;
       font-weight: 800;
       cursor: pointer;
-      box-shadow: 0 8px 18px -4px rgba(37, 99, 235, 0.4);
-      transition: all 0.2s;
-      margin-top: 15px;
+      box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
+      margin-top: 14px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
     }
-    .btn-submit-main:hover {
-      background: linear-gradient(135deg, #172554 0%, #1d4ed8 100%);
-      transform: translateY(-1px);
-      box-shadow: 0 12px 20px -4px rgba(37, 99, 235, 0.5);
-    }
+    .btn-submit-action:active { transform: scale(0.98); }
 
-    /* Master Table Styling */
-    .table-container {
+    /* Master Table Container with Smooth Scroll */
+    .table-responsive-box {
       width: 100%;
       overflow-x: auto;
-      background: #fff;
+      border-radius: 12px;
       border: 1px solid var(--border);
-      border-radius: 14px;
-      box-shadow: var(--shadow-sm);
+      background: #fff;
     }
-    table.master-table { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 1600px; text-align: center; }
-    table.master-table th, table.master-table td { border: 1px solid #f1f5f9; padding: 10px 8px; white-space: nowrap; }
-    table.master-table thead tr { background: #0f172a; color: #ffffff; font-weight: 700; }
-    table.master-table tbody tr { transition: background 0.15s; }
-    table.master-table tbody tr:hover { background: #f8fafc; }
-    table.master-table tbody tr.first-place { background: #fefce8 !important; font-weight: 700; }
-    
-    .tag-status-pass { background: #dcfce7; color: #166534; padding: 3px 8px; border-radius: 6px; font-weight: 700; font-size: 11px; }
-    .tag-status-fail { background: #fee2e2; color: #991b1b; padding: 3px 8px; border-radius: 6px; font-weight: 700; font-size: 11px; }
+    table.data-table { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 1400px; text-align: center; }
+    table.data-table th, table.data-table td { border: 1px solid #f1f5f9; padding: 10px 8px; white-space: nowrap; }
+    table.data-table thead tr { background: #0f172a; color: #ffffff; font-weight: 700; }
+    table.data-table tbody tr:hover { background: #f8fafc; }
+    table.data-table tbody tr.first-place { background: #fefce8 !important; font-weight: 700; }
+
+    .tag-pass { background: #dcfce7; color: #166534; padding: 3px 8px; border-radius: 6px; font-weight: 700; font-size: 11px; }
+    .tag-fail { background: #fee2e2; color: #991b1b; padding: 3px 8px; border-radius: 6px; font-weight: 700; font-size: 11px; }
     .tag-rank { background: #e0e7ff; color: #3730a3; padding: 3px 8px; border-radius: 6px; font-weight: 800; font-size: 11px; }
 
     /* Action Buttons */
-    .btn-act-card { background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; padding: 5px 8px; border-radius: 6px; font-weight: 700; cursor: pointer; transition: 0.15s; }
-    .btn-act-card:hover { background: #dcfce7; }
-    .btn-act-wa { background: #dcfce7; border: 1px solid #86efac; color: #15803d; padding: 5px 8px; border-radius: 6px; font-weight: 700; cursor: pointer; transition: 0.15s; display: inline-flex; align-items: center; gap: 4px; }
-    .btn-act-wa:hover { background: #bbf7d0; }
-    .btn-act-del { background: #fff1f2; border: 1px solid #fecdd3; color: #be123c; padding: 5px 8px; border-radius: 6px; font-weight: 700; cursor: pointer; transition: 0.15s; }
-    .btn-act-del:hover { background: #ffe4e6; }
+    .btn-act-card { background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; padding: 6px 10px; border-radius: 8px; font-weight: 700; cursor: pointer; }
+    .btn-act-wa { background: #dcfce7; border: 1px solid #86efac; color: #15803d; padding: 6px 10px; border-radius: 8px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; }
+    .btn-act-del { background: #fff1f2; border: 1px solid #fecdd3; color: #be123c; padding: 6px 10px; border-radius: 8px; font-weight: 700; cursor: pointer; }
 
-    /* Modal / Report Card Overlay */
-    .modal-backdrop { display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(4px); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
-    .transcript-box { background: #ffffff; width: 100%; max-width: 860px; border-radius: 16px; padding: 32px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); max-height: 92vh; overflow-y: auto; }
-    
-    .print-header { display: none; }
+    /* Modal / Individual Transcript Card */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(4px); z-index: 1000; justify-content: center; align-items: center; padding: 14px; }
+    .transcript-sheet { background: #ffffff; width: 100%; max-width: 860px; border-radius: var(--radius); padding: 24px 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.25); max-height: 92vh; overflow-y: auto; }
 
     @media print {
       body { background: #ffffff !important; padding: 0 !important; }
-      body.printing-individual .app-container { display: none !important; }
-      body.printing-individual .modal-backdrop { display: block !important; position: static !important; background: transparent !important; padding: 0 !important; }
-      body.printing-individual .transcript-box { box-shadow: none !important; max-width: 100% !important; padding: 0 !important; border: none !important; }
+      body.printing-individual .main-wrapper, body.printing-individual .top-navbar, body.printing-individual .bottom-nav { display: none !important; }
+      body.printing-individual .modal-overlay { display: block !important; position: static !important; background: transparent !important; padding: 0 !important; }
+      body.printing-individual .transcript-sheet { box-shadow: none !important; max-width: 100% !important; padding: 0 !important; border: none !important; }
       body.printing-individual .no-print { display: none !important; }
 
-      body.printing-master .modal-backdrop { display: none !important; }
-      body.printing-master .app-container { box-shadow: none !important; max-width: 100% !important; padding: 0 !important; border: none !important; }
-      body.printing-master form,
-      body.printing-master .control-panel,
-      body.printing-master .dashboard-grid,
-      body.printing-master .brand-hero,
+      body.printing-master .modal-overlay, body.printing-master .top-navbar, body.printing-master .bottom-nav { display: none !important; }
+      body.printing-master .tab-pane { display: none !important; }
+      body.printing-master #paneTabulation { display: block !important; }
       body.printing-master .no-print { display: none !important; }
-      body.printing-master .print-header { display: flex !important; align-items: center; justify-content: center; gap: 14px; margin-bottom: 12px; border-bottom: 2px solid #0f172a; padding-bottom: 8px; }
-      body.printing-master table.master-table { font-size: 7.5pt !important; min-width: 100% !important; width: 100% !important; }
-      body.printing-master table.master-table th, body.printing-master table.master-table td { padding: 3px 2px !important; border: 1px solid #0f172a !important; }
+      body.printing-master table.data-table { font-size: 7.2pt !important; min-width: 100% !important; width: 100% !important; }
+      body.printing-master table.data-table th, body.printing-master table.data-table td { padding: 2px 2px !important; border: 1px solid #0f172a !important; }
     }
   </style>
 </head>
 <body>
 
-<div class="app-container">
-  <!-- Gorgeous Hero Branding Banner -->
-  <div class="brand-hero">
-    <div class="brand-left">
-      <img src="1000040018.png" alt="Logo" class="brand-logo" onerror="this.style.display='none'">
-      <div class="brand-titles">
-        <h1>NEWCASTLE INTERNATIONAL SCHOOL</h1>
-        <div class="motto">"A House of Creative Education"</div>
-        <div class="address">📍 Japani bazar, Zia soroni, Soniakra, Dhaka-1236, Bangladesh</div>
-      </div>
-    </div>
-    <div class="brand-badges">
-      <span class="pill-tag">🎓 Academic Year 2026</span>
-      <span class="pill-tag" style="background: rgba(245, 158, 11, 0.25); border-color: rgba(245, 158, 11, 0.4); color: #fef08a;">Smart Result Portal</span>
+<!-- Header Navbar -->
+<div class="top-navbar">
+  <div class="navbar-brand">
+    <img src="1000040018.jpg" alt="Logo" class="nav-logo" onerror="this.style.display='none'">
+    <div class="nav-titles">
+      <h1>NEWCASTLE INTERNATIONAL SCHOOL</h1>
+      <p>"A House of Creative Education" | Session 2026</p>
     </div>
   </div>
+</div>
 
-  <!-- Interactive Control Strip -->
-  <div class="control-panel">
-    <div class="filters-group">
-      <span class="input-label">Select Class:</span>
-      <select id="classSelect" onchange="onClassSwitched(this.value)">
-        <option value="Class 6">Class 6 (Junior 750)</option>
-        <option value="Class 7">Class 7 (Junior 750)</option>
-        <option value="Class 8">Class 8 (Junior 750)</option>
-        <option value="Class 9">Class 9 (SSC Curriculum)</option>
-        <option value="Class 10">Class 10 (SSC Curriculum)</option>
-        <option value="Class Std-6">Standrad 6 (Junior 750)</option>
-        <option value="Class Std-7">Standrad 7 (Junior 750)</option>
-        <option value="Class Std-8">Standrad 8 (Junior 750)</option>
-        <option value="Class Std-9">Standrad 9 (SSC Curriculum)</option>
-        <option value="Class std-10">Standrad 10 (SSC Curriculum)</option>
-      </select>
+<div class="main-wrapper">
+  <!-- Class & Term Selector Strip -->
+  <div class="filter-card no-print">
+    <div class="filter-group">
+      <div class="select-item">
+        <label>Academic Class</label>
+        <select id="classSelect" onchange="onClassSwitched(this.value)">
+          <option value="Class 6">Class 6 </option>
+          <option value="Class 7">Class 7 </option>
+          <option value="Class 8">Class 8 </option>
+          <option value="Class 9">Class 9 </option>
+          <option value="Class 10">Class 10 </option>
+          <option value="Class Std-6">Std-6 </option>
+          <option value="Class Std-7">Std-7 </option>
+          <option value="Class Std-8">Std-8 </option>
+          <option value="Class Std-9">Std-9 </option>
+          <option value="Class Std-10">Std-10 </option>
+        </select>
+      </div>
 
-      <span class="input-label" style="margin-left: 8px;">Exam Term:</span>
-      <select id="examTermSelect" onchange="onExamTermChanged(this.value)">
-        <option value="1st Semester">1st Semester Examination</option>
-        <option value="2nd Semester">2nd Semester Examination</option>
-        <option value="Annual Exam" selected>Annual Examination</option>
-      </select>
+      <div class="select-item">
+        <label>Examination Term</label>
+        <select id="examTermSelect" onchange="onExamTermChanged(this.value)">
+          <option value="1st Semester">1st Semester Exam</option>
+          <option value="2nd Semester">2nd Semester Exam</option>
+          <option value="Annual Exam" selected>Annual Exam</option>
+        </select>
+      </div>
 
-      <span id="groupFilterWrapper" style="display: none; align-items: center; gap: 8px; margin-left: 8px;">
-        <span class="input-label">Group:</span>
+      <div class="select-item" id="groupFilterWrapper" style="display: none;">
+        <label>Group Filter</label>
         <select id="groupFilter" onchange="renderMasterTable()">
           <option value="ALL">All Groups</option>
           <option value="Science">Science</option>
           <option value="Business Studies">Business Studies</option>
           <option value="Humanities">Humanities</option>
         </select>
-      </span>
-    </div>
-
-    <div class="btn-toolbar">
-      <button class="btn-tool btn-tool-sync" onclick="loadDataFromGoogleDrive()">☁️ Sync Google Drive</button>
-      <button class="btn-tool" onclick="exportCSV()">📥 Export Excel (CSV)</button>
-      <button class="btn-tool" onclick="printMasterA4()">🖨️ Print Tabulation</button>
+      </div>
     </div>
   </div>
 
-  <!-- Stats Dashboard -->
-  <div class="dashboard-grid">
-    <div class="stat-card"><div class="lbl">Class & Exam</div><div class="val" id="dashClass" style="font-size: 18px; color: var(--primary);">Class 8</div></div>
-    <div class="stat-card stat-highest"><div class="lbl">Highest Mark</div><div class="val" id="dashHighest" style="color: #0284c7;">0</div></div>
-    <div class="stat-card"><div class="lbl">Total Students</div><div class="val" id="dashTotal">0</div></div>
-    <div class="stat-card stat-passed"><div class="lbl">Passed</div><div class="val" id="dashPassed" style="color: var(--success);">0</div></div>
-    <div class="stat-card stat-failed"><div class="lbl">Failed</div><div class="val" id="dashFailed" style="color: var(--danger);">0</div></div>
-    <div class="stat-card stat-rate"><div class="lbl">Pass Rate</div><div class="val" id="dashRate" style="color: var(--accent);">0%</div></div>
-    <div class="stat-card"><div class="lbl">Average GPA</div><div class="val" id="dashAvgGpa">0.00</div></div>
+  <!-- TAB 1: DASHBOARD -->
+  <div class="tab-pane active" id="paneDashboard">
+    <div class="stats-grid">
+      <div class="stat-widget"><div class="w-lbl">Class & Term</div><div class="w-val" id="dashClass" style="font-size: 16px; color: var(--primary);">Class 8</div></div>
+      <div class="stat-widget sw-high"><div class="w-lbl">Highest Mark</div><div class="w-val" id="dashHighest" style="color: #0284c7;">0</div></div>
+      <div class="stat-widget"><div class="w-lbl">Total Students</div><div class="w-val" id="dashTotal">0</div></div>
+      <div class="stat-widget sw-pass"><div class="w-lbl">Passed</div><div class="w-val" id="dashPassed" style="color: var(--success);">0</div></div>
+      <div class="stat-widget sw-fail"><div class="w-lbl">Failed</div><div class="w-val" id="dashFailed" style="color: var(--danger);">0</div></div>
+      <div class="stat-widget"><div class="w-lbl">Pass Rate</div><div class="w-val" id="dashRate" style="color: var(--accent);">0%</div></div>
+      <div class="stat-widget"><div class="w-lbl">Average GPA</div><div class="w-val" id="dashAvgGpa">0.00</div></div>
+      <div class="stat-widget" style="display: flex; align-items: center; justify-content: center;">
+        <button onclick="loadDataFromGoogleDrive()" style="background:#eff6ff; border:1px solid #bfdbfe; color:var(--primary); font-weight:700; padding:10px; border-radius:10px; width:100%; cursor:pointer;">☁️ Sync Drive</button>
+      </div>
+    </div>
   </div>
 
-  <!-- Marks Entry Card -->
-  <div class="card-panel">
-    <div class="panel-heading">📝 Student Marks Entry & Auto-Calculation Form</div>
-    <form id="marksForm" onsubmit="handleFormSubmit(event)">
-      <div class="form-row">
-        <div class="form-col" style="flex: 2;">
-          <label>Student Full Name</label>
-          <input type="text" id="name" placeholder="e.g. Abdullah Al Mamun" required>
-        </div>
-        <div class="form-col">
-          <label>Class Roll</label>
-          <input type="number" id="roll" placeholder="Roll Number" required>
-        </div>
-        <div class="form-col">
-          <label>Student ID</label>
-          <input type="text" id="studentId" placeholder="e.g. C8-01 / SSC-01" required>
-        </div>
-        <div class="form-col" style="flex: 1.2;">
-          <label>WhatsApp Number</label>
-          <input type="text" id="phone" placeholder="017xxxxxxxx">
-        </div>
-        <div class="form-col" style="flex: 1.2;">
-          <label>Exam Session</label>
-          <select id="formExamTerm">
-            <option value="1st Semester">1st Semester Exam</option>
-            <option value="2nd Semester">2nd Semester Exam</option>
-            <option value="Annual Exam" selected>Annual Exam</option>
-          </select>
-        </div>
-        <div class="form-col" id="grpInputWrapper" style="display: none; flex: 1.5;">
-          <label>Academic Stream</label>
-          <select id="streamSelect" onchange="onStreamChanged()">
-            <option value="Science">Science (বিজ্ঞান বিভাগ)</option>
-            <option value="Business Studies">Business Studies (ব্যবসায় শিক্ষা)</option>
-            <option value="Humanities">Humanities (মানবিক বিভাগ)</option>
-          </select>
-        </div>
-      </div>
-
-      <!-- Bangla Section -->
-      <div class="sub-section-title" id="banTitle">1. Bangla 1st Paper & Bangla 2nd Paper</div>
-      <div class="form-row">
-        <div class="form-col"><label id="lbl_b1_cq">Bangla 1st CQ (70)</label><input type="number" id="b1_cq" min="0" max="70" required></div>
-        <div class="form-col"><label id="lbl_b1_mcq">Bangla 1st MCQ (30)</label><input type="number" id="b1_mcq" min="0" max="30" required></div>
-        <div class="form-col"><label id="lbl_b2_cq">Bangla 2nd CQ (35)</label><input type="number" id="b2_cq" min="0" max="70" required></div>
-        <div class="form-col"><label id="lbl_b2_mcq">Bangla 2nd MCQ (15)</label><input type="number" id="b2_mcq" min="0" max="30" required></div>
-      </div>
-
-      <!-- English Section -->
-      <div class="sub-section-title" id="engTitle">2. English 1st Paper & English 2nd Paper</div>
-      <div class="form-row">
-        <div class="form-col"><label id="lbl_e1">English 1st (100)</label><input type="number" id="e1" min="0" max="100" required></div>
-        <div class="form-col"><label id="lbl_e2">English 2nd (50)</label><input type="number" id="e2" min="0" max="100" required></div>
-      </div>
-
-      <!-- Math Section -->
-      <div class="sub-section-title">3. Mathematics (100) | Pass Rule: CQ ≥ 23, MCQ ≥ 10</div>
-      <div class="form-row">
-        <div class="form-col"><label>Math CQ (70)</label><input type="number" id="m_cq" min="0" max="70" required></div>
-        <div class="form-col"><label>Math MCQ (30)</label><input type="number" id="m_mcq" min="0" max="30" required></div>
-      </div>
-
-      <!-- Religion Section -->
-      <div class="sub-section-title">4. Religion & Moral Education (100) | Pass Rule: CQ ≥ 23, MCQ ≥ 10</div>
-      <div class="form-row">
-        <div class="form-col"><label>Religion CQ (70)</label><input type="number" id="rel_cq" min="0" max="70" required></div>
-        <div class="form-col"><label>Religion MCQ (30)</label><input type="number" id="rel_mcq" min="0" max="30" required></div>
-      </div>
-
-      <!-- ICT Section -->
-      <div class="sub-section-title">5. Information & Communication Technology - ICT (50) | MCQ ≥ 8, Prac ≥ 8, Tot ≥ 17</div>
-      <div class="form-row">
-        <div class="form-col"><label>ICT MCQ (25)</label><input type="number" id="ict_mcq" min="0" max="25" required></div>
-        <div class="form-col"><label>ICT Practical (25)</label><input type="number" id="ict_prac" min="0" max="25" required></div>
-      </div>
-
-      <!-- Junior Science & BGS -->
-      <div id="juniorExtras">
-        <div class="sub-section-title">6. General Science (100) & 7. Bangladesh & Global Studies (100)</div>
-        <div class="form-row">
-          <div class="form-col"><label>Science CQ (70)</label><input type="number" id="j_sci_cq" min="0" max="70"></div>
-          <div class="form-col"><label>Science MCQ (30)</label><input type="number" id="j_sci_mcq" min="0" max="30"></div>
-          <div class="form-col"><label>BGS CQ (70)</label><input type="number" id="j_bgs_cq" min="0" max="70"></div>
-          <div class="form-col"><label>BGS MCQ (30)</label><input type="number" id="j_bgs_mcq" min="0" max="30"></div>
-        </div>
-      </div>
-
-      <!-- Senior Group Subjects -->
-      <div id="seniorExtras" style="display: none;">
-        <div class="sub-section-title">6. Group Core: BGS / General Science (100)</div>
-        <div class="form-row">
-          <div class="form-col" style="flex: 2;"><label>Subject Name</label><input type="text" id="s_core_name" readonly style="background:#f1f5f9;"></div>
-          <div class="form-col"><label>CQ (70)</label><input type="number" id="s_core_cq" min="0" max="70"></div>
-          <div class="form-col"><label>MCQ (30)</label><input type="number" id="s_core_mcq" min="0" max="30"></div>
-        </div>
-
-        <div class="sub-section-title">7. Group Major Subjects (100 each)</div>
-        <div class="form-row">
-          <div class="form-col" style="flex: 2;"><label>Major 1</label><input type="text" id="g1_name" readonly style="background:#f1f5f9;"></div>
-          <div class="form-col"><label id="lbl_g1_cq">CQ</label><input type="number" id="g1_cq" min="0" max="70"></div>
-          <div class="form-col"><label id="lbl_g1_mcq">MCQ</label><input type="number" id="g1_mcq" min="0" max="30"></div>
-          <div class="form-col" id="box_g1_prac"><label>Prac (25)</label><input type="number" id="g1_prac" min="0" max="25" value="0"></div>
-        </div>
-        <div class="form-row">
-          <div class="form-col" style="flex: 2;"><label>Major 2</label><input type="text" id="g2_name" readonly style="background:#f1f5f9;"></div>
-          <div class="form-col"><label id="lbl_g2_cq">CQ</label><input type="number" id="g2_cq" min="0" max="70"></div>
-          <div class="form-col"><label id="lbl_g2_mcq">MCQ</label><input type="number" id="g2_mcq" min="0" max="30"></div>
-          <div class="form-col" id="box_g2_prac"><label>Prac (25)</label><input type="number" id="g2_prac" min="0" max="25" value="0"></div>
-        </div>
-        <div class="form-row">
-          <div class="form-col" style="flex: 2;"><label>Major 3</label><input type="text" id="g3_name" readonly style="background:#f1f5f9;"></div>
-          <div class="form-col"><label id="lbl_g3_cq">CQ</label><input type="number" id="g3_cq" min="0" max="70"></div>
-          <div class="form-col"><label id="lbl_g3_mcq">MCQ</label><input type="number" id="g3_mcq" min="0" max="30"></div>
-          <div class="form-col" id="box_g3_prac"><label>Prac (25)</label><input type="number" id="g3_prac" min="0" max="25" value="0"></div>
-        </div>
-
-        <div class="sub-section-title">8. 4th Optional Subject (100) | GP > 2.00 is Bonus Points</div>
-        <div class="form-row">
-          <div class="form-col" style="flex: 2;">
-            <label>Optional Subject</label>
-            <select id="opt_name" onchange="adjustSeniorPracticalFields()">
-              <option value="Higher Mathematics">Higher Mathematics (Practical)</option>
-              <option value="Agriculture Studies">Agriculture Studies (Practical)</option>
-              <option value="Home Science">Home Science (Practical)</option>
-              <option value="Economics">Economics</option>
+  <!-- TAB 2: MARKS ENTRY FORM -->
+  <div class="tab-pane" id="paneEntry">
+    <div class="ui-card">
+      <div class="card-title">📝 Student Marks Entry Form</div>
+      <form id="marksForm" onsubmit="handleFormSubmit(event)">
+        <div class="f-row">
+          <div class="f-col" style="flex: 2;">
+            <label>Student Full Name</label>
+            <input type="text" id="name" placeholder="Student Name" required>
+          </div>
+          <div class="f-col">
+            <label>Class Roll</label>
+            <input type="number" id="roll" placeholder="Roll" required>
+          </div>
+          <div class="f-col">
+            <label>Student ID</label>
+            <input type="text" id="studentId" placeholder="e.g. C8-01" required>
+          </div>
+          <div class="f-col" style="flex: 1.2;">
+            <label>WhatsApp Number</label>
+            <input type="text" id="phone" placeholder="017xxxxxxxx">
+          </div>
+          <div class="f-col" style="flex: 1.2;">
+            <label>Exam Session</label>
+            <select id="formExamTerm">
+              <option value="1st Semester">1st Semester</option>
+              <option value="2nd Semester">2nd Semester</option>
+              <option value="Annual Exam" selected>Annual Exam</option>
             </select>
           </div>
-          <div class="form-col"><label id="lbl_opt_cq">CQ</label><input type="number" id="opt_cq" min="0" max="70"></div>
-          <div class="form-col"><label id="lbl_opt_mcq">MCQ</label><input type="number" id="opt_mcq" min="0" max="30"></div>
-          <div class="form-col" id="box_opt_prac"><label>Prac (25)</label><input type="number" id="opt_prac" min="0" max="25" value="0"></div>
+          <div class="f-col" id="grpInputWrapper" style="display: none; flex: 1.5;">
+            <label>Academic Group</label>
+            <select id="streamSelect" onchange="onStreamChanged()">
+              <option value="Science">Science (বিজ্ঞান)</option>
+              <option value="Business Studies">Business Studies (ব্যবসায়)</option>
+              <option value="Humanities">Humanities (মানবিক)</option>
+            </select>
+          </div>
         </div>
-      </div>
 
-      <button type="submit" class="btn-submit-main">💾 Calculate & Save Student Result</button>
-    </form>
-  </div>
+        <!-- Bangla -->
+        <div class="f-section-title" id="banTitle">1. Bangla 1st & 2nd Paper</div>
+        <div class="f-row">
+          <div class="f-col"><label id="lbl_b1_cq">Ban 1st CQ (70)</label><input type="number" id="b1_cq" min="0" max="70" required></div>
+          <div class="f-col"><label id="lbl_b1_mcq">Ban 1st MCQ (30)</label><input type="number" id="b1_mcq" min="0" max="30" required></div>
+          <div class="f-col"><label id="lbl_b2_cq">Ban 2nd CQ (35)</label><input type="number" id="b2_cq" min="0" max="70" required></div>
+          <div class="f-col"><label id="lbl_b2_mcq">Ban 2nd MCQ (15)</label><input type="number" id="b2_mcq" min="0" max="30" required></div>
+        </div>
 
-  <!-- Search Bar -->
-  <input type="text" id="searchBox" class="search-box" style="width: 100%; padding: 12px 18px; border-radius: 12px; border: 1.5px solid var(--border); margin-bottom: 18px; font-size: 14px;" placeholder="🔍 Search students by Name, Roll, ID or Group..." oninput="renderMasterTable()">
+        <!-- English -->
+        <div class="f-section-title" id="engTitle">2. English 1st & 2nd Paper</div>
+        <div class="f-row">
+          <div class="f-col"><label id="lbl_e1">English 1st (100)</label><input type="number" id="e1" min="0" max="100" required></div>
+          <div class="f-col"><label id="lbl_e2">English 2nd (50)</label><input type="number" id="e2" min="0" max="100" required></div>
+        </div>
 
-  <!-- Print Header for Master Tabulation -->
-  <div class="print-header">
-    <img src="1000040018.jpg" alt="Logo" style="width: 60px; height: 60px; object-fit: contain;">
-    <div style="text-align: center;">
-      <h2 style="font-size: 14pt; margin-bottom: 2px; color: var(--primary-dark);">NEWCASTLE INTERNATIONAL SCHOOL</h2>
-      <p style="font-size: 8.5pt; color: #b45309; font-style: italic; margin-bottom: 2px;">"A House of Creative Education"</p>
-      <p style="font-size: 8pt; color: #475569;" id="printHeaderSubtitle">Master Tabulation & Merit Sheet - Session 2026</p>
+        <!-- Math -->
+        <div class="f-section-title">3. Mathematics (100) | Pass: CQ ≥ 23, MCQ ≥ 10</div>
+        <div class="f-row">
+          <div class="f-col"><label>Math CQ (70)</label><input type="number" id="m_cq" min="0" max="70" required></div>
+          <div class="f-col"><label>Math MCQ (30)</label><input type="number" id="m_mcq" min="0" max="30" required></div>
+        </div>
+
+        <!-- Religion -->
+        <div class="f-section-title">4. Religion & Moral Edu (100) | Pass: CQ ≥ 23, MCQ ≥ 10</div>
+        <div class="f-row">
+          <div class="f-col"><label>Religion CQ (70)</label><input type="number" id="rel_cq" min="0" max="70" required></div>
+          <div class="f-col"><label>Religion MCQ (30)</label><input type="number" id="rel_mcq" min="0" max="30" required></div>
+        </div>
+
+        <!-- ICT -->
+        <div class="f-section-title">5. ICT (50) | MCQ ≥ 8, Prac ≥ 8, Tot ≥ 17</div>
+        <div class="f-row">
+          <div class="f-col"><label>ICT MCQ (25)</label><input type="number" id="ict_mcq" min="0" max="25" required></div>
+          <div class="f-col"><label>ICT Practical (25)</label><input type="number" id="ict_prac" min="0" max="25" required></div>
+        </div>
+
+        <!-- Junior Science & BGS -->
+        <div id="juniorExtras">
+          <div class="f-section-title">6. General Science (100) & 7. BGS (100)</div>
+          <div class="f-row">
+            <div class="f-col"><label>Science CQ (70)</label><input type="number" id="j_sci_cq" min="0" max="70"></div>
+            <div class="f-col"><label>Science MCQ (30)</label><input type="number" id="j_sci_mcq" min="0" max="30"></div>
+            <div class="f-col"><label>BGS CQ (70)</label><input type="number" id="j_bgs_cq" min="0" max="70"></div>
+            <div class="f-col"><label>BGS MCQ (30)</label><input type="number" id="j_bgs_mcq" min="0" max="30"></div>
+          </div>
+        </div>
+
+        <!-- Senior Subjects -->
+        <div id="seniorExtras" style="display: none;">
+          <div class="f-section-title">6. Group Core: BGS / General Science (100)</div>
+          <div class="f-row">
+            <div class="f-col" style="flex: 2;"><label>Subject Name</label><input type="text" id="s_core_name" readonly style="background:#f1f5f9;"></div>
+            <div class="f-col"><label>CQ (70)</label><input type="number" id="s_core_cq" min="0" max="70"></div>
+            <div class="f-col"><label>MCQ (30)</label><input type="number" id="s_core_mcq" min="0" max="30"></div>
+          </div>
+
+          <div class="f-section-title">7. Group Major Subjects (100 each)</div>
+          <div class="f-row">
+            <div class="f-col" style="flex: 2;"><label>Major 1</label><input type="text" id="g1_name" readonly style="background:#f1f5f9;"></div>
+            <div class="f-col"><label id="lbl_g1_cq">CQ</label><input type="number" id="g1_cq" min="0" max="70"></div>
+            <div class="f-col"><label id="lbl_g1_mcq">MCQ</label><input type="number" id="g1_mcq" min="0" max="30"></div>
+            <div class="f-col" id="box_g1_prac"><label>Prac (25)</label><input type="number" id="g1_prac" min="0" max="25" value="0"></div>
+          </div>
+          <div class="f-row">
+            <div class="f-col" style="flex: 2;"><label>Major 2</label><input type="text" id="g2_name" readonly style="background:#f1f5f9;"></div>
+            <div class="f-col"><label id="lbl_g2_cq">CQ</label><input type="number" id="g2_cq" min="0" max="70"></div>
+            <div class="f-col"><label id="lbl_g2_mcq">MCQ</label><input type="number" id="g2_mcq" min="0" max="30"></div>
+            <div class="f-col" id="box_g2_prac"><label>Prac (25)</label><input type="number" id="g2_prac" min="0" max="25" value="0"></div>
+          </div>
+          <div class="f-row">
+            <div class="f-col" style="flex: 2;"><label>Major 3</label><input type="text" id="g3_name" readonly style="background:#f1f5f9;"></div>
+            <div class="f-col"><label id="lbl_g3_cq">CQ</label><input type="number" id="g3_cq" min="0" max="70"></div>
+            <div class="f-col"><label id="lbl_g3_mcq">MCQ</label><input type="number" id="g3_mcq" min="0" max="30"></div>
+            <div class="f-col" id="box_g3_prac"><label>Prac (25)</label><input type="number" id="g3_prac" min="0" max="25" value="0"></div>
+          </div>
+
+          <div class="f-section-title">8. 4th Optional Subject (100) | GP > 2.00 is Bonus</div>
+          <div class="f-row">
+            <div class="f-col" style="flex: 2;">
+              <label>Optional Subject</label>
+              <select id="opt_name" onchange="adjustSeniorPracticalFields()">
+                <option value="Higher Mathematics">Higher Mathematics (Practical)</option>
+                <option value="Agriculture Studies">Agriculture Studies (Practical)</option>
+                <option value="Home Science">Home Science (Practical)</option>
+                <option value="Economics">Economics</option>
+              </select>
+            </div>
+            <div class="f-col"><label id="lbl_opt_cq">CQ</label><input type="number" id="opt_cq" min="0" max="70"></div>
+            <div class="f-col"><label id="lbl_opt_mcq">MCQ</label><input type="number" id="opt_mcq" min="0" max="30"></div>
+            <div class="f-col" id="box_opt_prac"><label>Prac (25)</label><input type="number" id="opt_prac" min="0" max="25" value="0"></div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit-action">💾 Calculate & Save Result</button>
+      </form>
     </div>
   </div>
 
-  <!-- Master Table -->
-  <div class="table-container">
-    <table class="master-table">
-      <thead id="masterTableHead"></thead>
-      <tbody id="masterTableBody"></tbody>
-    </table>
+  <!-- TAB 3: TABULATION SHEET -->
+  <div class="tab-pane" id="paneTabulation">
+    <div class="ui-card">
+      <div class="card-title" style="justify-content: space-between;">
+        <span>📋 Master Tabulation Sheet</span>
+        <div class="no-print" style="display: flex; gap: 8px;">
+          <button onclick="exportCSV()" style="padding:6px 10px; border-radius:8px; border:1px solid var(--border); font-size:11px; font-weight:700; cursor:pointer;">📥 CSV</button>
+          <button onclick="printMasterA4()" style="padding:6px 10px; border-radius:8px; background:#eff6ff; border:1px solid #bfdbfe; color:var(--primary); font-size:11px; font-weight:700; cursor:pointer;">🖨️ Print</button>
+        </div>
+      </div>
+
+      <input type="text" id="searchBox" class="no-print" style="width: 100%; padding: 10px 14px; border-radius: 10px; border: 1.5px solid var(--border); margin-bottom: 12px; font-size: 13px;" placeholder="🔍 Search by Roll, Name or ID..." oninput="renderMasterTable()">
+
+      <div class="table-responsive-box">
+        <table class="data-table">
+          <thead id="masterTableHead"></thead>
+          <tbody id="masterTableBody"></tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </div>
 
+<!-- Bottom Navigation Menu -->
+<div class="bottom-nav no-print">
+  <button class="nav-btn active" onclick="switchTab('paneDashboard', this)">
+    <span class="icon">📊</span>
+    <span>Dashboard</span>
+  </button>
+  <button class="nav-btn" onclick="switchTab('paneEntry', this)">
+    <span class="icon">📝</span>
+    <span>Entry Marks</span>
+  </button>
+  <button class="nav-btn" onclick="switchTab('paneTabulation', this)">
+    <span class="icon">📋</span>
+    <span>Tabulation</span>
+  </button>
+</div>
+
 <!-- Modal: Transcript Report Card -->
-<div class="modal-backdrop" id="transcriptModal">
-  <div class="transcript-box">
-    <div class="brand-hero" style="margin-bottom: 18px; padding: 20px 24px;">
-      <div class="brand-left">
-        <img src="1000040018.jpg" alt="Logo" class="brand-logo" onerror="this.style.display='none'">
-        <div class="brand-titles">
-          <h2 style="font-size: 19px; color: #fff; font-weight: 800;">NEWCASTLE INTERNATIONAL SCHOOL</h2>
-          <div class="motto" style="font-size: 12px;">"A House of Creative Education"</div>
-          <div class="address" style="font-size: 11px;">Japani bazar, Zia soroni, Soniakra, Dhaka-1236, Bangladesh</div>
-        </div>
+<div class="modal-overlay" id="transcriptModal">
+  <div class="transcript-sheet">
+    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--primary); padding-bottom: 12px; margin-bottom: 14px;">
+      <div>
+        <h2 style="font-size: 18px; color: var(--primary); font-weight: 800;">NEWCASTLE INTERNATIONAL SCHOOL</h2>
+        <p style="font-size: 11px; color: #b45309; font-weight: 600; font-style: italic;">"A House of Creative Education"</p>
+        <p style="font-size: 10.5px; color: var(--text-muted);">Japani bazar, Zia soroni, Soniakra, Dhaka-1236</p>
       </div>
-      <div class="brand-badges">
-        <span class="pill-tag" id="modalBoardLabel">PROGRESS REPORT</span>
-      </div>
+      <span style="background: #eff6ff; color: var(--primary); font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 14px;" id="modalBoardLabel">REPORT</span>
     </div>
 
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px 20px; font-size: 12.5px; background: #f8fafc; border: 1px solid var(--border); border-radius: 10px; padding: 12px 16px; margin-bottom: 16px;" id="modalStudentMeta"></div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px 14px; font-size: 11.5px; background: #f8fafc; border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; margin-bottom: 14px;" id="modalStudentMeta"></div>
 
-    <table style="width: 100%; border-collapse: collapse; font-size: 12px; margin-bottom: 16px;">
+    <table style="width: 100%; border-collapse: collapse; font-size: 11px; margin-bottom: 14px; text-align: center;">
       <thead>
-        <tr style="background: #0f172a; color: #fff; text-align: center;">
-          <th style="padding: 8px; border: 1px solid #cbd5e1;">SL</th>
-          <th style="padding: 8px; border: 1px solid #cbd5e1; text-align: left;">Subject Name</th>
-          <th style="padding: 8px; border: 1px solid #cbd5e1;">Full</th>
-          <th style="padding: 8px; border: 1px solid #cbd5e1;">CQ</th>
-          <th style="padding: 8px; border: 1px solid #cbd5e1;">MCQ</th>
-          <th style="padding: 8px; border: 1px solid #cbd5e1;">Prac</th>
-          <th style="padding: 8px; border: 1px solid #cbd5e1;">Total</th>
-          <th style="padding: 8px; border: 1px solid #cbd5e1;">Highest</th>
-          <th style="padding: 8px; border: 1px solid #cbd5e1;">GP</th>
-          <th style="padding: 8px; border: 1px solid #cbd5e1;">Grade</th>
-          <th style="padding: 8px; border: 1px solid #cbd5e1;">Status</th>
+        <tr style="background: #0f172a; color: #fff;">
+          <th style="padding: 6px; border: 1px solid #cbd5e1;">SL</th>
+          <th style="padding: 6px; border: 1px solid #cbd5e1; text-align: left;">Subject</th>
+          <th style="padding: 6px; border: 1px solid #cbd5e1;">Full</th>
+          <th style="padding: 6px; border: 1px solid #cbd5e1;">CQ</th>
+          <th style="padding: 6px; border: 1px solid #cbd5e1;">MCQ</th>
+          <th style="padding: 6px; border: 1px solid #cbd5e1;">Prac</th>
+          <th style="padding: 6px; border: 1px solid #cbd5e1;">Total</th>
+          <th style="padding: 6px; border: 1px solid #cbd5e1;">High</th>
+          <th style="padding: 6px; border: 1px solid #cbd5e1;">GP</th>
+          <th style="padding: 6px; border: 1px solid #cbd5e1;">Grade</th>
+          <th style="padding: 6px; border: 1px solid #cbd5e1;">Status</th>
         </tr>
       </thead>
       <tbody id="modalTranscriptBody"></tbody>
     </table>
 
-    <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 20px;" id="modalSummaryGrid"></div>
+    <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 16px;" id="modalSummaryGrid"></div>
 
-    <div style="display: none; margin-top: 50px; justify-content: space-between;" class="signature-area">
-      <div style="border-top: 1.5px solid #0f172a; width: 150px; text-align: center; font-size: 11.5px; font-weight: 700; padding-top: 4px;">Class Teacher</div>
-      <div style="border-top: 1.5px solid #0f172a; width: 150px; text-align: center; font-size: 11.5px; font-weight: 700; padding-top: 4px;">Exam Controller</div>
-      <div style="border-top: 1.5px solid #0f172a; width: 150px; text-align: center; font-size: 11.5px; font-weight: 700; padding-top: 4px;">Principal / Headmaster</div>
-    </div>
-
-    <div class="no-print" style="display: flex; gap: 10px; margin-top: 20px;">
-      <button class="btn-submit-main" style="margin-top: 0; background: var(--success);" onclick="printIndividualA4()">🖨️ Print A4 Transcript</button>
-      <button class="btn-submit-main" id="modalWaBtn" style="margin-top: 0; background: var(--wa);">💬 Send WhatsApp</button>
-      <button class="btn-submit-main" style="margin-top: 0; background: #64748b;" onclick="closeModal()">Close</button>
+    <div class="no-print" style="display: flex; gap: 8px; margin-top: 14px;">
+      <button class="btn-submit-action" style="margin-top: 0; background: var(--success); flex: 1;" onclick="printIndividualA4()">🖨️ Print Card</button>
+      <button class="btn-submit-action" id="modalWaBtn" style="margin-top: 0; background: var(--wa); flex: 1;">💬 WhatsApp</button>
+      <button class="btn-submit-action" style="margin-top: 0; background: #64748b; flex: 0.8;" onclick="closeModal()">Close</button>
     </div>
   </div>
 </div>
@@ -560,6 +528,14 @@
   let activeClass = 'Class 8';
   let activeExamTerm = 'Annual Exam';
   let unifiedDatabase = JSON.parse(localStorage.getItem('unified_result_db_clean') || '[]');
+
+  function switchTab(tabId, el) {
+    document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(tabId).classList.add('active');
+    el.classList.add('active');
+    if (tabId === 'paneTabulation') renderMasterTable();
+  }
 
   function isSeniorClass(cls) { return cls === 'Class 9' || cls === 'Class 10'; }
   function isPractical(name) { return ['Physics', 'Chemistry', 'Biology', 'Higher Mathematics', 'Agriculture Studies', 'Home Science'].some(p => (name || '').includes(p)); }
@@ -759,7 +735,7 @@
     text += `📍 Japani bazar, Zia soroni, Soniakra, Dhaka-1236\n`;
     text += `━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
     text += `📋 *ACADEMIC PROGRESS REPORT*\n`;
-    text += `🎯 *Examination:* ${term} - 2026\n`;
+    text += `🎯 *Exam:* ${term} - 2026\n`;
     text += `━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
     text += `👤 *Student Name:* ${s.name}\n`;
     text += `🆔 *Student ID:* ${s.studentId}\n`;
@@ -806,13 +782,13 @@
 
     text += `━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
     text += `📊 *RESULT SUMMARY:*\n`;
-    text += `▫️ *Grand Total Marks:* ${s.grandTotal}\n`;
+    text += `▫️ *Grand Total:* ${s.grandTotal}\n`;
     text += `▫️ *GPA:* ${s.gpa.toFixed(2)} / 5.00\n`;
     text += `▫️ *Letter Grade:* ${s.finalGrade}\n`;
     text += `▫️ *Status:* ${s.isPassed ? '✅ PASSED' : '❌ FAILED'}\n`;
     text += `▫️ *Merit Position:* #${s.rank || '-'}\n`;
     text += `━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
-    text += `_Note: Official digital statement issued by Newcastle International School._`;
+    text += `_Note: Official digital report issued by Newcastle International School._`;
 
     return text;
   }
@@ -897,30 +873,30 @@
     const senior = isSeniorClass(cls);
 
     document.getElementById('grpInputWrapper').style.display = senior ? 'block' : 'none';
-    document.getElementById('groupFilterWrapper').style.display = senior ? 'inline-flex' : 'none';
+    document.getElementById('groupFilterWrapper').style.display = senior ? 'flex' : 'none';
     document.getElementById('juniorExtras').style.display = senior ? 'none' : 'block';
     document.getElementById('seniorExtras').style.display = senior ? 'block' : 'none';
 
     if (senior) {
-      document.getElementById('banTitle').innerText = '1. Bangla 1st (100) & Bangla 2nd (100) | Pass: CQ ≥ 46, MCQ ≥ 20, Total ≥ 66';
-      document.getElementById('lbl_b2_cq').innerText = 'Bangla 2nd CQ (70)';
-      document.getElementById('lbl_b2_mcq').innerText = 'Bangla 2nd MCQ (30)';
+      document.getElementById('banTitle').innerText = '1. Bangla 1st & 2nd (Pass: CQ ≥ 46, MCQ ≥ 20, Tot ≥ 66)';
+      document.getElementById('lbl_b2_cq').innerText = 'Ban 2nd CQ (70)';
+      document.getElementById('lbl_b2_mcq').innerText = 'Ban 2nd MCQ (30)';
       document.getElementById('b2_cq').max = 70;
       document.getElementById('b2_mcq').max = 30;
 
-      document.getElementById('engTitle').innerText = '2. English 1st (100) & English 2nd (100) | Pass: Combined Total ≥ 66';
-      document.getElementById('lbl_e2').innerText = 'English 2nd Paper (100)';
+      document.getElementById('engTitle').innerText = '2. English 1st & 2nd (Pass: Combined Tot ≥ 66)';
+      document.getElementById('lbl_e2').innerText = 'English 2nd (100)';
       document.getElementById('e2').max = 100;
       onStreamChanged();
     } else {
-      document.getElementById('banTitle').innerText = '1. Bangla 1st (100) & Bangla 2nd (50) | Pass: CQ ≥ 33, MCQ ≥ 17, Total ≥ 50';
-      document.getElementById('lbl_b2_cq').innerText = 'Bangla 2nd CQ (35)';
-      document.getElementById('lbl_b2_mcq').innerText = 'Bangla 2nd MCQ (15)';
+      document.getElementById('banTitle').innerText = '1. Bangla 1st & 2nd (Pass: CQ ≥ 33, MCQ ≥ 17, Tot ≥ 50)';
+      document.getElementById('lbl_b2_cq').innerText = 'Ban 2nd CQ (35)';
+      document.getElementById('lbl_b2_mcq').innerText = 'Ban 2nd MCQ (15)';
       document.getElementById('b2_cq').max = 70;
       document.getElementById('b2_mcq').max = 30;
 
-      document.getElementById('engTitle').innerText = '2. English 1st (100) & English 2nd (50) | Pass: Combined Total ≥ 50';
-      document.getElementById('lbl_e2').innerText = 'English 2nd Paper (50)';
+      document.getElementById('engTitle').innerText = '2. English 1st & 2nd (Pass: Combined Tot ≥ 50)';
+      document.getElementById('lbl_e2').innerText = 'English 2nd (50)';
       document.getElementById('e2').max = 50;
     }
     renderMasterTable();
@@ -934,8 +910,7 @@
   }
 
   function updateDashboardTitle() {
-    document.getElementById('dashClass').innerText = `${activeClass} (${activeExamTerm})`;
-    document.getElementById('printHeaderSubtitle').innerText = `Japani bazar, Zia soroni, Soniakra, Dhaka-1236 | ${activeClass} - ${activeExamTerm} (Session 2026)`;
+    document.getElementById('dashClass').innerText = `${activeClass}`;
   }
 
   function onStreamChanged() {
@@ -947,35 +922,23 @@
     const opt = document.getElementById('opt_name');
 
     if (grp === 'Science') {
-      core.value = 'Bangladesh & Global Studies (BGS)';
+      core.value = 'Bangladesh & Global Studies';
       g1.value = 'Physics';
       g2.value = 'Chemistry';
       g3.value = 'Biology';
-      opt.innerHTML = `
-        <option value="Higher Mathematics">Higher Mathematics (Practical)</option>
-        <option value="Agriculture Studies">Agriculture Studies (Practical)</option>
-        <option value="Home Science">Home Science (Practical)</option>
-      `;
+      opt.innerHTML = `<option value="Higher Mathematics">Higher Mathematics (Practical)</option><option value="Agriculture Studies">Agriculture Studies (Practical)</option><option value="Home Science">Home Science (Practical)</option>`;
     } else if (grp === 'Business Studies') {
       core.value = 'General Science';
       g1.value = 'Accounting';
       g2.value = 'Business Entrepreneurship';
       g3.value = 'Finance & Banking';
-      opt.innerHTML = `
-        <option value="Agriculture Studies">Agriculture Studies (Practical)</option>
-        <option value="Economics">Economics</option>
-        <option value="Home Science">Home Science (Practical)</option>
-      `;
+      opt.innerHTML = `<option value="Agriculture Studies">Agriculture Studies (Practical)</option><option value="Economics">Economics</option><option value="Home Science">Home Science (Practical)</option>`;
     } else {
       core.value = 'General Science';
       g1.value = 'Geography & Environment';
       g2.value = 'History of BD & World Civ.';
       g3.value = 'Civics & Citizenship';
-      opt.innerHTML = `
-        <option value="Economics">Economics</option>
-        <option value="Agriculture Studies">Agriculture Studies (Practical)</option>
-        <option value="Home Science">Home Science (Practical)</option>
-      `;
+      opt.innerHTML = `<option value="Economics">Economics</option><option value="Agriculture Studies">Agriculture Studies (Practical)</option><option value="Home Science">Home Science (Practical)</option>`;
     }
     adjustSeniorPracticalFields();
   }
@@ -992,8 +955,8 @@
 
     const optPr = isPractical(document.getElementById('opt_name').value);
     document.getElementById('box_opt_prac').style.display = optPr ? 'block' : 'none';
-    document.getElementById('lbl_opt_cq').innerText = optPr ? 'CQ (50)' : 'CQ (70)';
-    document.getElementById('lbl_opt_mcq').innerText = optPr ? 'MCQ (25)' : 'MCQ (30)';
+    document.getElementById(`lbl_opt_cq`).innerText = optPr ? 'CQ (50)' : 'CQ (70)';
+    document.getElementById(`lbl_opt_mcq`).innerText = optPr ? 'MCQ (25)' : 'MCQ (30)';
     document.getElementById('opt_cq').max = optPr ? 50 : 70;
     document.getElementById('opt_mcq').max = optPr ? 25 : 30;
   }
@@ -1030,33 +993,26 @@
       raw.j_bgs_mcq = parseInt(document.getElementById('j_bgs_mcq').value) || 0;
     } else {
       const grp = document.getElementById('streamSelect').value;
-      const isSci = (grp === 'Science');
-      const optVal = document.getElementById('opt_name').value;
-
       raw.group = grp;
       raw.s_core_name = document.getElementById('s_core_name').value;
       raw.s_core_cq = parseInt(document.getElementById('s_core_cq').value) || 0;
       raw.s_core_mcq = parseInt(document.getElementById('s_core_mcq').value) || 0;
-
       raw.g1_name = document.getElementById('g1_name').value;
       raw.g1_cq = parseInt(document.getElementById('g1_cq').value) || 0;
       raw.g1_mcq = parseInt(document.getElementById('g1_mcq').value) || 0;
-      raw.g1_prac = isSci ? (parseInt(document.getElementById('g1_prac').value) || 0) : 0;
-
+      raw.g1_prac = (grp === 'Science') ? (parseInt(document.getElementById('g1_prac').value) || 0) : 0;
       raw.g2_name = document.getElementById('g2_name').value;
       raw.g2_cq = parseInt(document.getElementById('g2_cq').value) || 0;
       raw.g2_mcq = parseInt(document.getElementById('g2_mcq').value) || 0;
-      raw.g2_prac = isSci ? (parseInt(document.getElementById('g2_prac').value) || 0) : 0;
-
+      raw.g2_prac = (grp === 'Science') ? (parseInt(document.getElementById('g2_prac').value) || 0) : 0;
       raw.g3_name = document.getElementById('g3_name').value;
       raw.g3_cq = parseInt(document.getElementById('g3_cq').value) || 0;
       raw.g3_mcq = parseInt(document.getElementById('g3_mcq').value) || 0;
-      raw.g3_prac = isSci ? (parseInt(document.getElementById('g3_prac').value) || 0) : 0;
-
-      raw.opt_name = optVal;
+      raw.g3_prac = (grp === 'Science') ? (parseInt(document.getElementById('g3_prac').value) || 0) : 0;
+      raw.opt_name = document.getElementById('opt_name').value;
       raw.opt_cq = parseInt(document.getElementById('opt_cq').value) || 0;
       raw.opt_mcq = parseInt(document.getElementById('opt_mcq').value) || 0;
-      raw.opt_prac = isPractical(optVal) ? (parseInt(document.getElementById('opt_prac').value) || 0) : 0;
+      raw.opt_prac = isPractical(raw.opt_name) ? (parseInt(document.getElementById('opt_prac').value) || 0) : 0;
     }
 
     const newRecord = calculateStudent(raw, activeClass, chosenTerm);
@@ -1069,10 +1025,11 @@
 
     saveDB();
     saveToGoogleDrive(newRecord);
-    renderMasterTable();
+    alert("✅ Student Result Saved Successfully!");
     e.target.reset();
     document.getElementById('formExamTerm').value = activeExamTerm;
     if (senior) onStreamChanged();
+    switchTab('paneTabulation', document.querySelectorAll('.nav-btn')[2]);
   }
 
   function deleteRecord(id) {
@@ -1115,21 +1072,21 @@
     if (!senior) {
       thead.innerHTML = `
         <tr>
-          <th>Roll</th><th>ID</th><th>Student Name</th><th>Exam Term</th>
-          <th>Ban 1st</th><th>Ban 2nd</th><th>Eng 1st</th><th>Eng 2nd</th>
-          <th>Math</th><th>Relig</th><th>Science</th><th>BGS</th><th>ICT</th>
-          <th>Total</th><th>Highest</th><th>GPA</th><th>Grade</th><th>Status</th><th>Pos</th>
-          <th class="no-print">Quick Actions</th>
+          <th>Roll</th><th>ID</th><th>Student Name</th><th>Term</th>
+          <th>Ban 1</th><th>Ban 2</th><th>Eng 1</th><th>Eng 2</th>
+          <th>Math</th><th>Rel</th><th>Sci</th><th>BGS</th><th>ICT</th>
+          <th>Total</th><th>High</th><th>GPA</th><th>Grade</th><th>Status</th><th>Rank</th>
+          <th class="no-print">Actions</th>
         </tr>
       `;
     } else {
       thead.innerHTML = `
         <tr>
-          <th>Roll</th><th>ID</th><th>Student Name</th><th>Group</th><th>Exam Term</th>
-          <th>Ban 1st</th><th>Ban 2nd</th><th>Eng 1st</th><th>Eng 2nd</th>
-          <th>Math</th><th>Relig</th><th>ICT</th><th>Core</th><th>Sub 1</th><th>Sub 2</th><th>Sub 3</th><th>4th Sub</th>
-          <th>Total</th><th>Highest</th><th>GPA</th><th>Grade</th><th>Status</th><th>Pos</th>
-          <th class="no-print">Quick Actions</th>
+          <th>Roll</th><th>ID</th><th>Student Name</th><th>Group</th><th>Term</th>
+          <th>Ban 1</th><th>Ban 2</th><th>Eng 1</th><th>Eng 2</th>
+          <th>Math</th><th>Rel</th><th>ICT</th><th>Core</th><th>Sub 1</th><th>Sub 2</th><th>Sub 3</th><th>4th</th>
+          <th>Total</th><th>High</th><th>GPA</th><th>Grade</th><th>Status</th><th>Rank</th>
+          <th class="no-print">Actions</th>
         </tr>
       `;
     }
@@ -1143,7 +1100,7 @@
 
     const cols = senior ? 24 : 20;
     if (filtered.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="${cols}" style="padding: 30px; color: #94a3b8; font-size: 13.5px; font-weight: 600;">No student records found in ${activeClass} (${activeExamTerm}). Please enter student marks above.</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="${cols}" style="padding: 24px; color: var(--text-muted); font-weight: 600;">No records found. Enter marks from "Entry Marks" tab.</td></tr>`;
       return;
     }
 
@@ -1154,7 +1111,7 @@
       let actionButtons = `
         <td class="no-print">
           <button class="btn-act-card" onclick="openTranscript(${s.id})">🖨️ Card</button>
-          <button class="btn-act-wa" onclick="sendWhatsAppDirectReport(${s.id})">💬 WhatsApp</button>
+          <button class="btn-act-wa" onclick="sendWhatsAppDirectReport(${s.id})">💬 WA</button>
           <button class="btn-act-del" onclick="deleteRecord(${s.id})">✕</button>
         </td>
       `;
@@ -1162,36 +1119,36 @@
       if (!senior) {
         tr.innerHTML = `
           <td><strong>#${s.roll}</strong></td>
-          <td style="font-weight: 600; color: var(--text-muted);">${s.studentId}</td>
+          <td style="color:var(--text-muted); font-weight:600;">${s.studentId}</td>
           <td style="text-align: left; font-weight: 700;">${s.name}</td>
-          <td><span style="font-size:11px; background:#f1f5f9; padding:2px 6px; border-radius:4px;">${s.examTerm}</span></td>
+          <td><span style="font-size:10px; background:#f1f5f9; padding:2px 5px; border-radius:4px;">${s.examTerm}</span></td>
           <td>${s.b1_total}</td><td>${s.b2_total}</td><td>${s.e1}</td><td>${s.e2}</td>
           <td>${s.mathTotal}</td><td>${s.relTotal}</td><td>${safeVal(s.sciTotal)}</td><td>${safeVal(s.bgsTotal)}</td>
           <td>${s.ictTotal}</td>
-          <td style="font-weight: 800; color: var(--primary);">${s.grandTotal}</td>
-          <td style="font-weight: 700; color: #0284c7;">${highestMark}</td>
-          <td style="font-weight: 800; color: ${s.isPassed ? 'var(--success)' : 'var(--danger)'};">${s.gpa.toFixed(2)}</td>
-          <td style="font-weight: 800;">${s.finalGrade}</td>
-          <td><span class="${s.isPassed ? 'tag-status-pass' : 'tag-status-fail'}">${s.isPassed ? 'Passed' : 'Failed'}</span></td>
+          <td style="font-weight:800; color:var(--primary);">${s.grandTotal}</td>
+          <td style="color:#0284c7; font-weight:700;">${highestMark}</td>
+          <td style="font-weight:800; color:${s.isPassed ? 'var(--success)' : 'var(--danger)'};">${s.gpa.toFixed(2)}</td>
+          <td style="font-weight:800;">${s.finalGrade}</td>
+          <td><span class="${s.isPassed ? 'tag-pass' : 'tag-fail'}">${s.isPassed ? 'Pass' : 'Fail'}</span></td>
           <td><span class="tag-rank">${s.isPassed ? '#' + s.rank : '-'}</span></td>
           ${actionButtons}
         `;
       } else {
         tr.innerHTML = `
           <td><strong>#${s.roll}</strong></td>
-          <td style="font-weight: 600; color: var(--text-muted);">${s.studentId}</td>
+          <td style="color:var(--text-muted); font-weight:600;">${s.studentId}</td>
           <td style="text-align: left; font-weight: 700;">${s.name}</td>
-          <td><span style="font-size:11px; background:#eff6ff; color:#1e40af; padding:2px 6px; border-radius:4px; font-weight:700;">${s.group}</span></td>
-          <td><span style="font-size:11px; background:#f1f5f9; padding:2px 6px; border-radius:4px;">${s.examTerm}</span></td>
+          <td><span style="font-size:10px; background:#eff6ff; color:#1e40af; padding:2px 5px; border-radius:4px; font-weight:700;">${s.group}</span></td>
+          <td><span style="font-size:10px; background:#f1f5f9; padding:2px 5px; border-radius:4px;">${s.examTerm}</span></td>
           <td>${s.b1_total}</td><td>${s.b2_total}</td><td>${s.e1}</td><td>${s.e2}</td>
           <td>${s.mathTotal}</td><td>${s.relTotal}</td><td>${s.ictTotal}</td>
           <td>${safeVal(s.coreTotal)}</td><td>${safeVal(s.g1Total)}</td><td>${safeVal(s.g2Total)}</td><td>${safeVal(s.g3Total)}</td>
-          <td>${safeVal(s.optTotal)} <span style="font-size:10px; color:var(--success); font-weight:700;">(+${safeVal(s.optBonus).toFixed(1)})</span></td>
-          <td style="font-weight: 800; color: var(--primary);">${s.grandTotal}</td>
-          <td style="font-weight: 700; color: #0284c7;">${highestMark}</td>
-          <td style="font-weight: 800; color: ${s.isPassed ? 'var(--success)' : 'var(--danger)'};">${s.gpa.toFixed(2)}</td>
-          <td style="font-weight: 800;">${s.finalGrade}</td>
-          <td><span class="${s.isPassed ? 'tag-status-pass' : 'tag-status-fail'}">${s.isPassed ? 'Passed' : 'Failed'}</span></td>
+          <td>${safeVal(s.optTotal)}</td>
+          <td style="font-weight:800; color:var(--primary);">${s.grandTotal}</td>
+          <td style="color:#0284c7; font-weight:700;">${highestMark}</td>
+          <td style="font-weight:800; color:${s.isPassed ? 'var(--success)' : 'var(--danger)'};">${s.gpa.toFixed(2)}</td>
+          <td style="font-weight:800;">${s.finalGrade}</td>
+          <td><span class="${s.isPassed ? 'tag-pass' : 'tag-fail'}">${s.isPassed ? 'Pass' : 'Fail'}</span></td>
           <td><span class="tag-rank">${s.isPassed ? '#' + s.rank : '-'}</span></td>
           ${actionButtons}
         `;
@@ -1253,10 +1210,10 @@
         { name: 'English 1st Paper', full: 100, cq: safeVal(r.e1), mcq: '-', prac: '-', tot: safeVal(s.e1), highest: getSubjectHighestMark('eng1'), gp: '-', gr: '-', f: false },
         { name: 'English 2nd Paper', full: 50, cq: safeVal(r.e2), mcq: '-', prac: '-', tot: safeVal(s.e2), highest: getSubjectHighestMark('eng2'), gp: s.engRes.gp.toFixed(2), gr: s.engRes.grade, f: s.engFail },
         { name: 'Mathematics', full: 100, cq: safeVal(r.m_cq), mcq: safeVal(r.m_mcq), prac: '-', tot: safeVal(s.mathTotal), highest: getSubjectHighestMark('math'), gp: s.mathRes.gp.toFixed(2), gr: s.mathRes.grade, f: s.mathFail },
-        { name: 'Religion & Moral Education', full: 100, cq: safeVal(r.rel_cq), mcq: safeVal(r.rel_mcq), prac: '-', tot: safeVal(s.relTotal), highest: getSubjectHighestMark('rel'), gp: s.relRes.gp.toFixed(2), gr: s.relRes.grade, f: s.relFail },
+        { name: 'Religion & Moral Edu.', full: 100, cq: safeVal(r.rel_cq), mcq: safeVal(r.rel_mcq), prac: '-', tot: safeVal(s.relTotal), highest: getSubjectHighestMark('rel'), gp: s.relRes.gp.toFixed(2), gr: s.relRes.grade, f: s.relFail },
         { name: 'General Science', full: 100, cq: safeVal(r.j_sci_cq), mcq: safeVal(r.j_sci_mcq), prac: '-', tot: safeVal(s.sciTotal), highest: getSubjectHighestMark('sci'), gp: s.sciRes.gp.toFixed(2), gr: s.sciRes.grade, f: s.sciFail },
-        { name: 'Bangladesh & Global Studies', full: 100, cq: safeVal(r.j_bgs_cq), mcq: safeVal(r.j_bgs_mcq), prac: '-', tot: safeVal(s.bgsTotal), highest: getSubjectHighestMark('bgs'), gp: s.bgsRes.gp.toFixed(2), gr: s.bgsRes.grade, f: s.bgsFail },
-        { name: 'ICT (MCQ: 25, Practical: 25)', full: 50, cq: '-', mcq: safeVal(r.ict_mcq), prac: safeVal(r.ict_prac), tot: safeVal(s.ictTotal), highest: getSubjectHighestMark('ict'), gp: s.ictRes.gp.toFixed(2), gr: s.ictRes.grade, f: s.ictFail }
+        { name: 'BGS', full: 100, cq: safeVal(r.j_bgs_cq), mcq: safeVal(r.j_bgs_mcq), prac: '-', tot: safeVal(s.bgsTotal), highest: getSubjectHighestMark('bgs'), gp: s.bgsRes.gp.toFixed(2), gr: s.bgsRes.grade, f: s.bgsFail },
+        { name: 'ICT', full: 50, cq: '-', mcq: safeVal(r.ict_mcq), prac: safeVal(r.ict_prac), tot: safeVal(s.ictTotal), highest: getSubjectHighestMark('ict'), gp: s.ictRes.gp.toFixed(2), gr: s.ictRes.grade, f: s.ictFail }
       ];
     } else {
       subs = [
@@ -1271,7 +1228,7 @@
         { name: s.g1Name, full: 100, cq: safeVal(r.g1_cq), mcq: safeVal(r.g1_mcq), prac: s.s1Prac ? safeVal(r.g1_prac) : '-', tot: safeVal(s.g1Total), highest: getSubjectHighestMark('g1'), gp: s.g1Res.gp.toFixed(2), gr: s.g1Res.grade, f: s.g1Fail },
         { name: s.g2Name, full: 100, cq: safeVal(r.g2_cq), mcq: safeVal(r.g2_mcq), prac: s.s2Prac ? safeVal(r.g2_prac) : '-', tot: safeVal(s.g2Total), highest: getSubjectHighestMark('g2'), gp: s.g2Res.gp.toFixed(2), gr: s.g2Res.grade, f: s.g2Fail },
         { name: s.g3Name, full: 100, cq: safeVal(r.g3_cq), mcq: safeVal(r.g3_mcq), prac: s.s3Prac ? safeVal(r.g3_prac) : '-', tot: safeVal(s.g3Total), highest: getSubjectHighestMark('g3'), gp: s.g3Res.gp.toFixed(2), gr: s.g3Res.grade, f: s.g3Fail },
-        { name: `4th Sub: ${s.optName}`, full: 100, cq: safeVal(r.opt_cq), mcq: safeVal(r.opt_mcq), prac: s.optPrac ? safeVal(r.opt_prac) : '-', tot: safeVal(s.optTotal), highest: getSubjectHighestMark('opt'), gp: s.optRes.gp.toFixed(2), gr: s.optRes.grade, f: false }
+        { name: `4th Sub: ${s.optName}`, full: 100, cq: safeVal(r.opt_cq), mcq: safeVal(r.opt_mcq), prac: s.optPrac ? safeVal(r.opt_prac) : '-', tot: safeVal(s.optTotal), gp: s.optRes.gp.toFixed(2), gr: s.optRes.grade, f: false }
       ];
     }
 
@@ -1279,29 +1236,28 @@
     tbody.innerHTML = '';
     subs.forEach((sub, i) => {
       const tr = document.createElement('tr');
-      tr.style.textAlign = 'center';
       tr.innerHTML = `
-        <td style="padding:6px; border:1px solid #cbd5e1;">${i+1}</td>
-        <td style="padding:6px; border:1px solid #cbd5e1; text-align:left; font-weight:700;">${sub.name}</td>
-        <td style="padding:6px; border:1px solid #cbd5e1;">${sub.full}</td>
-        <td style="padding:6px; border:1px solid #cbd5e1;">${sub.cq}</td>
-        <td style="padding:6px; border:1px solid #cbd5e1;">${sub.mcq}</td>
-        <td style="padding:6px; border:1px solid #cbd5e1;">${sub.prac}</td>
-        <td style="padding:6px; border:1px solid #cbd5e1; font-weight:800;">${sub.tot}</td>
-        <td style="padding:6px; border:1px solid #cbd5e1; color:#0284c7; font-weight:700;">${sub.highest}</td>
-        <td style="padding:6px; border:1px solid #cbd5e1;">${sub.gp}</td>
-        <td style="padding:6px; border:1px solid #cbd5e1; font-weight:700;">${sub.gr}</td>
-        <td style="padding:6px; border:1px solid #cbd5e1; font-weight:700; color:${sub.f ? 'var(--danger)' : 'var(--success)'};">${sub.f ? 'Fail' : 'Pass'}</td>
+        <td style="padding:5px; border:1px solid #cbd5e1;">${i+1}</td>
+        <td style="padding:5px; border:1px solid #cbd5e1; text-align:left; font-weight:700;">${sub.name}</td>
+        <td style="padding:5px; border:1px solid #cbd5e1;">${sub.full}</td>
+        <td style="padding:5px; border:1px solid #cbd5e1;">${sub.cq}</td>
+        <td style="padding:5px; border:1px solid #cbd5e1;">${sub.mcq}</td>
+        <td style="padding:5px; border:1px solid #cbd5e1;">${sub.prac}</td>
+        <td style="padding:5px; border:1px solid #cbd5e1; font-weight:800;">${sub.tot}</td>
+        <td style="padding:5px; border:1px solid #cbd5e1; color:#0284c7; font-weight:700;">${sub.highest}</td>
+        <td style="padding:5px; border:1px solid #cbd5e1;">${sub.gp}</td>
+        <td style="padding:5px; border:1px solid #cbd5e1; font-weight:700;">${sub.gr}</td>
+        <td style="padding:5px; border:1px solid #cbd5e1; font-weight:700; color:${sub.f ? 'var(--danger)' : 'var(--success)'};">${sub.f ? 'Fail' : 'Pass'}</td>
       `;
       tbody.appendChild(tr);
     });
 
     document.getElementById('modalSummaryGrid').innerHTML = `
-      <div class="stat-card" style="padding:10px;"><div class="lbl">Total Marks</div><div class="val" style="font-size:18px;">${s.grandTotal}</div></div>
-      <div class="stat-card" style="padding:10px;"><div class="lbl">Class Highest</div><div class="val" style="font-size:18px; color:#0284c7;">${classHighest}</div></div>
-      <div class="stat-card" style="padding:10px;"><div class="lbl">GPA</div><div class="val" style="font-size:18px; color:${s.isPassed ? 'var(--success)' : 'var(--danger)'};">${s.gpa.toFixed(2)}</div></div>
-      <div class="stat-card" style="padding:10px;"><div class="lbl">Letter Grade</div><div class="val" style="font-size:18px;">${s.finalGrade}</div></div>
-      <div class="stat-card" style="padding:10px;"><div class="lbl">Merit Position</div><div class="val" style="font-size:18px;">${s.isPassed ? '#' + s.rank : '-'}</div></div>
+      <div style="background:#f8fafc; border:1px solid var(--border); border-radius:6px; padding:6px; text-align:center;"><div style="font-size:10px; color:var(--text-muted);">Total Marks</div><div style="font-size:16px; font-weight:800; color:var(--primary);">${s.grandTotal}</div></div>
+      <div style="background:#f8fafc; border:1px solid var(--border); border-radius:6px; padding:6px; text-align:center;"><div style="font-size:10px; color:var(--text-muted);">Class High</div><div style="font-size:16px; font-weight:800; color:#0284c7;">${classHighest}</div></div>
+      <div style="background:#f8fafc; border:1px solid var(--border); border-radius:6px; padding:6px; text-align:center;"><div style="font-size:10px; color:var(--text-muted);">GPA</div><div style="font-size:16px; font-weight:800; color:${s.isPassed ? 'var(--success)' : 'var(--danger)'};">${s.gpa.toFixed(2)}</div></div>
+      <div style="background:#f8fafc; border:1px solid var(--border); border-radius:6px; padding:6px; text-align:center;"><div style="font-size:10px; color:var(--text-muted);">Grade</div><div style="font-size:16px; font-weight:800;">${s.finalGrade}</div></div>
+      <div style="background:#f8fafc; border:1px solid var(--border); border-radius:6px; padding:6px; text-align:center;"><div style="font-size:10px; color:var(--text-muted);">Rank</div><div style="font-size:16px; font-weight:800;">${s.isPassed ? '#' + s.rank : '-'}</div></div>
     `;
 
     document.getElementById('modalWaBtn').onclick = () => sendWhatsAppDirectReport(s.id);
@@ -1347,7 +1303,7 @@
     } else {
       csv = "Class,Group,Exam_Term,Roll,ID,Name,Phone,Ban_1st,Ban_2nd,Eng_1st,Eng_2nd,Math,Religion,ICT,Core,Sub1,Sub2,Sub3,Opt,Bonus,Total,Highest,GPA,Grade,Status\n";
       list.forEach(s => {
-        csv += `"${s.studentClass}","${s.group}","${s.examTerm}","${s.roll}","${s.studentId}","${s.name}","${s.phone || ''}",${s.b1_total},${s.b2_total},${s.e1},${s.e2},${s.mathTotal},${s.relTotal},${s.ictTotal},${safeVal(s.coreTotal)},${safeVal(s.g1Total)},${safeVal(s.g2Total)},${safeVal(s.g3Total)},${safeVal(s.optTotal)},${safeVal(s.optBonus).toFixed(2)},${s.grandTotal},${highestMark},${s.gpa},"${s.finalGrade}","${s.isPassed ? 'Pass' : 'Fail'}"\n`;
+        csv += `"${s.studentClass}","${s.group}","${s.examTerm}","${s.roll}","${s.studentId}","${s.name}",${s.b1_total},${s.b2_total},${s.e1},${s.e2},${s.mathTotal},${s.relTotal},${s.ictTotal},${safeVal(s.coreTotal)},${safeVal(s.g1Total)},${safeVal(s.g2Total)},${safeVal(s.g3Total)},${safeVal(s.optTotal)},${safeVal(s.optBonus).toFixed(2)},${s.grandTotal},${highestMark},${s.gpa},"${s.finalGrade}","${s.isPassed ? 'Pass' : 'Fail'}"\n`;
       });
     }
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
