@@ -3,487 +3,667 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Newcastle International School - Smart Portal</title>
+  <title>Newcastle International School - Pro Academic Suite</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary: #1e3a8a;
-      --primary-dark: #0f172a;
-      --primary-light: #2563eb;
-      --accent: #f59e0b;
-      --bg: #f8fafc;
-      --surface: #ffffff;
-      --text: #0f172a;
+      --brand-primary: #1d4ed8;
+      --brand-gradient: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #60a5fa 100%);
+      --dark-navy: #090d16;
+      --surface-card: #ffffff;
+      --surface-ground: #f4f6fb;
+      --surface-border: #e2e8f0;
+      --text-main: #0f172a;
       --text-muted: #64748b;
-      --border: #e2e8f0;
-      --success: #10b981;
-      --danger: #ef4444;
-      --wa: #25d366;
-      --radius: 16px;
+      --accent-gold: #f59e0b;
+      --emerald-green: #10b981;
+      --rose-red: #ef4444;
+      --wa-color: #22c55e;
+      --glass-blur: blur(16px);
+      --app-radius: 20px;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', 'Hind Siliguri', sans-serif; -webkit-tap-highlight-color: transparent; }
-    body { background: var(--bg); color: var(--text); }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Outfit', 'Hind Siliguri', sans-serif; -webkit-tap-highlight-color: transparent; }
+    body { background-color: var(--surface-ground); color: var(--text-main); min-height: 100vh; overflow-x: hidden; }
 
-    /* Top App Navbar */
-    .top-navbar {
-      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+    /* =========================================================
+       DESKTOP WORKSPACE LAYOUT (SIDEBAR + CONTENT)
+       ========================================================= */
+    .app-viewport { display: flex; min-height: 100vh; width: 100%; }
+
+    /* Desktop Sidebar */
+    .desktop-sidebar {
+      width: 280px;
+      background: #0b1120;
       color: #ffffff;
-      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 28px 20px;
       position: sticky;
       top: 0;
+      height: 100vh;
+      border-right: 1px solid rgba(255, 255, 255, 0.08);
       z-index: 100;
-      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.15);
     }
-    .navbar-brand { display: flex; align-items: center; justify-content: space-between; max-width: 1400px; margin: 0 auto; }
-    .brand-left { display: flex; align-items: center; gap: 12px; }
-    .nav-logo { width: 44px; height: 44px; object-fit: contain; background: #fff; border-radius: 10px; padding: 3px; }
-    .nav-titles h1 { font-size: 16px; font-weight: 800; line-height: 1.2; }
-    .nav-titles p { font-size: 11px; color: #fde68a; font-weight: 600; }
-    .portal-tag { display: none; background: rgba(255, 255, 255, 0.15); padding: 5px 12px; border-radius: 20px; font-size: 11.5px; font-weight: 700; }
 
-    .main-wrapper { max-width: 1400px; margin: 0 auto; padding: 16px; }
+    .sidebar-brand { display: flex; align-items: center; gap: 14px; margin-bottom: 30px; }
+    .sidebar-brand img { width: 50px; height: 50px; border-radius: 12px; background: #fff; padding: 4px; object-fit: contain; }
+    .sidebar-brand h2 { font-size: 17px; font-weight: 800; letter-spacing: -0.3px; line-height: 1.2; }
+    .sidebar-brand span { font-size: 11px; color: #facc15; font-weight: 600; }
 
-    /* Universal Controls Card */
-    .filter-card {
-      background: var(--surface);
-      border-radius: var(--radius);
-      padding: 16px;
-      margin-bottom: 16px;
-      border: 1px solid var(--border);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    .sidebar-nav { display: flex; flex-direction: column; gap: 8px; flex: 1; }
+    .side-link {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 16px;
+      border-radius: 14px;
+      color: #94a3b8;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 1px solid transparent;
+    }
+    .side-link:hover { color: #ffffff; background: rgba(255, 255, 255, 0.05); }
+    .side-link.active {
+      color: #ffffff;
+      background: var(--brand-gradient);
+      box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.5);
+    }
+    .side-link span.icon { font-size: 20px; }
+
+    .sidebar-footer { padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+    .cloud-status-pill {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 10px 14px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+      color: #34d399;
+      font-weight: 600;
+    }
+
+    /* Main Content Arena */
+    .desktop-arena { flex: 1; display: flex; flex-direction: column; max-width: calc(100% - 280px); }
+
+    /* Top Command Header */
+    .top-command-header {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: var(--glass-blur);
+      padding: 18px 36px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--surface-border);
+      position: sticky;
+      top: 0;
+      z-index: 90;
+    }
+    .header-context h1 { font-size: 20px; font-weight: 800; color: var(--dark-navy); }
+    .header-context p { font-size: 12px; color: var(--text-muted); font-weight: 500; }
+
+    .header-actions { display: flex; gap: 12px; align-items: center; }
+    .btn-action-primary {
+      background: var(--brand-gradient);
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 12px;
+      font-size: 13.5px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 6px 16px rgba(37, 99, 235, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+    .btn-action-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 22px rgba(37, 99, 235, 0.4); }
+    .btn-outline {
+      background: #ffffff;
+      border: 1.5px solid var(--surface-border);
+      color: var(--text-main);
+      padding: 10px 16px;
+      border-radius: 12px;
+      font-size: 13.5px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-outline:hover { background: #f8fafc; border-color: #cbd5e1; }
+
+    .content-body { padding: 32px 36px; }
+
+    /* Responsive Filter Strip */
+    .smart-filter-bar {
+      background: #ffffff;
+      border: 1px solid var(--surface-border);
+      border-radius: 18px;
+      padding: 16px 24px;
+      margin-bottom: 28px;
       display: flex;
       flex-wrap: wrap;
-      gap: 12px;
+      gap: 16px;
       align-items: center;
-      justify-content: space-between;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
     }
-    .filter-group { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; flex: 1; }
-    .select-item { flex: 1; min-width: 130px; display: flex; flex-direction: column; gap: 4px; }
-    .select-item label { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; }
+    .filter-item { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 140px; }
+    .filter-item label { font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    
     select, input[type="text"], input[type="number"] {
       width: 100%;
-      padding: 10px 12px;
-      border-radius: 10px;
-      border: 1.5px solid var(--border);
+      padding: 11px 14px;
+      border-radius: 12px;
+      border: 1.5px solid var(--surface-border);
       font-size: 13.5px;
       font-weight: 600;
-      color: var(--text);
-      background: #fff;
+      color: var(--text-main);
+      background: #ffffff;
       outline: none;
       transition: all 0.2s;
     }
-    select:focus, input:focus { border-color: var(--primary-light); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12); }
+    select:focus, input:focus { border-color: var(--brand-primary); box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12); }
 
-    /* Stats Grid */
-    .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; }
-    .stat-widget {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 14px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    /* Modern Stats Analytics Grid */
+    .stats-container { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 32px; }
+    .modern-stat-card {
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 22px;
+      border: 1px solid var(--surface-border);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
       position: relative;
-    }
-    .stat-widget .w-lbl { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; }
-    .stat-widget .w-val { font-size: 20px; font-weight: 800; color: var(--text); }
-    .stat-widget::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; border-radius: 10px 0 0 10px; background: var(--primary-light); }
-    .sw-pass::before { background: var(--success); }
-    .sw-fail::before { background: var(--danger); }
-    .sw-high::before { background: #0284c7; }
-
-    /* General Card Component */
-    .ui-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 20px 16px;
-      margin-bottom: 20px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
-    }
-    .card-title {
-      font-size: 14px;
-      font-weight: 800;
-      color: var(--primary);
-      text-transform: uppercase;
-      padding-bottom: 12px;
-      border-bottom: 1.5px solid var(--border);
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    /* Form Fields */
-    .f-row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; }
-    .f-col { flex: 1; min-width: 130px; display: flex; flex-direction: column; gap: 4px; }
-    .f-col label { font-size: 11.5px; font-weight: 700; color: #334155; }
-    .f-section-title {
-      font-size: 11.5px;
-      font-weight: 700;
-      color: var(--primary-light);
-      background: #eff6ff;
-      padding: 8px 10px;
-      border-radius: 8px;
-      margin: 12px 0 8px 0;
-      text-transform: uppercase;
-      border-left: 3px solid var(--primary-light);
-    }
-    .btn-submit-action {
-      width: 100%;
-      padding: 14px;
-      background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
-      color: #fff;
-      border: none;
-      border-radius: 12px;
-      font-size: 15px;
-      font-weight: 800;
-      cursor: pointer;
-      box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
-      margin-top: 14px;
-    }
-
-    /* Mobile Result Cards List */
-    .mobile-student-list { display: flex; flex-direction: column; gap: 12px; }
-    .student-card-item {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 16px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+      overflow: hidden;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 6px;
+      transition: all 0.2s;
     }
-    .student-card-header { display: flex; justify-content: space-between; align-items: flex-start; }
-    .st-name { font-size: 14px; font-weight: 800; color: var(--text); }
-    .st-sub { font-size: 11.5px; color: var(--text-muted); font-weight: 600; }
-    .student-card-stats { display: flex; justify-content: space-between; background: #f8fafc; padding: 8px 12px; border-radius: 8px; font-size: 12px; }
-    .student-card-stats div { text-align: center; }
-    .student-card-stats strong { display: block; font-size: 14px; font-weight: 800; }
-    .student-card-actions { display: flex; gap: 8px; }
-    .student-card-actions button { flex: 1; padding: 9px; border-radius: 8px; font-size: 12px; font-weight: 700; border: none; cursor: pointer; }
+    .modern-stat-card:hover { transform: translateY(-4px); box-shadow: 0 12px 26px rgba(0,0,0,0.06); }
+    .modern-stat-card .s-tag { font-size: 11.5px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    .modern-stat-card .s-val { font-size: 28px; font-weight: 900; color: var(--dark-navy); letter-spacing: -0.5px; }
+    .modern-stat-card .s-foot { font-size: 11px; font-weight: 600; }
+    .modern-stat-card::after { content: ""; position: absolute; right: -20px; bottom: -20px; width: 80px; height: 80px; border-radius: 50%; opacity: 0.08; background: var(--brand-primary); }
 
-    /* Desktop Table Container */
-    .desktop-table-container { display: none; width: 100%; overflow-x: auto; border-radius: 12px; border: 1px solid var(--border); }
-    table.data-table { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 1400px; text-align: center; }
-    table.data-table th, table.data-table td { border: 1px solid #f1f5f9; padding: 10px 8px; white-space: nowrap; }
-    table.data-table thead tr { background: #0f172a; color: #ffffff; font-weight: 700; }
-    table.data-table tbody tr:hover { background: #f8fafc; }
-    table.data-table tbody tr.first-place { background: #fefce8 !important; font-weight: 700; }
+    /* Surface Card Block */
+    .dashboard-panel {
+      background: #ffffff;
+      border: 1px solid var(--surface-border);
+      border-radius: var(--app-radius);
+      padding: 28px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+      margin-bottom: 28px;
+    }
+    .panel-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1.5px solid var(--surface-border);
+    }
+    .panel-header-row h3 { font-size: 16px; font-weight: 800; color: var(--dark-navy); display: flex; align-items: center; gap: 8px; }
 
-    .tag-pass { background: #dcfce7; color: #166534; padding: 3px 8px; border-radius: 6px; font-weight: 700; font-size: 11px; }
-    .tag-fail { background: #fee2e2; color: #991b1b; padding: 3px 8px; border-radius: 6px; font-weight: 700; font-size: 11px; }
+    /* Form Rows */
+    .form-grid-row { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 14px; }
+    .form-cell { flex: 1; min-width: 140px; display: flex; flex-direction: column; gap: 6px; }
+    .form-cell label { font-size: 12px; font-weight: 700; color: #334155; }
+    .form-divider-title {
+      font-size: 12.5px;
+      font-weight: 800;
+      color: var(--brand-primary);
+      background: #eff6ff;
+      padding: 10px 14px;
+      border-radius: 10px;
+      margin: 18px 0 12px 0;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-left: 4px solid var(--brand-primary);
+    }
 
-    /* ==========================================================================
-       DEVICE BASED CONDITIONAL VISIBILITY (Mobile vs Desktop Rules)
-       ========================================================================== */
-    
-    /* 1. MOBILE VIEW RULES (< 768px) */
-    @media (max-width: 767px) {
-      body { padding-bottom: 90px; }
-      .tab-pane { display: none; }
-      .tab-pane.active { display: block; animation: fadeIn 0.2s ease; }
+    /* Tabulation Data Table (Desktop) */
+    .desktop-table-container { width: 100%; overflow-x: auto; border-radius: 14px; border: 1px solid var(--surface-border); }
+    table.pro-table { width: 100%; border-collapse: collapse; font-size: 12.5px; text-align: center; min-width: 1550px; }
+    table.pro-table thead tr { background: #0b1120; color: #ffffff; font-weight: 700; }
+    table.pro-table th, table.pro-table td { border: 1px solid #f1f5f9; padding: 12px 10px; white-space: nowrap; }
+    table.pro-table tbody tr { transition: background 0.15s; }
+    table.pro-table tbody tr:hover { background: #f8fafc; }
+    table.pro-table tbody tr.first-place { background: #fefce8 !important; font-weight: 700; }
+
+    .status-badge { padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 800; display: inline-block; }
+    .status-pass { background: #dcfce7; color: #15803d; }
+    .status-fail { background: #fee2e2; color: #b91c1c; }
+    .rank-pill { background: #e0e7ff; color: #3730a3; padding: 4px 10px; border-radius: 20px; font-weight: 900; font-size: 11px; }
+
+    /* Fast Action Buttons */
+    .btn-act-card { background: #eff6ff; border: 1px solid #bfdbfe; color: var(--brand-primary); padding: 6px 12px; border-radius: 8px; font-weight: 700; cursor: pointer; }
+    .btn-act-wa { background: #dcfce7; border: 1px solid #86efac; color: #16a34a; padding: 6px 12px; border-radius: 8px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; }
+    .btn-act-del { background: #fee2e2; border: 1px solid #fca5a5; color: var(--rose-red); padding: 6px 12px; border-radius: 8px; font-weight: 700; cursor: pointer; }
+
+    /* =========================================================
+       MOBILE APP SHELL SPECIFIC STYLING (< 900px)
+       ========================================================= */
+    .mobile-app-header { display: none; }
+    .mobile-nav-bar { display: none; }
+    .mobile-cards-feed { display: none; }
+
+    @media (max-width: 899px) {
+      .desktop-sidebar { display: none !important; }
+      .desktop-arena { max-width: 100% !important; }
+      .top-command-header { display: none !important; }
+      .content-body { padding: 16px 14px 100px 14px !important; }
       .desktop-table-container { display: none !important; }
-      .mobile-student-list { display: flex !important; }
-      
-      .bottom-nav {
+
+      /* Mobile App Shell Top Bar */
+      .mobile-app-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #0b1120;
+        color: #ffffff;
+        padding: 16px 18px;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      }
+      .mobile-brand { display: flex; align-items: center; gap: 12px; }
+      .mobile-brand img { width: 40px; height: 40px; border-radius: 10px; background: #fff; padding: 3px; }
+      .mobile-brand h3 { font-size: 15px; font-weight: 800; }
+      .mobile-brand p { font-size: 10.5px; color: #facc15; font-weight: 600; }
+
+      /* Mobile Stats Scroll */
+      .stats-container { grid-template-columns: repeat(2, 1fr) !important; gap: 10px !important; }
+      .modern-stat-card { padding: 14px !important; border-radius: 14px !important; }
+      .modern-stat-card .s-val { font-size: 22px !important; }
+
+      /* Tab Switching for Mobile */
+      .mobile-tab-view { display: none; }
+      .mobile-tab-view.active { display: block; animation: slideUp 0.2s ease; }
+
+      /* Mobile Bottom App Navigation */
+      .mobile-nav-bar {
         position: fixed;
-        bottom: 0; left: 0; right: 0;
-        background: #ffffff;
-        border-top: 1px solid var(--border);
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: var(--glass-blur);
+        border-top: 1px solid var(--surface-border);
         display: flex;
         justify-content: space-around;
-        padding: 8px 12px 14px 12px;
+        padding: 10px 12px 14px 12px;
         z-index: 500;
-        box-shadow: 0 -4px 16px rgba(0,0,0,0.06);
+        box-shadow: 0 -8px 24px rgba(0,0,0,0.06);
       }
-      .nav-btn {
-        background: none; border: none;
-        display: flex; flex-direction: column; align-items: center; gap: 4px;
-        color: var(--text-muted); font-size: 11px; font-weight: 700;
-        cursor: pointer; flex: 1; padding: 6px 0; border-radius: 10px;
+      .m-tab-btn {
+        background: none;
+        border: none;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 3px;
+        color: var(--text-muted);
+        font-size: 11px;
+        font-weight: 700;
+        cursor: pointer;
+        flex: 1;
+        padding: 4px 0;
       }
-      .nav-btn.active { color: var(--primary-light); background: #eff6ff; }
-      .desktop-only-btn { display: none !important; }
-    }
+      .m-tab-btn.active { color: var(--brand-primary); }
+      .m-tab-btn span.m-icon { font-size: 19px; }
 
-    /* 2. DESKTOP VIEW RULES (>= 768px) */
-    @media (min-width: 768px) {
-      body { padding-bottom: 30px; }
-      .portal-tag { display: inline-block; }
-      .bottom-nav { display: none !important; }
+      /* Mobile Student Result Card Feed */
+      .mobile-cards-feed { display: flex; flex-direction: column; gap: 12px; }
+      .m-student-card {
+        background: #ffffff;
+        border: 1px solid var(--surface-border);
+        border-radius: 16px;
+        padding: 18px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .m-card-top { display: flex; justify-content: space-between; align-items: flex-start; }
+      .m-name { font-size: 15px; font-weight: 800; color: var(--dark-navy); }
+      .m-meta { font-size: 12px; color: var(--text-muted); font-weight: 600; margin-top: 2px; }
       
-      /* In desktop, all sections stay active as a comprehensive dashboard */
-      .tab-pane { display: block !important; }
-      .stats-grid { grid-template-columns: repeat(4, 1fr); }
-      .desktop-table-container { display: block !important; }
-      .mobile-student-list { display: none !important; }
-
-      .desktop-layout-grid {
-        display: grid;
-        grid-template-columns: 420px 1fr;
-        gap: 20px;
-        align-items: start;
+      .m-score-strip {
+        display: flex;
+        justify-content: space-between;
+        background: #f8fafc;
+        border-radius: 12px;
+        padding: 10px 14px;
+        text-align: center;
       }
+      .m-score-strip .sc-box div { font-size: 10px; font-weight: 700; color: var(--text-muted); }
+      .m-score-strip .sc-box strong { font-size: 15px; font-weight: 900; color: var(--dark-navy); }
+
+      .m-action-strip { display: flex; gap: 8px; }
+      .m-action-strip button { flex: 1; padding: 10px; border-radius: 10px; font-size: 12.5px; font-weight: 700; border: none; cursor: pointer; }
     }
 
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* Modal Sheet */
-    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(4px); z-index: 1000; justify-content: center; align-items: center; padding: 14px; }
-    .transcript-sheet { background: #ffffff; width: 100%; max-width: 860px; border-radius: var(--radius); padding: 24px 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.25); max-height: 92vh; overflow-y: auto; }
+    /* Modal / Individual Transcript Dialog */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(9, 13, 22, 0.75); backdrop-filter: var(--glass-blur); z-index: 1000; justify-content: center; align-items: center; padding: 16px; }
+    .transcript-sheet { background: #ffffff; width: 100%; max-width: 860px; border-radius: 24px; padding: 32px 28px; box-shadow: 0 25px 60px rgba(0,0,0,0.3); max-height: 94vh; overflow-y: auto; }
 
     @media print {
-      body { background: #ffffff !important; padding: 0 !important; }
-      body.printing-individual .main-wrapper, body.printing-individual .top-navbar, body.printing-individual .bottom-nav { display: none !important; }
+      body { background: #fff !important; padding: 0 !important; }
+      body.printing-individual .desktop-sidebar, body.printing-individual .desktop-arena, body.printing-individual .mobile-app-header, body.printing-individual .mobile-nav-bar { display: none !important; }
       body.printing-individual .modal-overlay { display: block !important; position: static !important; background: transparent !important; padding: 0 !important; }
       body.printing-individual .transcript-sheet { box-shadow: none !important; max-width: 100% !important; padding: 0 !important; border: none !important; }
       body.printing-individual .no-print { display: none !important; }
 
-      body.printing-master .modal-overlay, body.printing-master .top-navbar, body.printing-master .bottom-nav, body.printing-master #paneEntry, body.printing-master #paneDashboard { display: none !important; }
-      body.printing-master #paneTabulation { display: block !important; width: 100% !important; }
-      body.printing-master .no-print { display: none !important; }
+      body.printing-master .modal-overlay, body.printing-master .desktop-sidebar, body.printing-master .top-command-header, body.printing-master .mobile-app-header, body.printing-master .mobile-nav-bar, body.printing-master .smart-filter-bar, body.printing-master .stats-container, body.printing-master #desktopEntryBox { display: none !important; }
+      body.printing-master .desktop-arena { max-width: 100% !important; width: 100% !important; }
+      body.printing-master .dashboard-panel { border: none !important; padding: 0 !important; box-shadow: none !important; }
       body.printing-master .desktop-table-container { display: block !important; border: none !important; }
-      body.printing-master table.data-table { font-size: 7.2pt !important; min-width: 100% !important; width: 100% !important; }
-      body.printing-master table.data-table th, body.printing-master table.data-table td { padding: 2px 2px !important; border: 1px solid #0f172a !important; }
+      body.printing-master table.pro-table { font-size: 7.2pt !important; width: 100% !important; min-width: 100% !important; }
+      body.printing-master table.pro-table th, body.printing-master table.pro-table td { padding: 2.5px 2px !important; border: 1px solid #000 !important; }
+      body.printing-master .no-print { display: none !important; }
     }
   </style>
 </head>
 <body>
 
-<!-- Top Header -->
-<div class="top-navbar">
-  <div class="navbar-brand">
-    <div class="brand-left">
-      <img src="1000040018.jpg" alt="Logo" class="nav-logo" onerror="this.style.display='none'">
-      <div class="nav-titles">
+<div class="app-viewport">
+  <!-- 1. DESKTOP SIDEBAR -->
+  <aside class="desktop-sidebar no-print">
+    <div>
+      <div class="sidebar-brand">
+        <img src="1000040018.jpg" alt="Logo" onerror="this.style.display='none'">
+        <div>
+          <h2>NEWCASTLE</h2>
+          <span>Academic Portal</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="side-link active" onclick="desktopScrollTo('sectionStats')">
+          <span class="icon">📊</span>
+          <span>Overview Analytics</span>
+        </div>
+        <div class="side-link" onclick="desktopScrollTo('sectionEntry')">
+          <span class="icon">📝</span>
+          <span>Marks Entry System</span>
+        </div>
+        <div class="side-link" onclick="desktopScrollTo('sectionTabulation')">
+          <span class="icon">📋</span>
+          <span>Master Tabulation</span>
+        </div>
+      </nav>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="cloud-status-pill">
+        <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#10b981; box-shadow:0 0 8px #10b981;"></span>
+        <span>Google Cloud Linked</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- 2. DESKTOP ARENA & CONTENT -->
+  <main class="desktop-arena">
+    <!-- Desktop Top Header -->
+    <header class="top-command-header no-print">
+      <div class="header-context">
         <h1>NEWCASTLE INTERNATIONAL SCHOOL</h1>
-        <p>"A House of Creative Education" | Session 2026</p>
-      </div>
-    </div>
-    <span class="portal-tag">🖥️ Desktop Software View</span>
-  </div>
-</div>
-
-<div class="main-wrapper">
-  <!-- Filter & Action Strip -->
-  <div class="filter-card no-print">
-    <div class="filter-group">
-      <div class="select-item">
-        <label>Academic Class</label>
-        <select id="classSelect" onchange="onClassSwitched(this.value)">
-          <option value="Class 6">Class 6 (Junior 750)</option>
-          <option value="Class 7">Class 7 (Junior 750)</option>
-          <option value="Class 8" selected>Class 8 (Junior 750)</option>
-          <option value="Class 9">Class 9 (SSC Curriculum)</option>
-          <option value="Class 10">Class 10 (SSC Curriculum)</option>
-        </select>
+        <p>Japani bazar, Zia soroni, Soniakra, Dhaka-1236 | Session 2026</p>
       </div>
 
-      <div class="select-item">
-        <label>Exam Term</label>
-        <select id="examTermSelect" onchange="onExamTermChanged(this.value)">
-          <option value="1st Semester">1st Semester</option>
-          <option value="2nd Semester">2nd Semester</option>
-          <option value="Annual Exam" >Annual Exam</option>
-        </select>
+      <div class="header-actions">
+        <button class="btn-outline" onclick="loadDataFromGoogleDrive()">☁️ Sync Cloud</button>
+        <button class="btn-outline" onclick="exportCSV()">📥 Export Excel</button>
+        <button class="btn-action-primary" onclick="printMasterA4()">🖨️ Print Tabulation Sheet</button>
+      </div>
+    </header>
+
+    <!-- Mobile Top App Header -->
+    <div class="mobile-app-header no-print">
+      <div class="mobile-brand">
+        <img src="1000040018.jpg" alt="Logo" onerror="this.style.display='none'">
+        <div>
+          <h3>NEWCASTLE SCHOOL</h3>
+          <p>Academic Portal 2026</p>
+        </div>
+      </div>
+      <button onclick="loadDataFromGoogleDrive()" style="background:#1e40af; border:none; color:#fff; padding:6px 12px; border-radius:8px; font-size:11.5px; font-weight:700;">☁️ Sync</button>
+    </div>
+
+    <div class="content-body">
+      <!-- Universal Smart Filters Strip -->
+      <div class="smart-filter-bar no-print">
+        <div class="filter-item">
+          <label>Academic Class</label>
+          <select id="classSelect" onchange="onClassSwitched(this.value)">
+            <option value="Class 6">Class 6 (Junior 750)</option>
+            <option value="Class 7">Class 7 (Junior 750)</option>
+            <option value="Class 8" selected>Class 8 (Junior 750)</option>
+            <option value="Class 9">Class 9 (SSC Curriculum)</option>
+            <option value="Class 10">Class 10 (SSC Curriculum)</option>
+          </select>
+        </div>
+
+        <div class="filter-item">
+          <label>Exam Session</label>
+          <select id="examTermSelect" onchange="onExamTermChanged(this.value)">
+            <option value="1st Semester">1st Semester Examination</option>
+            <option value="2nd Semester">2nd Semester Examination</option>
+            <option value="Annual Exam" selected>Annual Examination</option>
+          </select>
+        </div>
+
+        <div class="filter-item" id="groupFilterWrapper" style="display: none;">
+          <label>Group / Stream</label>
+          <select id="groupFilter" onchange="renderMasterTable()">
+            <option value="ALL">All Groups</option>
+            <option value="Science">Science (বিজ্ঞান)</option>
+            <option value="Business Studies">Business Studies (ব্যবসায়)</option>
+            <option value="Humanities">Humanities (মানবিক)</option>
+          </select>
+        </div>
       </div>
 
-      <div class="select-item" id="groupFilterWrapper" style="display: none;">
-        <label>Group Filter</label>
-        <select id="groupFilter" onchange="renderMasterTable()">
-          <option value="ALL">All Groups</option>
-          <option value="Science">Science</option>
-          <option value="Business Studies">Business Studies</option>
-          <option value="Humanities">Humanities</option>
-        </select>
+      <!-- SECTION 1: STATS OVERVIEW -->
+      <div id="sectionStats" class="mobile-tab-view active">
+        <div class="stats-container">
+          <div class="modern-stat-card">
+            <div class="s-tag">Active Class & Term</div>
+            <div class="s-val" id="dashClass" style="color:var(--brand-primary); font-size:20px;">Class 8</div>
+            <div class="s-foot" style="color:var(--text-muted);">Session 2026</div>
+          </div>
+          <div class="modern-stat-card">
+            <div class="s-tag">Total Evaluated</div>
+            <div class="s-val" id="dashTotal">0</div>
+            <div class="s-foot" style="color:var(--emerald-green);">Students Registered</div>
+          </div>
+          <div class="modern-stat-card">
+            <div class="s-tag">Pass Rate</div>
+            <div class="s-val" id="dashRate" style="color:var(--accent-gold);">0%</div>
+            <div class="s-foot" id="dashPassFailSub" style="color:var(--text-muted);">0 Passed | 0 Failed</div>
+          </div>
+          <div class="modern-stat-card">
+            <div class="s-tag">Class Highest</div>
+            <div class="s-val" id="dashHighest" style="color:#0284c7;">0</div>
+            <div class="s-foot" id="dashAvgSub" style="color:var(--brand-primary);">Avg GPA: 0.00</div>
+          </div>
+        </div>
       </div>
-    </div>
 
-    <div style="display: flex; gap: 8px;">
-      <button onclick="loadDataFromGoogleDrive()" style="background:#eff6ff; border:1px solid #bfdbfe; color:var(--primary); font-weight:700; padding:10px 14px; border-radius:10px; cursor:pointer;">☁️ Sync</button>
-      <button onclick="exportCSV()" class="desktop-only-btn" style="background:#fff; border:1px solid var(--border); font-weight:700; padding:10px 14px; border-radius:10px; cursor:pointer;">📥 CSV</button>
-      <button onclick="printMasterA4()" class="desktop-only-btn" style="background:#fff; border:1px solid var(--border); font-weight:700; padding:10px 14px; border-radius:10px; cursor:pointer;">🖨️ Print</button>
-    </div>
-  </div>
-
-  <!-- Stats Grid (Mobile Tab 1 / Desktop Top) -->
-  <div class="tab-pane active" id="paneDashboard">
-    <div class="stats-grid">
-      <div class="stat-widget"><div class="w-lbl">Class & Term</div><div class="w-val" id="dashClass" style="font-size: 16px; color: var(--primary);">Class 8</div></div>
-      <div class="stat-widget sw-high"><div class="w-lbl">Highest Mark</div><div class="w-val" id="dashHighest" style="color: #0284c7;">0</div></div>
-      <div class="stat-widget"><div class="w-lbl">Total Students</div><div class="w-val" id="dashTotal">0</div></div>
-      <div class="stat-widget sw-pass"><div class="w-lbl">Passed</div><div class="w-val" id="dashPassed" style="color: var(--success);">0</div></div>
-      <div class="stat-widget sw-fail"><div class="w-lbl">Failed</div><div class="w-val" id="dashFailed" style="color: var(--danger);">0</div></div>
-      <div class="stat-widget"><div class="w-lbl">Pass Rate</div><div class="w-val" id="dashRate" style="color: var(--accent);">0%</div></div>
-      <div class="stat-widget"><div class="w-lbl">Average GPA</div><div class="w-val" id="dashAvgGpa">0.00</div></div>
-    </div>
-  </div>
-
-  <!-- Desktop Grid Container (Holds Form & Table side-by-side or stacked on Desktop) -->
-  <div class="desktop-layout-grid">
-    <!-- Marks Entry (Mobile Tab 2 / Desktop Left Column) -->
-    <div class="tab-pane" id="paneEntry">
-      <div class="ui-card">
-        <div class="card-title"><span>📝 Marks Entry</span></div>
-        <form id="marksForm" onsubmit="handleFormSubmit(event)">
-          <div class="f-row">
-            <div class="f-col" style="flex: 2;"><label>Student Name</label><input type="text" id="name" placeholder="Name" required></div>
-            <div class="f-col"><label>Roll</label><input type="number" id="roll" placeholder="Roll" required></div>
-          </div>
-          <div class="f-row">
-            <div class="f-col"><label>Student ID</label><input type="text" id="studentId" placeholder="e.g. C8-01" required></div>
-            <div class="f-col"><label>WhatsApp No.</label><input type="text" id="phone" placeholder="017xxxxxxxx"></div>
-          </div>
-          <div class="f-row">
-            <div class="f-col"><label>Exam Session</label>
-              <select id="formExamTerm">
-                <option value="1st Semester">1st Semester</option>
-                <option value="2nd Semester">2nd Semester</option>
-                <option value="Annual Exam" selected>Annual Exam</option>
-              </select>
-            </div>
-            <div class="f-col" id="grpInputWrapper" style="display: none;">
-              <label>Academic Group</label>
-              <select id="streamSelect" onchange="onStreamChanged()">
-                <option value="Science">Science (বিজ্ঞান)</option>
-                <option value="Business Studies">Business Studies (ব্যবসায়)</option>
-                <option value="Humanities">Humanities (মানবিক)</option>
-              </select>
-            </div>
+      <!-- SECTION 2: MARKS ENTRY SYSTEM -->
+      <div id="sectionEntry" class="mobile-tab-view">
+        <div class="dashboard-panel" id="desktopEntryBox">
+          <div class="panel-header-row">
+            <h3><span>📝</span> Student Marks Entry Engine</h3>
+            <span style="font-size:12px; font-weight:700; color:var(--text-muted);">Instant Result Calculation</span>
           </div>
 
-          <!-- Bangla -->
-          <div class="f-section-title" id="banTitle">1. Bangla 1st & 2nd Paper</div>
-          <div class="f-row">
-            <div class="f-col"><label id="lbl_b1_cq">1st CQ (70)</label><input type="number" id="b1_cq" min="0" max="70" required></div>
-            <div class="f-col"><label id="lbl_b1_mcq">1st MCQ (30)</label><input type="number" id="b1_mcq" min="0" max="30" required></div>
-            <div class="f-col"><label id="lbl_b2_cq">2nd CQ (35)</label><input type="number" id="b2_cq" min="0" max="70" required></div>
-            <div class="f-col"><label id="lbl_b2_mcq">2nd MCQ (15)</label><input type="number" id="b2_mcq" min="0" max="30" required></div>
-          </div>
-
-          <!-- English -->
-          <div class="f-section-title" id="engTitle">2. English 1st & 2nd Paper</div>
-          <div class="f-row">
-            <div class="f-col"><label id="lbl_e1">English 1st (100)</label><input type="number" id="e1" min="0" max="100" required></div>
-            <div class="f-col"><label id="lbl_e2">English 2nd (50)</label><input type="number" id="e2" min="0" max="100" required></div>
-          </div>
-
-          <!-- Math & Religion -->
-          <div class="f-section-title">3. Math & 4. Religion</div>
-          <div class="f-row">
-            <div class="f-col"><label>Math CQ (70)</label><input type="number" id="m_cq" min="0" max="70" required></div>
-            <div class="f-col"><label>Math MCQ (30)</label><input type="number" id="m_mcq" min="0" max="30" required></div>
-            <div class="f-col"><label>Relig CQ (70)</label><input type="number" id="rel_cq" min="0" max="70" required></div>
-            <div class="f-col"><label>Relig MCQ (30)</label><input type="number" id="rel_mcq" min="0" max="30" required></div>
-          </div>
-
-          <!-- ICT -->
-          <div class="f-section-title">5. ICT (50)</div>
-          <div class="f-row">
-            <div class="f-col"><label>ICT MCQ (25)</label><input type="number" id="ict_mcq" min="0" max="25" required></div>
-            <div class="f-col"><label>ICT Prac (25)</label><input type="number" id="ict_prac" min="0" max="25" required></div>
-          </div>
-
-          <!-- Junior Science & BGS -->
-          <div id="juniorExtras">
-            <div class="f-section-title">6. Science & 7. BGS</div>
-            <div class="f-row">
-              <div class="f-col"><label>Sci CQ</label><input type="number" id="j_sci_cq" min="0" max="70"></div>
-              <div class="f-col"><label>Sci MCQ</label><input type="number" id="j_sci_mcq" min="0" max="30"></div>
-              <div class="f-col"><label>BGS CQ</label><input type="number" id="j_bgs_cq" min="0" max="70"></div>
-              <div class="f-col"><label>BGS MCQ</label><input type="number" id="j_bgs_mcq" min="0" max="30"></div>
-            </div>
-          </div>
-
-          <!-- Senior Subjects -->
-          <div id="seniorExtras" style="display: none;">
-            <div class="f-section-title">6. Core & 7. Major Subjects</div>
-            <div class="f-row">
-              <div class="f-col" style="flex: 2;"><label>Core Sub</label><input type="text" id="s_core_name" readonly style="background:#f1f5f9;"></div>
-              <div class="f-col"><label>CQ</label><input type="number" id="s_core_cq" min="0" max="70"></div>
-              <div class="f-col"><label>MCQ</label><input type="number" id="s_core_mcq" min="0" max="30"></div>
-            </div>
-            <div class="f-row">
-              <div class="f-col" style="flex: 2;"><label>Major 1</label><input type="text" id="g1_name" readonly style="background:#f1f5f9;"></div>
-              <div class="f-col"><label id="lbl_g1_cq">CQ</label><input type="number" id="g1_cq" min="0" max="70"></div>
-              <div class="f-col"><label id="lbl_g1_mcq">MCQ</label><input type="number" id="g1_mcq" min="0" max="30"></div>
-              <div class="f-col" id="box_g1_prac"><label>Prac</label><input type="number" id="g1_prac" min="0" max="25" value="0"></div>
-            </div>
-            <div class="f-row">
-              <div class="f-col" style="flex: 2;"><label>Major 2</label><input type="text" id="g2_name" readonly style="background:#f1f5f9;"></div>
-              <div class="f-col"><label id="lbl_g2_cq">CQ</label><input type="number" id="g2_cq" min="0" max="70"></div>
-              <div class="f-col"><label id="lbl_g2_mcq">MCQ</label><input type="number" id="g2_mcq" min="0" max="30"></div>
-              <div class="f-col" id="box_g2_prac"><label>Prac</label><input type="number" id="g2_prac" min="0" max="25" value="0"></div>
-            </div>
-            <div class="f-row">
-              <div class="f-col" style="flex: 2;"><label>Major 3</label><input type="text" id="g3_name" readonly style="background:#f1f5f9;"></div>
-              <div class="f-col"><label id="lbl_g3_cq">CQ</label><input type="number" id="g3_cq" min="0" max="70"></div>
-              <div class="f-col"><label id="lbl_g3_mcq">MCQ</label><input type="number" id="g3_mcq" min="0" max="30"></div>
-              <div class="f-col" id="box_g3_prac"><label>Prac</label><input type="number" id="g3_prac" min="0" max="25" value="0"></div>
-            </div>
-
-            <div class="f-section-title">8. 4th Optional Subject</div>
-            <div class="f-row">
-              <div class="f-col" style="flex: 2;">
-                <label>Optional Subject</label>
-                <select id="opt_name" onchange="adjustSeniorPracticalFields()">
-                  <option value="Higher Mathematics">Higher Mathematics</option>
-                  <option value="Agriculture Studies">Agriculture Studies</option>
-                  <option value="Home Science">Home Science</option>
-                  <option value="Economics">Economics</option>
+          <form id="marksForm" onsubmit="handleFormSubmit(event)">
+            <div class="form-grid-row">
+              <div class="form-cell" style="flex: 2;"><label>Full Student Name</label><input type="text" id="name" placeholder="Student Name" required></div>
+              <div class="form-cell"><label>Roll Number</label><input type="number" id="roll" placeholder="Roll" required></div>
+              <div class="form-cell"><label>Student ID</label><input type="text" id="studentId" placeholder="e.g. C8-01" required></div>
+              <div class="form-cell" style="flex: 1.2;"><label>Guardian WhatsApp</label><input type="text" id="phone" placeholder="017xxxxxxxx"></div>
+              <div class="form-cell" style="flex: 1.2;"><label>Exam Session</label>
+                <select id="formExamTerm">
+                  <option value="1st Semester">1st Semester</option>
+                  <option value="2nd Semester">2nd Semester</option>
+                  <option value="Annual Exam" selected>Annual Exam</option>
                 </select>
               </div>
-              <div class="f-col"><label id="lbl_opt_cq">CQ</label><input type="number" id="opt_cq" min="0" max="70"></div>
-              <div class="f-col"><label id="lbl_opt_mcq">MCQ</label><input type="number" id="opt_mcq" min="0" max="30"></div>
-              <div class="f-col" id="box_opt_prac"><label>Prac</label><input type="number" id="opt_prac" min="0" max="25" value="0"></div>
+              <div class="form-cell" id="grpInputWrapper" style="display: none; flex: 1.5;">
+                <label>Academic Group</label>
+                <select id="streamSelect" onchange="onStreamChanged()">
+                  <option value="Science">Science (বিজ্ঞান বিভাগ)</option>
+                  <option value="Business Studies">Business Studies (ব্যবসায় শিক্ষা)</option>
+                  <option value="Humanities">Humanities (মানবিক বিভাগ)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Bangla -->
+            <div class="form-divider-title" id="banTitle">1. Bangla 1st & 2nd Paper</div>
+            <div class="form-grid-row">
+              <div class="form-cell"><label id="lbl_b1_cq">Ban 1st CQ (70)</label><input type="number" id="b1_cq" min="0" max="70" required></div>
+              <div class="form-cell"><label id="lbl_b1_mcq">Ban 1st MCQ (30)</label><input type="number" id="b1_mcq" min="0" max="30" required></div>
+              <div class="form-cell"><label id="lbl_b2_cq">Ban 2nd CQ (35)</label><input type="number" id="b2_cq" min="0" max="70" required></div>
+              <div class="form-cell"><label id="lbl_b2_mcq">Ban 2nd MCQ (15)</label><input type="number" id="b2_mcq" min="0" max="30" required></div>
+            </div>
+
+            <!-- English -->
+            <div class="form-divider-title" id="engTitle">2. English 1st & 2nd Paper</div>
+            <div class="form-grid-row">
+              <div class="form-cell"><label id="lbl_e1">English 1st (100)</label><input type="number" id="e1" min="0" max="100" required></div>
+              <div class="form-cell"><label id="lbl_e2">English 2nd (50)</label><input type="number" id="e2" min="0" max="100" required></div>
+            </div>
+
+            <!-- Math & Religion -->
+            <div class="form-divider-title">3. Mathematics (100) & 4. Religion (100)</div>
+            <div class="form-grid-row">
+              <div class="form-cell"><label>Math CQ (70)</label><input type="number" id="m_cq" min="0" max="70" required></div>
+              <div class="form-cell"><label>Math MCQ (30)</label><input type="number" id="m_mcq" min="0" max="30" required></div>
+              <div class="form-cell"><label>Relig CQ (70)</label><input type="number" id="rel_cq" min="0" max="70" required></div>
+              <div class="form-cell"><label>Relig MCQ (30)</label><input type="number" id="rel_mcq" min="0" max="30" required></div>
+            </div>
+
+            <!-- ICT -->
+            <div class="form-divider-title">5. Information & Communication Technology - ICT (50)</div>
+            <div class="form-grid-row">
+              <div class="form-cell"><label>ICT MCQ (25)</label><input type="number" id="ict_mcq" min="0" max="25" required></div>
+              <div class="form-cell"><label>ICT Practical (25)</label><input type="number" id="ict_prac" min="0" max="25" required></div>
+            </div>
+
+            <!-- Junior Science & BGS -->
+            <div id="juniorExtras">
+              <div class="form-divider-title">6. General Science (100) & 7. BGS (100)</div>
+              <div class="form-grid-row">
+                <div class="form-cell"><label>Sci CQ (70)</label><input type="number" id="j_sci_cq" min="0" max="70"></div>
+                <div class="form-cell"><label>Sci MCQ (30)</label><input type="number" id="j_sci_mcq" min="0" max="30"></div>
+                <div class="form-cell"><label>BGS CQ (70)</label><input type="number" id="j_bgs_cq" min="0" max="70"></div>
+                <div class="form-cell"><label>BGS MCQ (30)</label><input type="number" id="j_bgs_mcq" min="0" max="30"></div>
+              </div>
+            </div>
+
+            <!-- Senior Subjects -->
+            <div id="seniorExtras" style="display: none;">
+              <div class="form-divider-title">6. Group Core & 7. Group Major Subjects</div>
+              <div class="form-grid-row">
+                <div class="form-cell" style="flex: 2;"><label>Core Subject</label><input type="text" id="s_core_name" readonly style="background:#f8fafc;"></div>
+                <div class="form-cell"><label>CQ</label><input type="number" id="s_core_cq" min="0" max="70"></div>
+                <div class="form-cell"><label>MCQ</label><input type="number" id="s_core_mcq" min="0" max="30"></div>
+              </div>
+              <div class="form-grid-row">
+                <div class="form-cell" style="flex: 2;"><label>Major 1</label><input type="text" id="g1_name" readonly style="background:#f8fafc;"></div>
+                <div class="form-cell"><label id="lbl_g1_cq">CQ</label><input type="number" id="g1_cq" min="0" max="70"></div>
+                <div class="form-cell"><label id="lbl_g1_mcq">MCQ</label><input type="number" id="g1_mcq" min="0" max="30"></div>
+                <div class="form-cell" id="box_g1_prac"><label>Practical</label><input type="number" id="g1_prac" min="0" max="25" value="0"></div>
+              </div>
+              <div class="form-grid-row">
+                <div class="form-cell" style="flex: 2;"><label>Major 2</label><input type="text" id="g2_name" readonly style="background:#f8fafc;"></div>
+                <div class="form-cell"><label id="lbl_g2_cq">CQ</label><input type="number" id="g2_cq" min="0" max="70"></div>
+                <div class="form-cell"><label id="lbl_g2_mcq">MCQ</label><input type="number" id="g2_mcq" min="0" max="30"></div>
+                <div class="form-cell" id="box_g2_prac"><label>Practical</label><input type="number" id="g2_prac" min="0" max="25" value="0"></div>
+              </div>
+              <div class="form-grid-row">
+                <div class="form-cell" style="flex: 2;"><label>Major 3</label><input type="text" id="g3_name" readonly style="background:#f8fafc;"></div>
+                <div class="form-cell"><label id="lbl_g3_cq">CQ</label><input type="number" id="g3_cq" min="0" max="70"></div>
+                <div class="form-cell"><label id="lbl_g3_mcq">MCQ</label><input type="number" id="g3_mcq" min="0" max="30"></div>
+                <div class="form-cell" id="box_g3_prac"><label>Practical</label><input type="number" id="g3_prac" min="0" max="25" value="0"></div>
+              </div>
+
+              <div class="form-divider-title">8. 4th Optional Subject (GP > 2.00 is Bonus)</div>
+              <div class="form-grid-row">
+                <div class="form-cell" style="flex: 2;">
+                  <label>Optional Subject</label>
+                  <select id="opt_name" onchange="adjustSeniorPracticalFields()">
+                    <option value="Higher Mathematics">Higher Mathematics</option>
+                    <option value="Agriculture Studies">Agriculture Studies</option>
+                    <option value="Home Science">Home Science</option>
+                    <option value="Economics">Economics</option>
+                  </select>
+                </div>
+                <div class="form-cell"><label id="lbl_opt_cq">CQ</label><input type="number" id="opt_cq" min="0" max="70"></div>
+                <div class="form-cell"><label id="lbl_opt_mcq">MCQ</label><input type="number" id="opt_mcq" min="0" max="30"></div>
+                <div class="form-cell" id="box_opt_prac"><label>Practical</label><input type="number" id="opt_prac" min="0" max="25" value="0"></div>
+              </div>
+            </div>
+
+            <button type="submit" class="btn-action-primary" style="width:100%; justify-content:center; padding:16px; font-size:15px; margin-top:20px;">
+              💾 Calculate & Save Student Result
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- SECTION 3: TABULATION & RESULT LIST -->
+      <div id="sectionTabulation" class="mobile-tab-view">
+        <div class="dashboard-panel">
+          <div class="panel-header-row">
+            <h3><span>📋</span> Master Tabulation Sheet</h3>
+            <div style="display:flex; gap:10px;">
+              <input type="text" id="searchBox" placeholder="🔍 Search students..." oninput="renderMasterTable()" style="max-width:260px;">
             </div>
           </div>
 
-          <button type="submit" class="btn-submit-action">💾 Save Result</button>
-        </form>
-      </div>
-    </div>
+          <!-- A. Mobile View: Result Cards Feed -->
+          <div class="mobile-cards-feed" id="mobileCardsFeed"></div>
 
-    <!-- Tabulation View (Mobile Tab 3 / Desktop Right Column) -->
-    <div class="tab-pane" id="paneTabulation">
-      <div class="ui-card">
-        <div class="card-title">
-          <span>📋 Student Results List</span>
-        </div>
-
-        <input type="text" id="searchBox" style="width: 100%; padding: 10px 14px; border-radius: 10px; border: 1.5px solid var(--border); margin-bottom: 14px; font-size: 13px;" placeholder="🔍 Search by Roll, Name or ID..." oninput="renderMasterTable()">
-
-        <!-- 1. MOBILE ONLY: Interactive Result Cards -->
-        <div class="mobile-student-list" id="mobileCardsContainer"></div>
-
-        <!-- 2. DESKTOP ONLY: Full Master Sheet Table -->
-        <div class="desktop-table-container">
-          <table class="data-table">
-            <thead id="masterTableHead"></thead>
-            <tbody id="masterTableBody"></tbody>
-          </table>
+          <!-- B. Desktop View: Spreadsheet Tabulation Table -->
+          <div class="desktop-table-container">
+            <table class="pro-table">
+              <thead id="masterTableHead"></thead>
+              <tbody id="masterTableBody"></tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </main>
 </div>
 
-<!-- Mobile Bottom App Bar Navigation -->
-<div class="bottom-nav">
-  <button class="nav-btn active" onclick="switchTab('paneDashboard', this)">
-    <span style="font-size: 18px;">📊</span>
+<!-- Mobile Bottom Navigation Bar -->
+<div class="mobile-nav-bar no-print">
+  <button class="m-tab-btn active" onclick="mobileSwitchTab('sectionStats', this)">
+    <span class="m-icon">📊</span>
     <span>Dashboard</span>
   </button>
-  <button class="nav-btn" onclick="switchTab('paneEntry', this)">
-    <span style="font-size: 18px;">📝</span>
+  <button class="m-tab-btn" onclick="mobileSwitchTab('sectionEntry', this)">
+    <span class="m-icon">📝</span>
     <span>Add Marks</span>
   </button>
-  <button class="nav-btn" onclick="switchTab('paneTabulation', this)">
-    <span style="font-size: 18px;">📋</span>
+  <button class="m-tab-btn" onclick="mobileSwitchTab('sectionTabulation', this)">
+    <span class="m-icon">📋</span>
     <span>Results</span>
   </button>
 </div>
@@ -491,41 +671,42 @@
 <!-- Modal: Transcript Report Card -->
 <div class="modal-overlay" id="transcriptModal">
   <div class="transcript-sheet">
-    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--primary); padding-bottom: 12px; margin-bottom: 14px;">
+    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid var(--dark-navy); padding-bottom:14px; margin-bottom:16px;">
       <div>
-        <h2 style="font-size: 17px; color: var(--primary); font-weight: 800;">NEWCASTLE INTERNATIONAL SCHOOL</h2>
-        <p style="font-size: 11px; color: #b45309; font-weight: 600; font-style: italic;">"A House of Creative Education"</p>
+        <h2 style="font-size:20px; color:var(--dark-navy); font-weight:900;">NEWCASTLE INTERNATIONAL SCHOOL</h2>
+        <p style="font-size:12px; color:var(--accent-gold); font-weight:700; font-style:italic;">"A House of Creative Education"</p>
+        <p style="font-size:11px; color:var(--text-muted);">Japani bazar, Zia soroni, Soniakra, Dhaka-1236</p>
       </div>
-      <span style="background: #eff6ff; color: var(--primary); font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 14px;" id="modalBoardLabel">REPORT</span>
+      <span style="background:var(--brand-primary); color:#fff; font-size:11px; font-weight:800; padding:6px 14px; border-radius:30px;" id="modalBoardLabel">TRANSCRIPT</span>
     </div>
 
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px 14px; font-size: 11.5px; background: #f8fafc; border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; margin-bottom: 14px;" id="modalStudentMeta"></div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px 16px; font-size:12px; background:#f8fafc; border:1px solid var(--surface-border); border-radius:12px; padding:12px 16px; margin-bottom:16px;" id="modalStudentMeta"></div>
 
-    <table style="width: 100%; border-collapse: collapse; font-size: 11px; margin-bottom: 14px; text-align: center;">
+    <table style="width:100%; border-collapse:collapse; font-size:11.5px; margin-bottom:16px; text-align:center;">
       <thead>
-        <tr style="background: #0f172a; color: #fff;">
-          <th style="padding: 6px; border: 1px solid #cbd5e1;">SL</th>
-          <th style="padding: 6px; border: 1px solid #cbd5e1; text-align: left;">Subject</th>
-          <th style="padding: 6px; border: 1px solid #cbd5e1;">Full</th>
-          <th style="padding: 6px; border: 1px solid #cbd5e1;">CQ</th>
-          <th style="padding: 6px; border: 1px solid #cbd5e1;">MCQ</th>
-          <th style="padding: 6px; border: 1px solid #cbd5e1;">Prac</th>
-          <th style="padding: 6px; border: 1px solid #cbd5e1;">Total</th>
-          <th style="padding: 6px; border: 1px solid #cbd5e1;">High</th>
-          <th style="padding: 6px; border: 1px solid #cbd5e1;">GP</th>
-          <th style="padding: 6px; border: 1px solid #cbd5e1;">Grade</th>
-          <th style="padding: 6px; border: 1px solid #cbd5e1;">Status</th>
+        <tr style="background:#0b1120; color:#fff;">
+          <th style="padding:7px; border:1px solid #cbd5e1;">SL</th>
+          <th style="padding:7px; border:1px solid #cbd5e1; text-align:left;">Subject</th>
+          <th style="padding:7px; border:1px solid #cbd5e1;">Full</th>
+          <th style="padding:7px; border:1px solid #cbd5e1;">CQ</th>
+          <th style="padding:7px; border:1px solid #cbd5e1;">MCQ</th>
+          <th style="padding:7px; border:1px solid #cbd5e1;">Prac</th>
+          <th style="padding:7px; border:1px solid #cbd5e1;">Total</th>
+          <th style="padding:7px; border:1px solid #cbd5e1;">High</th>
+          <th style="padding:7px; border:1px solid #cbd5e1;">GP</th>
+          <th style="padding:7px; border:1px solid #cbd5e1;">Grade</th>
+          <th style="padding:7px; border:1px solid #cbd5e1;">Status</th>
         </tr>
       </thead>
       <tbody id="modalTranscriptBody"></tbody>
     </table>
 
-    <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 16px;" id="modalSummaryGrid"></div>
+    <div style="display:grid; grid-template-columns:repeat(5, 1fr); gap:10px; margin-bottom:20px;" id="modalSummaryGrid"></div>
 
-    <div class="no-print" style="display: flex; gap: 8px; margin-top: 14px;">
-      <button class="btn-submit-action" style="margin-top: 0; background: var(--success); flex: 1;" onclick="printIndividualA4()">🖨️ Print Card</button>
-      <button class="btn-submit-action" id="modalWaBtn" style="margin-top: 0; background: var(--wa); flex: 1;">💬 WhatsApp</button>
-      <button class="btn-submit-action" style="margin-top: 0; background: #64748b; flex: 0.8;" onclick="closeModal()">Close</button>
+    <div class="no-print" style="display:flex; gap:10px;">
+      <button class="btn-action-primary" style="flex:1; justify-content:center; background:var(--emerald-green);" onclick="printIndividualA4()">🖨️ Print Transcript</button>
+      <button class="btn-action-primary" id="modalWaBtn" style="flex:1; justify-content:center; background:var(--wa-color);">💬 Send WhatsApp</button>
+      <button class="btn-outline" style="flex:0.6;" onclick="closeModal()">Close</button>
     </div>
   </div>
 </div>
@@ -537,14 +718,20 @@
   let activeExamTerm = 'Annual Exam';
   let unifiedDatabase = JSON.parse(localStorage.getItem('unified_result_db_clean') || '[]');
 
-  function switchTab(tabId, el) {
-    if (window.innerWidth < 768) {
-      document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-      document.getElementById(tabId).classList.add('active');
-      el.classList.add('active');
+  // Desktop Scroll Navigation
+  function desktopScrollTo(secId) {
+    if (window.innerWidth >= 900) {
+      document.getElementById(secId).scrollIntoView({ behavior: 'smooth' });
     }
-    if (tabId === 'paneTabulation') renderMasterTable();
+  }
+
+  // Mobile Tab Switch
+  function mobileSwitchTab(tabId, el) {
+    document.querySelectorAll('.mobile-tab-view').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.m-tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(tabId).classList.add('active');
+    el.classList.add('active');
+    if (tabId === 'sectionTabulation') renderMasterTable();
   }
 
   function isSeniorClass(cls) { return cls === 'Class 9' || cls === 'Class 10'; }
@@ -745,7 +932,7 @@
     text += `📍 Japani bazar, Zia soroni, Soniakra, Dhaka-1236\n`;
     text += `━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
     text += `📋 *ACADEMIC PROGRESS REPORT*\n`;
-    text += `🎯 *Exam:* ${term} - 2026\n`;
+    text += `🎯 *Exam Session:* ${term} - 2026\n`;
     text += `━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
     text += `👤 *Student Name:* ${s.name}\n`;
     text += `🆔 *Student ID:* ${s.studentId}\n`;
@@ -796,9 +983,9 @@
     text += `▫️ *GPA:* ${s.gpa.toFixed(2)} / 5.00\n`;
     text += `▫️ *Letter Grade:* ${s.finalGrade}\n`;
     text += `▫️ *Status:* ${s.isPassed ? '✅ PASSED' : '❌ FAILED'}\n`;
-    text += `▫️ *Merit Position:* #${s.rank || '-'}\n`;
+    text += `▫️ *Merit Rank:* #${s.rank || '-'}\n`;
     text += `━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
-    text += `_Note: Official digital report issued by Newcastle International School._`;
+    text += `_Note: Official statement issued by Newcastle International School._`;
 
     return text;
   }
@@ -833,7 +1020,7 @@
         unifiedDatabase = data;
         saveDB();
         renderMasterTable();
-        alert("✅ Google Drive থেকে ডেটা সিঙ্ক করা হয়েছে!");
+        alert("✅ Google Drive থেকে সফলভাবে ডেটা সিঙ্ক করা হয়েছে!");
       }
     } catch (err) {
       console.warn("Cloud load fallback:", err);
@@ -1035,7 +1222,7 @@
 
     saveDB();
     saveToGoogleDrive(newRecord);
-    alert("✅ Student Result Saved Successfully!");
+    alert("✅ Student Result Successfully Saved!");
     e.target.reset();
     document.getElementById('formExamTerm').value = activeExamTerm;
     if (senior) onStreamChanged();
@@ -1054,9 +1241,9 @@
   function renderMasterTable() {
     const thead = document.getElementById('masterTableHead');
     const tbody = document.getElementById('masterTableBody');
-    const mobileCards = document.getElementById('mobileCardsContainer');
+    const mobileFeed = document.getElementById('mobileCardsFeed');
     tbody.innerHTML = '';
-    mobileCards.innerHTML = '';
+    mobileFeed.innerHTML = '';
     const q = document.getElementById('searchBox').value.toLowerCase().trim();
     const senior = isSeniorClass(activeClass);
 
@@ -1076,10 +1263,9 @@
 
     document.getElementById('dashTotal').innerText = total;
     document.getElementById('dashHighest').innerText = highestMark;
-    document.getElementById('dashPassed').innerText = passed;
-    document.getElementById('dashFailed').innerText = failed;
     document.getElementById('dashRate').innerText = `${rate}%`;
-    document.getElementById('dashAvgGpa').innerText = avgGpa;
+    document.getElementById('dashPassFailSub').innerText = `${passed} Passed | ${failed} Failed`;
+    document.getElementById('dashAvgSub').innerText = `Avg GPA: ${avgGpa}`;
 
     if (!senior) {
       thead.innerHTML = `
@@ -1112,87 +1298,87 @@
 
     const cols = senior ? 24 : 20;
     if (filtered.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="${cols}" style="padding: 24px; color: var(--text-muted); font-weight: 600;">No records found.</td></tr>`;
-      mobileCards.innerHTML = `<div style="text-align:center; padding:30px 10px; color:var(--text-muted); font-weight:600;">No student records found. Add marks from "Add Marks" tab.</div>`;
+      tbody.innerHTML = `<tr><td colspan="${cols}" style="padding: 30px; color: var(--text-muted); font-weight: 600;">No records found for ${activeClass} (${activeExamTerm}).</td></tr>`;
+      mobileFeed.innerHTML = `<div style="text-align:center; padding:30px 10px; color:var(--text-muted); font-weight:600;">No students added yet. Use 'Add Marks' to enter data.</div>`;
       return;
     }
 
     filtered.forEach(s => {
-      // 1. Desktop Row Builder
+      // 1. DESKTOP ROW
       const tr = document.createElement('tr');
       if (s.isPassed && s.rank === 1) tr.className = 'first-place';
 
-      let actionButtons = `
+      let actions = `
         <td class="no-print">
-          <button class="btn-act-card" style="padding:5px 8px; border-radius:6px; cursor:pointer;" onclick="openTranscript(${s.id})">🖨️ Card</button>
-          <button class="btn-act-wa" style="padding:5px 8px; border-radius:6px; cursor:pointer; background:#dcfce7; border:1px solid #86efac; color:#15803d;" onclick="sendWhatsAppDirectReport(${s.id})">💬 WA</button>
-          <button class="btn-act-del" style="padding:5px 8px; border-radius:6px; cursor:pointer; background:#fff1f2; border:1px solid #fecdd3; color:#be123c;" onclick="deleteRecord(${s.id})">✕</button>
+          <button class="btn-act-card" onclick="openTranscript(${s.id})">🖨️ Card</button>
+          <button class="btn-act-wa" onclick="sendWhatsAppDirectReport(${s.id})">💬 WA</button>
+          <button class="btn-act-del" onclick="deleteRecord(${s.id})">✕</button>
         </td>
       `;
 
       if (!senior) {
         tr.innerHTML = `
           <td><strong>#${s.roll}</strong></td>
-          <td style="color:var(--text-muted); font-weight:600;">${s.studentId}</td>
-          <td style="text-align: left; font-weight: 700;">${s.name}</td>
-          <td><span style="font-size:10px; background:#f1f5f9; padding:2px 5px; border-radius:4px;">${s.examTerm}</span></td>
+          <td style="color:var(--text-muted); font-weight:700;">${s.studentId}</td>
+          <td style="text-align:left; font-weight:800;">${s.name}</td>
+          <td><span style="font-size:11px; background:#f1f5f9; padding:2px 6px; border-radius:4px;">${s.examTerm}</span></td>
           <td>${s.b1_total}</td><td>${s.b2_total}</td><td>${s.e1}</td><td>${s.e2}</td>
           <td>${s.mathTotal}</td><td>${s.relTotal}</td><td>${safeVal(s.sciTotal)}</td><td>${safeVal(s.bgsTotal)}</td>
           <td>${s.ictTotal}</td>
-          <td style="font-weight:800; color:var(--primary);">${s.grandTotal}</td>
+          <td style="font-weight:900; color:var(--brand-primary);">${s.grandTotal}</td>
           <td style="color:#0284c7; font-weight:700;">${highestMark}</td>
-          <td style="font-weight:800; color:${s.isPassed ? 'var(--success)' : 'var(--danger)'};">${s.gpa.toFixed(2)}</td>
+          <td style="font-weight:900; color:${s.isPassed ? 'var(--emerald-green)' : 'var(--rose-red)'};">${s.gpa.toFixed(2)}</td>
           <td style="font-weight:800;">${s.finalGrade}</td>
-          <td><span class="${s.isPassed ? 'tag-pass' : 'tag-fail'}">${s.isPassed ? 'Pass' : 'Fail'}</span></td>
-          <td><span class="tag-rank">${s.isPassed ? '#' + s.rank : '-'}</span></td>
-          ${actionButtons}
+          <td><span class="status-badge ${s.isPassed ? 'status-pass' : 'status-fail'}">${s.isPassed ? 'Passed' : 'Failed'}</span></td>
+          <td><span class="rank-pill">${s.isPassed ? '#' + s.rank : '-'}</span></td>
+          ${actions}
         `;
       } else {
         tr.innerHTML = `
           <td><strong>#${s.roll}</strong></td>
-          <td style="color:var(--text-muted); font-weight:600;">${s.studentId}</td>
-          <td style="text-align: left; font-weight: 700;">${s.name}</td>
-          <td><span style="font-size:10px; background:#eff6ff; color:#1e40af; padding:2px 5px; border-radius:4px; font-weight:700;">${s.group}</span></td>
-          <td><span style="font-size:10px; background:#f1f5f9; padding:2px 5px; border-radius:4px;">${s.examTerm}</span></td>
+          <td style="color:var(--text-muted); font-weight:700;">${s.studentId}</td>
+          <td style="text-align:left; font-weight:800;">${s.name}</td>
+          <td><span style="font-size:11px; background:#eff6ff; color:#1e40af; padding:2px 6px; border-radius:4px; font-weight:700;">${s.group}</span></td>
+          <td><span style="font-size:11px; background:#f1f5f9; padding:2px 6px; border-radius:4px;">${s.examTerm}</span></td>
           <td>${s.b1_total}</td><td>${s.b2_total}</td><td>${s.e1}</td><td>${s.e2}</td>
           <td>${s.mathTotal}</td><td>${s.relTotal}</td><td>${s.ictTotal}</td>
           <td>${safeVal(s.coreTotal)}</td><td>${safeVal(s.g1Total)}</td><td>${safeVal(s.g2Total)}</td><td>${safeVal(s.g3Total)}</td>
           <td>${safeVal(s.optTotal)}</td>
-          <td style="font-weight:800; color:var(--primary);">${s.grandTotal}</td>
+          <td style="font-weight:900; color:var(--brand-primary);">${s.grandTotal}</td>
           <td style="color:#0284c7; font-weight:700;">${highestMark}</td>
-          <td style="font-weight:800; color:${s.isPassed ? 'var(--success)' : 'var(--danger)'};">${s.gpa.toFixed(2)}</td>
+          <td style="font-weight:900; color:${s.isPassed ? 'var(--emerald-green)' : 'var(--rose-red)'};">${s.gpa.toFixed(2)}</td>
           <td style="font-weight:800;">${s.finalGrade}</td>
-          <td><span class="${s.isPassed ? 'tag-pass' : 'tag-fail'}">${s.isPassed ? 'Pass' : 'Fail'}</span></td>
-          <td><span class="tag-rank">${s.isPassed ? '#' + s.rank : '-'}</span></td>
-          ${actionButtons}
+          <td><span class="status-badge ${s.isPassed ? 'status-pass' : 'status-fail'}">${s.isPassed ? 'Passed' : 'Failed'}</span></td>
+          <td><span class="rank-pill">${s.isPassed ? '#' + s.rank : '-'}</span></td>
+          ${actions}
         `;
       }
       tbody.appendChild(tr);
 
-      // 2. Mobile Card Builder (App-Style Experience)
+      // 2. MOBILE CARD ITEM
       const mCard = document.createElement('div');
-      mCard.className = 'student-card-item';
+      mCard.className = 'm-student-card';
       mCard.innerHTML = `
-        <div class="student-card-header">
+        <div class="m-card-top">
           <div>
-            <div class="st-name">${s.name}</div>
-            <div class="st-sub">Roll: #${s.roll} | ID: ${s.studentId} ${senior ? `(${s.group})` : ''}</div>
+            <div class="m-name">${s.name}</div>
+            <div class="m-meta">Roll: #${s.roll} | ID: ${s.studentId} ${senior ? `(${s.group})` : ''}</div>
           </div>
-          <span class="${s.isPassed ? 'tag-pass' : 'tag-fail'}">${s.isPassed ? 'Passed' : 'Failed'}</span>
+          <span class="status-badge ${s.isPassed ? 'status-pass' : 'status-fail'}">${s.isPassed ? 'Passed' : 'Failed'}</span>
         </div>
-        <div class="student-card-stats">
-          <div><span style="font-size:10px; color:var(--text-muted);">TOTAL</span><strong>${s.grandTotal}</strong></div>
-          <div><span style="font-size:10px; color:var(--text-muted);">GPA</span><strong style="color:${s.isPassed ? 'var(--success)' : 'var(--danger)'}">${s.gpa.toFixed(2)}</strong></div>
-          <div><span style="font-size:10px; color:var(--text-muted);">GRADE</span><strong>${s.finalGrade}</strong></div>
-          <div><span style="font-size:10px; color:var(--text-muted);">RANK</span><strong>${s.isPassed ? '#' + s.rank : '-'}</strong></div>
+        <div class="m-score-strip">
+          <div class="sc-box"><div>TOTAL</div><strong>${s.grandTotal}</strong></div>
+          <div class="sc-box"><div>GPA</div><strong style="color:${s.isPassed ? 'var(--emerald-green)' : 'var(--rose-red)'}">${s.gpa.toFixed(2)}</strong></div>
+          <div class="sc-box"><div>GRADE</div><strong>${s.finalGrade}</strong></div>
+          <div class="sc-box"><div>RANK</div><strong>${s.isPassed ? '#' + s.rank : '-'}</strong></div>
         </div>
-        <div class="student-card-actions">
-          <button style="background:#eff6ff; color:var(--primary); border:1px solid #bfdbfe;" onclick="openTranscript(${s.id})">🖨️ View Card</button>
-          <button style="background:var(--wa); color:#fff;" onclick="sendWhatsAppDirectReport(${s.id})">💬 WhatsApp</button>
-          <button style="background:#fee2e2; color:var(--danger); flex:0.4;" onclick="deleteRecord(${s.id})">✕</button>
+        <div class="m-action-strip">
+          <button style="background:#eff6ff; color:var(--brand-primary);" onclick="openTranscript(${s.id})">🖨️ View Card</button>
+          <button style="background:var(--wa-color); color:#fff;" onclick="sendWhatsAppDirectReport(${s.id})">💬 WhatsApp</button>
+          <button style="background:#fee2e2; color:var(--rose-red); flex:0.4;" onclick="deleteRecord(${s.id})">✕</button>
         </div>
       `;
-      mobileCards.appendChild(mCard);
+      mobileFeed.appendChild(mCard);
     });
   }
 
@@ -1264,9 +1450,9 @@
         { name: 'Religion & Moral Edu.', full: 100, cq: safeVal(r.rel_cq), mcq: safeVal(r.rel_mcq), prac: '-', tot: safeVal(s.relTotal), highest: getSubjectHighestMark('rel'), gp: s.relRes.gp.toFixed(2), gr: s.relRes.grade, f: s.relFail },
         { name: 'ICT', full: 50, cq: '-', mcq: safeVal(r.ict_mcq), prac: safeVal(r.ict_prac), tot: safeVal(s.ictTotal), highest: getSubjectHighestMark('ict'), gp: s.ictRes.gp.toFixed(2), gr: s.ictRes.grade, f: s.ictFail },
         { name: s.coreName, full: 100, cq: safeVal(r.s_core_cq), mcq: safeVal(r.s_core_mcq), prac: '-', tot: safeVal(s.coreTotal), highest: getSubjectHighestMark('core'), gp: s.coreRes.gp.toFixed(2), gr: s.coreRes.grade, f: s.coreFail },
-        { name: s.g1Name, full: 100, cq: safeVal(r.g1_cq), mcq: safeVal(r.g1_mcq), prac: s.s1Prac ? safeVal(r.g1_prac) : '-', tot: safeVal(s.g1Total), highest: getSubjectHighestMark('g1'), gp: s.g1Res.gp.toFixed(2), gr: s.g1Res.grade, f: s.g1Fail },
-        { name: s.g2Name, full: 100, cq: safeVal(r.g2_cq), mcq: safeVal(r.g2_mcq), prac: s.s2Prac ? safeVal(r.g2_prac) : '-', tot: safeVal(s.g2Total), highest: getSubjectHighestMark('g2'), gp: s.g2Res.gp.toFixed(2), gr: s.g2Res.grade, f: s.g2Fail },
-        { name: s.g3Name, full: 100, cq: safeVal(r.g3_cq), mcq: safeVal(r.g3_mcq), prac: s.s3Prac ? safeVal(r.g3_prac) : '-', tot: safeVal(s.g3Total), highest: getSubjectHighestMark('g3'), gp: s.g3Res.gp.toFixed(2), gr: s.g3Res.grade, f: s.g3Fail },
+        { name: s.g1Name, full: 100, cq: safeVal(r.g1_cq), mcq: safeVal(r.g1_mcq), prac: s.s1Prac ? safeVal(r.g1_prac) : '-', tot: safeVal(s.g1Total), gp: s.g1Res.gp.toFixed(2), gr: s.g1Res.grade, f: s.g1Fail },
+        { name: s.g2Name, full: 100, cq: safeVal(r.g2_cq), mcq: safeVal(r.g2_mcq), prac: s.s2Prac ? safeVal(r.g2_prac) : '-', tot: safeVal(s.g2Total), gp: s.g2Res.gp.toFixed(2), gr: s.g2Res.grade, f: s.g2Fail },
+        { name: s.g3Name, full: 100, cq: safeVal(r.g3_cq), mcq: safeVal(r.g3_mcq), prac: s.s3Prac ? safeVal(r.g3_prac) : '-', tot: safeVal(s.g3Total), gp: s.g3Res.gp.toFixed(2), gr: s.g3Res.grade, f: s.g3Fail },
         { name: `4th Sub: ${s.optName}`, full: 100, cq: safeVal(r.opt_cq), mcq: safeVal(r.opt_mcq), prac: s.optPrac ? safeVal(r.opt_prac) : '-', tot: safeVal(s.optTotal), gp: s.optRes.gp.toFixed(2), gr: s.optRes.grade, f: false }
       ];
     }
@@ -1276,27 +1462,27 @@
     subs.forEach((sub, i) => {
       const tr = document.createElement('tr');
       tr.innerHTML = `
-        <td style="padding:5px; border:1px solid #cbd5e1;">${i+1}</td>
-        <td style="padding:5px; border:1px solid #cbd5e1; text-align:left; font-weight:700;">${sub.name}</td>
-        <td style="padding:5px; border:1px solid #cbd5e1;">${sub.full}</td>
-        <td style="padding:5px; border:1px solid #cbd5e1;">${sub.cq}</td>
-        <td style="padding:5px; border:1px solid #cbd5e1;">${sub.mcq}</td>
-        <td style="padding:5px; border:1px solid #cbd5e1;">${sub.prac}</td>
-        <td style="padding:5px; border:1px solid #cbd5e1; font-weight:800;">${sub.tot}</td>
-        <td style="padding:5px; border:1px solid #cbd5e1; color:#0284c7; font-weight:700;">${sub.highest}</td>
-        <td style="padding:5px; border:1px solid #cbd5e1;">${sub.gp}</td>
-        <td style="padding:5px; border:1px solid #cbd5e1; font-weight:700;">${sub.gr}</td>
-        <td style="padding:5px; border:1px solid #cbd5e1; font-weight:700; color:${sub.f ? 'var(--danger)' : 'var(--success)'};">${sub.f ? 'Fail' : 'Pass'}</td>
+        <td style="padding:6px; border:1px solid #cbd5e1;">${i+1}</td>
+        <td style="padding:6px; border:1px solid #cbd5e1; text-align:left; font-weight:700;">${sub.name}</td>
+        <td style="padding:6px; border:1px solid #cbd5e1;">${sub.full}</td>
+        <td style="padding:6px; border:1px solid #cbd5e1;">${sub.cq}</td>
+        <td style="padding:6px; border:1px solid #cbd5e1;">${sub.mcq}</td>
+        <td style="padding:6px; border:1px solid #cbd5e1;">${sub.prac}</td>
+        <td style="padding:6px; border:1px solid #cbd5e1; font-weight:800;">${sub.tot}</td>
+        <td style="padding:6px; border:1px solid #cbd5e1; color:#0284c7; font-weight:700;">${sub.highest}</td>
+        <td style="padding:6px; border:1px solid #cbd5e1;">${sub.gp}</td>
+        <td style="padding:6px; border:1px solid #cbd5e1; font-weight:700;">${sub.gr}</td>
+        <td style="padding:6px; border:1px solid #cbd5e1; font-weight:700; color:${sub.f ? 'var(--rose-red)' : 'var(--emerald-green)'};">${sub.f ? 'Fail' : 'Pass'}</td>
       `;
       tbody.appendChild(tr);
     });
 
     document.getElementById('modalSummaryGrid').innerHTML = `
-      <div style="background:#f8fafc; border:1px solid var(--border); border-radius:6px; padding:6px; text-align:center;"><div style="font-size:10px; color:var(--text-muted);">Total Marks</div><div style="font-size:16px; font-weight:800; color:var(--primary);">${s.grandTotal}</div></div>
-      <div style="background:#f8fafc; border:1px solid var(--border); border-radius:6px; padding:6px; text-align:center;"><div style="font-size:10px; color:var(--text-muted);">Class High</div><div style="font-size:16px; font-weight:800; color:#0284c7;">${classHighest}</div></div>
-      <div style="background:#f8fafc; border:1px solid var(--border); border-radius:6px; padding:6px; text-align:center;"><div style="font-size:10px; color:var(--text-muted);">GPA</div><div style="font-size:16px; font-weight:800; color:${s.isPassed ? 'var(--success)' : 'var(--danger)'};">${s.gpa.toFixed(2)}</div></div>
-      <div style="background:#f8fafc; border:1px solid var(--border); border-radius:6px; padding:6px; text-align:center;"><div style="font-size:10px; color:var(--text-muted);">Grade</div><div style="font-size:16px; font-weight:800;">${s.finalGrade}</div></div>
-      <div style="background:#f8fafc; border:1px solid var(--border); border-radius:6px; padding:6px; text-align:center;"><div style="font-size:10px; color:var(--text-muted);">Rank</div><div style="font-size:16px; font-weight:800;">${s.isPassed ? '#' + s.rank : '-'}</div></div>
+      <div style="background:#f8fafc; border:1px solid var(--surface-border); border-radius:10px; padding:10px; text-align:center;"><div style="font-size:10.5px; color:var(--text-muted); font-weight:700;">TOTAL MARKS</div><div style="font-size:18px; font-weight:900; color:var(--brand-primary);">${s.grandTotal}</div></div>
+      <div style="background:#f8fafc; border:1px solid var(--surface-border); border-radius:10px; padding:10px; text-align:center;"><div style="font-size:10.5px; color:var(--text-muted); font-weight:700;">CLASS HIGH</div><div style="font-size:18px; font-weight:900; color:#0284c7;">${classHighest}</div></div>
+      <div style="background:#f8fafc; border:1px solid var(--surface-border); border-radius:10px; padding:10px; text-align:center;"><div style="font-size:10.5px; color:var(--text-muted); font-weight:700;">GPA</div><div style="font-size:18px; font-weight:900; color:${s.isPassed ? 'var(--emerald-green)' : 'var(--rose-red)'};">${s.gpa.toFixed(2)}</div></div>
+      <div style="background:#f8fafc; border:1px solid var(--surface-border); border-radius:10px; padding:10px; text-align:center;"><div style="font-size:10.5px; color:var(--text-muted); font-weight:700;">GRADE</div><div style="font-size:18px; font-weight:900;">${s.finalGrade}</div></div>
+      <div style="background:#f8fafc; border:1px solid var(--surface-border); border-radius:10px; padding:10px; text-align:center;"><div style="font-size:10.5px; color:var(--text-muted); font-weight:700;">RANK</div><div style="font-size:18px; font-weight:900;">${s.isPassed ? '#' + s.rank : '-'}</div></div>
     `;
 
     document.getElementById('modalWaBtn').onclick = () => sendWhatsAppDirectReport(s.id);
