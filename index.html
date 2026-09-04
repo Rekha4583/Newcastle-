@@ -1,0 +1,1494 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Newcastle International School - Academic Result System</title>
+  <style>
+    :root {
+      --primary: #0f3460;
+      --primary-hover: #16213e;
+      --bg: #f1f5f9;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #cbd5e1;
+      --success: #16a34a;
+      --danger: #dc2626;
+      --highlight: #fef3c7;
+      --whatsapp: #25d366;
+      --whatsapp-hover: #1da851;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background-color: var(--bg); color: var(--text); padding: 20px 10px; display: flex; justify-content: center; }
+    .app-container { width: 100%; max-width: 1600px; background: var(--card); border-radius: 12px; padding: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+    
+    .school-brand-banner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      padding-bottom: 14px;
+      border-bottom: 2px solid #e2e8f0;
+      margin-bottom: 16px;
+    }
+    .school-brand-banner img {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+    }
+    .school-brand-text {
+      text-align: center;
+    }
+    .school-brand-text h1 {
+      font-size: 24px;
+      color: var(--primary);
+      margin-bottom: 2px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+    }
+    .school-brand-text .motto {
+      font-size: 13px;
+      font-style: italic;
+      color: #b45309;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+    .school-brand-text .address {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .header-bar {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 8px;
+      padding: 12px 18px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .selector-box { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .selector-box select { font-size: 14px; font-weight: 700; padding: 6px 12px; border: 2px solid var(--primary); border-radius: 6px; background: #fff; color: var(--primary); }
+
+    .btn-group { display: flex; gap: 8px; flex-wrap: wrap; }
+    .btn-action { padding: 6px 14px; font-size: 12px; font-weight: 600; border-radius: 6px; cursor: pointer; border: 1px solid var(--border); background: #fff; color: var(--text); }
+    .btn-action:hover { background: #e2e8f0; }
+
+    .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin-bottom: 24px; }
+    .dash-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; text-align: center; }
+    .dash-card .val { font-size: 20px; font-weight: 800; color: var(--primary); margin-top: 4px; }
+    .dash-card .lbl { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; }
+
+    .section-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--primary);
+      margin: 16px 0 8px 0;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 4px;
+    }
+    .form-group { margin-bottom: 10px; }
+    .row { display: flex; gap: 12px; flex-wrap: wrap; }
+    .row .form-group { flex: 1; min-width: 130px; }
+    label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 4px; color: #334155; }
+    input, select { width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px; font-size: 13px; outline: none; background: #fff; }
+    input:focus, select:focus { border-color: var(--primary); }
+
+    .btn-submit {
+      width: 100%;
+      padding: 12px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 15px;
+      transition: 0.2s;
+    }
+    .btn-submit:hover { background: var(--primary-hover); }
+
+    .table-responsive { width: 100%; overflow-x: auto; margin-top: 15px; border: 1px solid #e2e8f0; border-radius: 8px; }
+    table.master-table { width: 100%; border-collapse: collapse; font-size: 11.5px; min-width: 1550px; background: #fff; }
+    table.master-table th, table.master-table td { border: 1px solid #e2e8f0; padding: 7px 8px; text-align: center; white-space: nowrap; }
+    table.master-table thead tr { background: var(--primary); color: #fff; font-size: 11.5px; font-weight: 600; }
+    table.master-table tbody tr:nth-child(even) { background: #f8fafc; }
+    table.master-table tbody tr.first-place { background: var(--highlight) !important; font-weight: 600; }
+
+    /* Action Buttons */
+    .btn-action-print { background: #eff6ff; border: 1px solid #93c5fd; color: var(--primary); font-size: 11px; font-weight: 600; cursor: pointer; padding: 4px 6px; border-radius: 4px; }
+    .btn-action-print:hover { background: #dbeafe; }
+    .btn-wa-action {
+      background: #25d366;
+      border: 1px solid #1da851;
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      padding: 4px 7px;
+      border-radius: 4px;
+      margin-left: 2px;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .btn-wa-action:hover { background: #1da851; }
+    .btn-delete { background: #fee2e2; border: 1px solid #fca5a5; color: var(--danger); font-size: 11px; font-weight: 600; cursor: pointer; padding: 4px 6px; border-radius: 4px; margin-left: 2px; }
+    .btn-delete:hover { background: #fecaca; }
+
+    .list-header-row { display: flex; justify-content: space-between; align-items: center; margin-top: 30px; margin-bottom: 12px; }
+    .btn-print-master { padding: 8px 16px; background: #fff; border: 1px solid var(--primary); color: var(--primary); border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; }
+    .search-box { width: 100%; padding: 10px 14px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; margin-bottom: 14px; }
+
+    /* Modal / Individual Transcript */
+    .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); z-index: 1000; justify-content: center; align-items: center; padding: 15px; }
+    .transcript-sheet { background: #fff; width: 100%; max-width: 850px; border-radius: 8px; padding: 28px; box-shadow: 0 5px 25px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto; }
+    
+    .transcript-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 12px;
+      margin-bottom: 14px;
+    }
+    .transcript-header img {
+      width: 75px;
+      height: 75px;
+      object-fit: contain;
+    }
+    .transcript-header .title-area { text-align: center; }
+    .transcript-header h2 { font-size: 20px; color: var(--primary); font-weight: 800; margin-bottom: 2px; }
+    .transcript-header .tagline { font-size: 12px; color: #b45309; font-weight: 600; font-style: italic; }
+    .transcript-header .addr { font-size: 11px; color: var(--muted); margin-top: 2px; }
+    .transcript-header .report-name {
+      display: inline-block;
+      margin-top: 5px;
+      padding: 3px 12px;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 14px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .student-meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 20px; font-size: 12px; margin-bottom: 12px; padding: 10px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; }
+    table.transcript-table { width: 100%; border-collapse: collapse; font-size: 11.5px; margin-bottom: 12px; }
+    table.transcript-table th, table.transcript-table td { border: 1px solid #cbd5e1; padding: 5px 6px; text-align: center; }
+    table.transcript-table th { background: #f1f5f9; color: #1e293b; font-weight: 600; }
+
+    .summary-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 16px; }
+    .summary-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px; text-align: center; }
+    .summary-card .s-lbl { font-size: 11px; color: var(--muted); font-weight: 600; }
+    .summary-card .s-val { font-size: 15px; font-weight: 700; color: var(--primary); margin-top: 2px; }
+
+    .signature-area { display: none; margin-top: 45px; justify-content: space-between; }
+    .signature-box { border-top: 1px solid #334155; width: 160px; text-align: center; font-size: 11px; font-weight: 600; padding-top: 4px; }
+
+    .print-header { display: none; }
+
+    /* Print Rules (A4 Portrait & Landscape) */
+    @media print {
+      html, body {
+        background: #ffffff !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      body.printing-individual .app-container { display: none !important; }
+      body.printing-individual .modal-overlay {
+        display: block !important;
+        position: static !important;
+        background: transparent !important;
+        padding: 0 !important;
+        width: 100% !important;
+      }
+      body.printing-individual .transcript-sheet {
+        display: block !important;
+        box-shadow: none !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        padding: 0 !important;
+        border: none !important;
+      }
+      body.printing-individual .signature-area { display: flex !important; }
+      body.printing-individual .modal-footer,
+      body.printing-individual .no-print { display: none !important; }
+
+      body.printing-master .modal-overlay { display: none !important; }
+      body.printing-master .app-container {
+        box-shadow: none !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        padding: 0 !important;
+        border: none !important;
+      }
+      body.printing-master form,
+      body.printing-master .search-box,
+      body.printing-master .btn-print-master,
+      body.printing-master .dashboard-grid,
+      body.printing-master .school-brand-banner,
+      body.printing-master .header-bar,
+      body.printing-master .list-header-row,
+      body.printing-master .no-print { display: none !important; }
+
+      body.printing-master .print-header {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        margin-bottom: 10px;
+        border-bottom: 1px solid #334155;
+        padding-bottom: 6px;
+      }
+      body.printing-master .print-header img { width: 55px; height: 55px; object-fit: contain; }
+      body.printing-master .table-responsive { display: block !important; border: none !important; overflow: visible !important; }
+      body.printing-master table.master-table { width: 100% !important; min-width: 100% !important; font-size: 7.2pt !important; }
+      body.printing-master table.master-table th, body.printing-master table.master-table td { padding: 3px 2px !important; border: 1px solid #334155 !important; }
+      body.printing-master table.master-table thead tr { background: #e2e8f0 !important; color: #000 !important; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="app-container">
+  <div class="school-brand-banner">
+    <img src="1000040018.jpg" alt="Newcastle Logo" onerror="this.style.display='none'">
+    <div class="school-brand-text">
+      <h1>NEWCASTLE INTERNATIONAL SCHOOL</h1>
+      <div class="motto">"A House of Creative Education"</div>
+      <div class="address">📍 Japani bazar, Zia soroni, Soniakra, Dhaka, Bangladesh, 1236</div>
+    </div>
+  </div>
+
+  <div class="header-bar">
+    <div class="selector-box">
+      <label for="classSelect" style="font-weight: 700; color: var(--primary);">Academic Class:</label>
+      <select id="classSelect" onchange="onClassSwitched(this.value)">
+        <option value="Class 6">Class 6 (Junior 750)</option>
+        <option value="Class 7">Class 7 (Junior 750)</option>
+        <option value="Class 8" selected>Class 8 (Junior 750)</option>
+        <option value="Class 9">Class 9 (SSC Curriculum)</option>
+        <option value="Class 10">Class 10 (SSC Curriculum)</option>
+      </select>
+
+      <label for="examTermSelect" style="font-weight: 700; color: var(--primary); margin-left: 8px;">Examination:</label>
+      <select id="examTermSelect" onchange="onExamTermChanged(this.value)">
+        <option value="1st Semester">1st Semester Examination</option>
+        <option value="2nd Semester">2nd Semester Examination</option>
+        <option value="Annual Exam" selected>Annual Examination</option>
+      </select>
+
+      <span id="groupFilterWrapper" style="display: none; align-items: center; gap: 6px;">
+        <label for="groupFilter" style="font-weight: 700; color: var(--primary); margin-left: 8px;">Group Filter:</label>
+        <select id="groupFilter" onchange="renderMasterTable()">
+          <option value="ALL">All Groups</option>
+          <option value="Science">Science</option>
+          <option value="Business Studies">Business Studies</option>
+          <option value="Humanities">Humanities</option>
+        </select>
+      </span>
+    </div>
+
+    <div class="btn-group">
+      <button class="btn-action" style="background:#eff6ff; border-color:#93c5fd; color:#1e40af;" onclick="loadDataFromGoogleDrive()">☁️ Sync Google Drive</button>
+      <button class="btn-action" onclick="exportCSV()">📥 Export CSV</button>
+      <button class="btn-action" onclick="resetClassSampleData()">🔄 Load Default Sample</button>
+    </div>
+  </div>
+
+  <div class="dashboard-grid">
+    <div class="dash-card"><div class="lbl">Class & Exam</div><div class="val" id="dashClass" style="font-size: 16px; padding-top: 4px;">Class 8 (Annual)</div></div>
+    <div class="dash-card"><div class="lbl">Class Highest Mark</div><div class="val" style="color: #0369a1;" id="dashHighest">0</div></div>
+    <div class="dash-card"><div class="lbl">Total Students</div><div class="val" id="dashTotal">0</div></div>
+    <div class="dash-card"><div class="lbl">Passed</div><div class="val" style="color: var(--success);" id="dashPassed">0</div></div>
+    <div class="dash-card"><div class="lbl">Failed</div><div class="val" style="color: var(--danger);" id="dashFailed">0</div></div>
+    <div class="dash-card"><div class="lbl">Pass Rate</div><div class="val" id="dashRate">0%</div></div>
+    <div class="dash-card"><div class="lbl">Avg GPA</div><div class="val" id="dashAvgGpa">0.00</div></div>
+  </div>
+
+  <form id="marksForm" onsubmit="handleFormSubmit(event)">
+    <div class="row">
+      <div class="form-group" style="flex: 2;">
+        <label>Student Full Name</label>
+        <input type="text" id="name" placeholder="Name" required>
+      </div>
+      <div class="form-group">
+        <label>Class Roll</label>
+        <input type="number" id="roll" placeholder="Roll" required>
+      </div>
+      <div class="form-group">
+        <label>Student ID</label>
+        <input type="text" id="studentId" placeholder="e.g. C8-01 / SSC-01" required>
+      </div>
+      <div class="form-group" style="flex: 1.2;">
+        <label>Parent WhatsApp Number</label>
+        <input type="text" id="phone" placeholder="017xxxxxxxx">
+      </div>
+      <div class="form-group" style="flex: 1.2;">
+        <label>Exam Session</label>
+        <select id="formExamTerm">
+          <option value="1st Semester">1st Semester Exam</option>
+          <option value="2nd Semester">2nd Semester Exam</option>
+          <option value="Annual Exam" selected>Annual Exam</option>
+        </select>
+      </div>
+      <div class="form-group" id="grpInputWrapper" style="display: none; flex: 1.5;">
+        <label>Group / Stream</label>
+        <select id="streamSelect" onchange="onStreamChanged()">
+          <option value="Science">Science (বিজ্ঞান বিভাগ)</option>
+          <option value="Business Studies">Business Studies (ব্যবসায় শিক্ষা)</option>
+          <option value="Humanities">Humanities (মানবিক বিভাগ)</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Bangla -->
+    <div class="section-title" id="banTitle">1. Bangla 1st Paper & Bangla 2nd Paper</div>
+    <div class="row">
+      <div class="form-group"><label id="lbl_b1_cq">Bangla 1st CQ (70)</label><input type="number" id="b1_cq" min="0" max="70" required></div>
+      <div class="form-group"><label id="lbl_b1_mcq">Bangla 1st MCQ (30)</label><input type="number" id="b1_mcq" min="0" max="30" required></div>
+      <div class="form-group"><label id="lbl_b2_cq">Bangla 2nd CQ (35)</label><input type="number" id="b2_cq" min="0" max="70" required></div>
+      <div class="form-group"><label id="lbl_b2_mcq">Bangla 2nd MCQ (15)</label><input type="number" id="b2_mcq" min="0" max="30" required></div>
+    </div>
+
+    <!-- English -->
+    <div class="section-title" id="engTitle">2. English 1st Paper & English 2nd Paper</div>
+    <div class="row">
+      <div class="form-group"><label id="lbl_e1">English 1st Paper (100)</label><input type="number" id="e1" min="0" max="100" required></div>
+      <div class="form-group"><label id="lbl_e2">English 2nd Paper (50)</label><input type="number" id="e2" min="0" max="100" required></div>
+    </div>
+
+    <!-- Math -->
+    <div class="section-title">3. Mathematics (100) | Pass: CQ ≥ 23, MCQ ≥ 10</div>
+    <div class="row">
+      <div class="form-group"><label>Math CQ (70)</label><input type="number" id="m_cq" min="0" max="70" required></div>
+      <div class="form-group"><label>Math MCQ (30)</label><input type="number" id="m_mcq" min="0" max="30" required></div>
+    </div>
+
+    <!-- Religion -->
+    <div class="section-title">4. Religion & Moral Education (100) | Pass: CQ ≥ 23, MCQ ≥ 10</div>
+    <div class="row">
+      <div class="form-group"><label>Religion CQ (70)</label><input type="number" id="rel_cq" min="0" max="70" required></div>
+      <div class="form-group"><label>Religion MCQ (30)</label><input type="number" id="rel_mcq" min="0" max="30" required></div>
+    </div>
+
+    <!-- ICT -->
+    <div class="section-title">5. Information & Communication Technology - ICT (50) | Pass: MCQ ≥ 8, Practical ≥ 8, Total ≥ 17</div>
+    <div class="row">
+      <div class="form-group"><label>ICT MCQ (25)</label><input type="number" id="ict_mcq" min="0" max="25" required></div>
+      <div class="form-group"><label>ICT Practical (25)</label><input type="number" id="ict_prac" min="0" max="25" required></div>
+    </div>
+
+    <!-- Junior Science & BGS -->
+    <div id="juniorExtras">
+      <div class="section-title">6. General Science (100) & 7. Bangladesh & Global Studies (100)</div>
+      <div class="row">
+        <div class="form-group"><label>General Science CQ (70)</label><input type="number" id="j_sci_cq" min="0" max="70"></div>
+        <div class="form-group"><label>General Science MCQ (30)</label><input type="number" id="j_sci_mcq" min="0" max="30"></div>
+        <div class="form-group"><label>BGS CQ (70)</label><input type="number" id="j_bgs_cq" min="0" max="70"></div>
+        <div class="form-group"><label>BGS MCQ (30)</label><input type="number" id="j_bgs_mcq" min="0" max="30"></div>
+      </div>
+    </div>
+
+    <!-- Senior Group Core & Major Subjects -->
+    <div id="seniorExtras" style="display: none;">
+      <div class="section-title">6. Group Core: BGS / General Science (100)</div>
+      <div class="row">
+        <div class="form-group" style="flex: 2;">
+          <label>Subject</label>
+          <input type="text" id="s_core_name" value="Bangladesh & Global Studies (BGS)" readonly style="background: #f1f5f9;">
+        </div>
+        <div class="form-group"><label>CQ (70)</label><input type="number" id="s_core_cq" min="0" max="70"></div>
+        <div class="form-group"><label>MCQ (30)</label><input type="number" id="s_core_mcq" min="0" max="30"></div>
+      </div>
+
+      <div class="section-title">7. Group Major Subjects (100 each)</div>
+      <div class="row" style="margin-bottom: 6px;">
+        <div class="form-group" style="flex: 2;"><label>Major 1</label><input type="text" id="g1_name" value="Physics" readonly style="background:#f1f5f9;"></div>
+        <div class="form-group"><label id="lbl_g1_cq">CQ (50)</label><input type="number" id="g1_cq" min="0" max="70"></div>
+        <div class="form-group"><label id="lbl_g1_mcq">MCQ (25)</label><input type="number" id="g1_mcq" min="0" max="30"></div>
+        <div class="form-group" id="box_g1_prac"><label>Practical (25)</label><input type="number" id="g1_prac" min="0" max="25" value="0"></div>
+      </div>
+
+      <div class="row" style="margin-bottom: 6px;">
+        <div class="form-group" style="flex: 2;"><label>Major 2</label><input type="text" id="g2_name" value="Chemistry" readonly style="background:#f1f5f9;"></div>
+        <div class="form-group"><label id="lbl_g2_cq">CQ (50)</label><input type="number" id="g2_cq" min="0" max="70"></div>
+        <div class="form-group"><label id="lbl_g2_mcq">MCQ (25)</label><input type="number" id="g2_mcq" min="0" max="30"></div>
+        <div class="form-group" id="box_g2_prac"><label>Practical (25)</label><input type="number" id="g2_prac" min="0" max="25" value="0"></div>
+      </div>
+
+      <div class="row" style="margin-bottom: 6px;">
+        <div class="form-group" style="flex: 2;"><label>Major 3</label><input type="text" id="g3_name" value="Biology" readonly style="background:#f1f5f9;"></div>
+        <div class="form-group"><label id="lbl_g3_cq">CQ (50)</label><input type="number" id="g3_cq" min="0" max="70"></div>
+        <div class="form-group"><label id="lbl_g3_mcq">MCQ (25)</label><input type="number" id="g3_mcq" min="0" max="30"></div>
+        <div class="form-group" id="box_g3_prac"><label>Practical (25)</label><input type="number" id="g3_prac" min="0" max="25" value="0"></div>
+      </div>
+
+      <div class="section-title">8. 4th Optional Subject (100) | GP above 2.00 is Bonus Points</div>
+      <div class="row">
+        <div class="form-group" style="flex: 2;">
+          <label>Optional Subject</label>
+          <select id="opt_name" onchange="adjustSeniorPracticalFields()">
+            <option value="Higher Mathematics">Higher Mathematics (Practical)</option>
+            <option value="Agriculture Studies">Agriculture Studies (Practical)</option>
+            <option value="Home Science">Home Science (Practical)</option>
+            <option value="Economics">Economics</option>
+          </select>
+        </div>
+        <div class="form-group"><label id="lbl_opt_cq">CQ (50)</label><input type="number" id="opt_cq" min="0" max="70"></div>
+        <div class="form-group"><label id="lbl_opt_mcq">MCQ (25)</label><input type="number" id="opt_mcq" min="0" max="30"></div>
+        <div class="form-group" id="box_opt_prac"><label>Practical (25)</label><input type="number" id="opt_prac" min="0" max="25" value="0"></div>
+      </div>
+    </div>
+
+    <button type="submit" class="btn-submit">💾 Calculate & Save Result</button>
+  </form>
+
+  <div class="list-header-row">
+    <h2 style="font-size: 16px;" id="tabulationHeading">Master Tabulation Sheet</h2>
+    <button class="btn-print-master" onclick="printMasterA4()">🖨️ Print Master Tabulation (A4 Landscape)</button>
+  </div>
+
+  <input type="text" id="searchBox" class="search-box" placeholder="Search by name, roll, student ID..." oninput="renderMasterTable()">
+
+  <div class="print-header">
+    <img src="1000040018.jpg" alt="Logo" onerror="this.style.display='none'">
+    <div style="text-align: center;">
+      <h2 style="font-size: 13pt; margin-bottom: 2px; color: var(--primary);">NEWCASTLE INTERNATIONAL SCHOOL</h2>
+      <p style="font-size: 8.5pt; color: #b45309; font-style: italic; margin-bottom: 2px;">"A House of Creative Education"</p>
+      <p style="font-size: 8pt; color: #475569;" id="printHeaderSubtitle">Japani bazar, Zia soroni, Soniakra, Dhaka-1236 | Session 2026</p>
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table class="master-table">
+      <thead id="masterTableHead"></thead>
+      <tbody id="masterTableBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Modal: Transcript (A4 Portrait) -->
+<div class="modal-overlay" id="transcriptModal">
+  <div class="transcript-sheet">
+    <div class="transcript-header">
+      <img src="1000040018.jpg" alt="Newcastle Logo" onerror="this.style.display='none'">
+      <div class="title-area">
+        <h2>NEWCASTLE INTERNATIONAL SCHOOL</h2>
+        <div class="tagline">"A House of Creative Education"</div>
+        <div class="addr">Japani bazar, Zia soroni, Soniakra, Dhaka-1236, Bangladesh</div>
+        <div class="report-name" id="modalBoardLabel">ACADEMIC TRANSCRIPT & PROGRESS REPORT</div>
+      </div>
+    </div>
+
+    <div class="student-meta-grid" id="modalStudentMeta"></div>
+
+    <table class="transcript-table">
+      <thead>
+        <tr>
+          <th>SL</th>
+          <th>Subject Name</th>
+          <th>Full</th>
+          <th>CQ</th>
+          <th>MCQ</th>
+          <th>Prac</th>
+          <th>Total</th>
+          <th>Highest</th>
+          <th>GP</th>
+          <th>Grade</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="modalTranscriptBody"></tbody>
+    </table>
+
+    <div class="summary-grid" id="modalSummaryGrid"></div>
+
+    <div class="signature-area">
+      <div class="signature-box">Class Teacher</div>
+      <div class="signature-box">Exam Controller</div>
+      <div class="signature-box">Principal / Headmaster</div>
+    </div>
+
+    <div class="row no-print modal-footer" style="margin-top: 18px;">
+      <button class="btn-submit" style="background: #16a34a; margin-top: 0;" onclick="printIndividualA4()">🖨️ Print Transcript (A4 Portrait)</button>
+      <button class="btn-submit" id="modalWaBtn" style="background: var(--whatsapp); margin-top: 0;">💬 Send WhatsApp</button>
+      <button class="btn-submit" style="background: #64748b; margin-top: 0;" onclick="closeModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const GOOGLE_DRIVE_API_URL = "https://script.google.com/macros/s/AKfycbza8bKmXhFZtMIDrM5F-vu4GQ0p4RgS6UEoKhJ_EPHcf7KNQqVOKvmzmni5iiSpG2dfaw/exec";
+
+  let activeClass = 'Class 8';
+  let activeExamTerm = 'Annual Exam';
+
+  function isSeniorClass(cls) {
+    return cls === 'Class 9' || cls === 'Class 10';
+  }
+
+  function isPractical(name) {
+    const pr = ['Physics', 'Chemistry', 'Biology', 'Higher Mathematics', 'Agriculture Studies', 'Home Science'];
+    return pr.some(p => (name || '').includes(p));
+  }
+
+  function safeVal(val) {
+    const n = Number(val);
+    return isNaN(n) ? 0 : n;
+  }
+
+  function getGP100(m) {
+    if (m >= 80) return { gp: 5.0, grade: 'A+' };
+    if (m >= 70) return { gp: 4.0, grade: 'A' };
+    if (m >= 60) return { gp: 3.5, grade: 'A-' };
+    if (m >= 50) return { gp: 3.0, grade: 'B' };
+    if (m >= 40) return { gp: 2.0, grade: 'C' };
+    if (m >= 33) return { gp: 1.0, grade: 'D' };
+    return { gp: 0.0, grade: 'F' };
+  }
+
+  function getGP150(m) {
+    if (m >= 120) return { gp: 5.0, grade: 'A+' };
+    if (m >= 105) return { gp: 4.0, grade: 'A' };
+    if (m >= 90) return { gp: 3.5, grade: 'A-' };
+    if (m >= 75) return { gp: 3.0, grade: 'B' };
+    if (m >= 60) return { gp: 2.0, grade: 'C' };
+    if (m >= 50) return { gp: 1.0, grade: 'D' };
+    return { gp: 0.0, grade: 'F' };
+  }
+
+  function getGP200(m) {
+    if (m >= 160) return { gp: 5.0, grade: 'A+' };
+    if (m >= 140) return { gp: 4.0, grade: 'A' };
+    if (m >= 120) return { gp: 3.5, grade: 'A-' };
+    if (m >= 100) return { gp: 3.0, grade: 'B' };
+    if (m >= 80)  return { gp: 2.0, grade: 'C' };
+    if (m >= 66)  return { gp: 1.0, grade: 'D' };
+    return { gp: 0.0, grade: 'F' };
+  }
+
+  function getGP50(m) {
+    if (m >= 40) return { gp: 5.0, grade: 'A+' };
+    if (m >= 35) return { gp: 4.0, grade: 'A' };
+    if (m >= 30) return { gp: 3.5, grade: 'A-' };
+    if (m >= 25) return { gp: 3.0, grade: 'B' };
+    if (m >= 20) return { gp: 2.0, grade: 'C' };
+    if (m >= 17) return { gp: 1.0, grade: 'D' };
+    return { gp: 0.0, grade: 'F' };
+  }
+
+  function getFinalGrade(gpa, fail) {
+    if (fail || gpa < 1.0) return 'F';
+    if (gpa >= 5.0) return 'A+';
+    if (gpa >= 4.0) return 'A';
+    if (gpa >= 3.5) return 'A-';
+    if (gpa >= 3.0) return 'B';
+    if (gpa >= 2.0) return 'C';
+    if (gpa >= 1.0) return 'D';
+    return 'F';
+  }
+
+  function calculateStudent(raw, cls, term) {
+    const senior = isSeniorClass(cls);
+    const examTerm = term || raw.examTerm || activeExamTerm;
+
+    const b1_cq = safeVal(raw.b1_cq), b1_mcq = safeVal(raw.b1_mcq);
+    const b2_cq = safeVal(raw.b2_cq), b2_mcq = safeVal(raw.b2_mcq);
+    const b1_total = b1_cq + b1_mcq;
+    const b2_total = b2_cq + b2_mcq;
+    const banTotCQ = b1_cq + b2_cq;
+    const banTotMCQ = b1_mcq + b2_mcq;
+    const banTotal = b1_total + b2_total;
+    let banFail = false, banRes = { gp: 0, grade: 'F' };
+
+    if (senior) {
+      banFail = banTotCQ < 46 || banTotMCQ < 20 || banTotal < 66;
+      banRes = banFail ? { gp: 0, grade: 'F' } : getGP200(banTotal);
+    } else {
+      banFail = banTotCQ < 33 || banTotMCQ < 17 || banTotal < 50;
+      banRes = banFail ? { gp: 0, grade: 'F' } : getGP150(banTotal);
+    }
+
+    const e1 = safeVal(raw.e1), e2 = safeVal(raw.e2);
+    const engTotal = e1 + e2;
+    let engFail = false, engRes = { gp: 0, grade: 'F' };
+    if (senior) {
+      engFail = engTotal < 66;
+      engRes = engFail ? { gp: 0, grade: 'F' } : getGP200(engTotal);
+    } else {
+      engFail = engTotal < 50;
+      engRes = engFail ? { gp: 0, grade: 'F' } : getGP150(engTotal);
+    }
+
+    const math_cq = safeVal(raw.m_cq), math_mcq = safeVal(raw.m_mcq);
+    const mathTotal = math_cq + math_mcq;
+    const mathFail = math_cq < 23 || math_mcq < 10 || mathTotal < 33;
+    const mathRes = mathFail ? { gp: 0, grade: 'F' } : getGP100(mathTotal);
+
+    const rel_cq = safeVal(raw.rel_cq), rel_mcq = safeVal(raw.rel_mcq);
+    const relTotal = rel_cq + rel_mcq;
+    const relFail = rel_cq < 23 || rel_mcq < 10 || relTotal < 33;
+    const relRes = relFail ? { gp: 0, grade: 'F' } : getGP100(relTotal);
+
+    const ict_mcq = safeVal(raw.ict_mcq);
+    const ict_prac = safeVal(raw.ict_prac);
+    const ictTotal = ict_mcq + ict_prac;
+    const ictFail = ict_mcq < 8 || ict_prac < 8 || ictTotal < 17;
+    const ictRes = ictFail ? { gp: 0, grade: 'F' } : getGP50(ictTotal);
+
+    let grandTotal = 0, isPassed = false, gpa = 0.0, finalGrade = 'F';
+    let extraObj = {};
+
+    if (!senior) {
+      const j_sci_cq = safeVal(raw.j_sci_cq);
+      const j_sci_mcq = safeVal(raw.j_sci_mcq);
+      const sciTotal = j_sci_cq + j_sci_mcq;
+      const sciFail = j_sci_cq < 23 || j_sci_mcq < 10 || sciTotal < 33;
+      const sciRes = sciFail ? { gp: 0, grade: 'F' } : getGP100(sciTotal);
+
+      const j_bgs_cq = safeVal(raw.j_bgs_cq);
+      const j_bgs_mcq = safeVal(raw.j_bgs_mcq);
+      const bgsTotal = j_bgs_cq + j_bgs_mcq;
+      const bgsFail = j_bgs_cq < 23 || j_bgs_mcq < 10 || bgsTotal < 33;
+      const bgsRes = bgsFail ? { gp: 0, grade: 'F' } : getGP100(bgsTotal);
+
+      isPassed = !(banFail || engFail || mathFail || relFail || ictFail || sciFail || bgsFail);
+      const totalGP = banRes.gp + engRes.gp + mathRes.gp + relRes.gp + ictRes.gp + sciRes.gp + bgsRes.gp;
+      gpa = isPassed ? (totalGP / 7.0) : 0.0;
+      if (gpa > 5.0) gpa = 5.0;
+      grandTotal = banTotal + engTotal + mathTotal + relTotal + ictTotal + sciTotal + bgsTotal;
+
+      extraObj = { 
+        j_sci_cq, j_sci_mcq, sciTotal, sciRes, sciFail,
+        j_bgs_cq, j_bgs_mcq, bgsTotal, bgsRes, bgsFail 
+      };
+    } else {
+      const s_core_cq = safeVal(raw.s_core_cq);
+      const s_core_mcq = safeVal(raw.s_core_mcq !== undefined ? raw.s_core_mcq : raw.core_mcq);
+      const coreTotal = s_core_cq + s_core_mcq;
+      const coreFail = s_core_cq < 23 || s_core_mcq < 10 || coreTotal < 33;
+      const coreRes = coreFail ? { gp: 0, grade: 'F' } : getGP100(coreTotal);
+
+      function evalSeniorSub(cqRaw, mcqRaw, pracRaw, pr) {
+        const cq = safeVal(cqRaw);
+        const mcq = safeVal(mcqRaw);
+        const prac = pr ? safeVal(pracRaw) : 0;
+        const tot = cq + mcq + prac;
+        const fail = pr ? (cq < 17 || mcq < 8 || prac < 8 || tot < 33) : (cq < 23 || mcq < 10 || tot < 33);
+        const res = fail ? { gp: 0, grade: 'F' } : getGP100(tot);
+        return { cq, mcq, prac, tot, fail, res, pr };
+      }
+
+      const s1Prac = isPractical(raw.g1_name);
+      const s1 = evalSeniorSub(raw.g1_cq, raw.g1_mcq, raw.g1_prac, s1Prac);
+
+      const s2Prac = isPractical(raw.g2_name);
+      const s2 = evalSeniorSub(raw.g2_cq, raw.g2_mcq, raw.g2_prac, s2Prac);
+
+      const s3Prac = isPractical(raw.g3_name);
+      const s3 = evalSeniorSub(raw.g3_cq, raw.g3_mcq, raw.g3_prac, s3Prac);
+
+      const optPrac = isPractical(raw.opt_name);
+      const opt = evalSeniorSub(raw.opt_cq, raw.opt_mcq, raw.opt_prac, optPrac);
+      const optBonus = opt.res.gp > 2.0 ? (opt.res.gp - 2.0) : 0.0;
+
+      isPassed = !(banFail || engFail || mathFail || relFail || ictFail || coreFail || s1.fail || s2.fail || s3.fail);
+      const compulsoryGP = banRes.gp + engRes.gp + mathRes.gp + relRes.gp + ictRes.gp + coreRes.gp + s1.res.gp + s2.res.gp + s3.res.gp;
+      const totalGP = compulsoryGP + optBonus;
+
+      gpa = isPassed ? (totalGP / 9.0) : 0.0;
+      if (gpa > 5.0) gpa = 5.0;
+      grandTotal = banTotal + engTotal + mathTotal + relTotal + ictTotal + coreTotal + s1.tot + s2.tot + s3.tot + opt.tot;
+
+      extraObj = {
+        coreName: raw.s_core_name || 'General Science',
+        s_core_cq, s_core_mcq, coreTotal, coreRes, coreFail,
+        g1Name: raw.g1_name || 'Subject 1', g1Total: s1.tot, g1Res: s1.res, g1Fail: s1.fail, s1Prac,
+        g2Name: raw.g2_name || 'Subject 2', g2Total: s2.tot, g2Res: s2.res, g2Fail: s2.fail, s2Prac,
+        g3Name: raw.g3_name || 'Subject 3', g3Total: s3.tot, g3Res: s3.res, g3Fail: s3.fail, s3Prac,
+        optName: raw.opt_name || 'Optional', optTotal: opt.tot, optRes: opt.res, optBonus, optPrac
+      };
+    }
+
+    finalGrade = getFinalGrade(gpa, !isPassed);
+
+    return {
+      id: raw.id || Date.now() + Math.random(),
+      studentClass: cls,
+      examTerm: examTerm,
+      group: senior ? (raw.group || 'Science') : 'General',
+      roll: safeVal(raw.roll),
+      studentId: raw.studentId || 'ID',
+      name: raw.name || 'Student Name',
+      phone: raw.phone || '',
+      b1_total, b2_total, banTotal, banRes, banFail,
+      e1, e2, engTotal, engRes, engFail,
+      mathTotal, mathRes, mathFail,
+      relTotal, relRes, relFail,
+      ict_mcq, ict_prac, ictTotal, ictRes, ictFail,
+      ...extraObj,
+      grandTotal,
+      gpa: parseFloat(gpa.toFixed(2)),
+      finalGrade,
+      isPassed,
+      rawMarks: { ...raw, ...extraObj, examTerm, b1_cq, b1_mcq, b2_cq, b2_mcq, e1, e2, m_cq: math_cq, m_mcq: math_mcq, rel_cq, rel_mcq, ict_mcq, ict_prac }
+    };
+  }
+
+  // Exact Copy Format WhatsApp Message Builder
+  function buildExactReportCardText(s) {
+    const senior = isSeniorClass(s.studentClass);
+    const term = s.examTerm || 'Annual Exam';
+    const r = s.rawMarks;
+
+    let text = `🏫 *NEWCASTLE INTERNATIONAL SCHOOL*\n`;
+    text += `_"A House of Creative Education"_\n`;
+    text += `📍 Japani bazar, Zia soroni, Soniakra, Dhaka-1236\n`;
+    text += `━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+    text += `📋 *ACADEMIC PROGRESS REPORT*\n`;
+    text += `🎯 *Examination:* ${term} - 2026\n`;
+    text += `━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+    text += `👤 *Student Name:* ${s.name}\n`;
+    text += `🆔 *Student ID:* ${s.studentId}\n`;
+    text += `🔢 *Class Roll:* ${s.roll}\n`;
+    text += `🎓 *Class & Stream:* ${s.studentClass} ${senior ? `(${s.group})` : ''}\n`;
+    text += `━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+    text += `📚 *SUBJECT-WISE MARKS BREAKDOWN:*\n`;
+
+    let subList = [];
+    if (!senior) {
+      subList = [
+        { name: 'Bangla 1st Paper', full: 100, cq: safeVal(r.b1_cq), mcq: safeVal(r.b1_mcq), prac: '-', tot: safeVal(s.b1_total), gp: '-', gr: '-' },
+        { name: 'Bangla 2nd Paper', full: 50, cq: safeVal(r.b2_cq), mcq: safeVal(r.b2_mcq), prac: '-', tot: safeVal(s.b2_total), gp: s.banRes.gp.toFixed(2), gr: s.banRes.grade },
+        { name: 'English 1st Paper', full: 100, cq: safeVal(r.e1), mcq: '-', prac: '-', tot: safeVal(s.e1), gp: '-', gr: '-' },
+        { name: 'English 2nd Paper', full: 50, cq: safeVal(r.e2), mcq: '-', prac: '-', tot: safeVal(s.e2), gp: s.engRes.gp.toFixed(2), gr: s.engRes.grade },
+        { name: 'Mathematics', full: 100, cq: safeVal(r.m_cq), mcq: safeVal(r.m_mcq), prac: '-', tot: safeVal(s.mathTotal), gp: s.mathRes.gp.toFixed(2), gr: s.mathRes.grade },
+        { name: 'Religion & Moral Edu.', full: 100, cq: safeVal(r.rel_cq), mcq: safeVal(r.rel_mcq), prac: '-', tot: safeVal(s.relTotal), gp: s.relRes.gp.toFixed(2), gr: s.relRes.grade },
+        { name: 'General Science', full: 100, cq: safeVal(r.j_sci_cq), mcq: safeVal(r.j_sci_mcq), prac: '-', tot: safeVal(s.sciTotal), gp: s.sciRes.gp.toFixed(2), gr: s.sciRes.grade },
+        { name: 'BGS', full: 100, cq: safeVal(r.j_bgs_cq), mcq: safeVal(r.j_bgs_mcq), prac: '-', tot: safeVal(s.bgsTotal), gp: s.bgsRes.gp.toFixed(2), gr: s.bgsRes.grade },
+        { name: 'ICT', full: 50, cq: '-', mcq: safeVal(r.ict_mcq), prac: safeVal(r.ict_prac), tot: safeVal(s.ictTotal), gp: s.ictRes.gp.toFixed(2), gr: s.ictRes.grade }
+      ];
+    } else {
+      subList = [
+        { name: 'Bangla 1st Paper', full: 100, cq: safeVal(r.b1_cq), mcq: safeVal(r.b1_mcq), prac: '-', tot: safeVal(s.b1_total), gp: '-', gr: '-' },
+        { name: 'Bangla 2nd Paper', full: 100, cq: safeVal(r.b2_cq), mcq: safeVal(r.b2_mcq), prac: '-', tot: safeVal(s.b2_total), gp: s.banRes.gp.toFixed(2), gr: s.banRes.grade },
+        { name: 'English 1st Paper', full: 100, cq: safeVal(r.e1), mcq: '-', prac: '-', tot: safeVal(s.e1), gp: '-', gr: '-' },
+        { name: 'English 2nd Paper', full: 100, cq: safeVal(r.e2), mcq: '-', prac: '-', tot: safeVal(s.e2), gp: s.engRes.gp.toFixed(2), gr: s.engRes.grade },
+        { name: 'Mathematics', full: 100, cq: safeVal(r.m_cq), mcq: safeVal(r.m_mcq), prac: '-', tot: safeVal(s.mathTotal), gp: s.mathRes.gp.toFixed(2), gr: s.mathRes.grade },
+        { name: 'Religion & Moral Edu.', full: 100, cq: safeVal(r.rel_cq), mcq: safeVal(r.rel_mcq), prac: '-', tot: safeVal(s.relTotal), gp: s.relRes.gp.toFixed(2), gr: s.relRes.grade },
+        { name: 'ICT', full: 50, cq: '-', mcq: safeVal(r.ict_mcq), prac: safeVal(r.ict_prac), tot: safeVal(s.ictTotal), gp: s.ictRes.gp.toFixed(2), gr: s.ictRes.grade },
+        { name: s.coreName, full: 100, cq: safeVal(r.s_core_cq), mcq: safeVal(r.s_core_mcq), prac: '-', tot: safeVal(s.coreTotal), gp: s.coreRes.gp.toFixed(2), gr: s.coreRes.grade },
+        { name: s.g1Name, full: 100, cq: safeVal(r.g1_cq), mcq: safeVal(r.g1_mcq), prac: s.s1Prac ? safeVal(r.g1_prac) : '-', tot: safeVal(s.g1Total), gp: s.g1Res.gp.toFixed(2), gr: s.g1Res.grade },
+        { name: s.g2Name, full: 100, cq: safeVal(r.g2_cq), mcq: safeVal(r.g2_mcq), prac: s.s2Prac ? safeVal(r.g2_prac) : '-', tot: safeVal(s.g2Total), gp: s.g2Res.gp.toFixed(2), gr: s.g2Res.grade },
+        { name: s.g3Name, full: 100, cq: safeVal(r.g3_cq), mcq: safeVal(r.g3_mcq), prac: s.s3Prac ? safeVal(r.g3_prac) : '-', tot: safeVal(s.g3Total), gp: s.g3Res.gp.toFixed(2), gr: s.g3Res.grade },
+        { name: `4th Sub: ${s.optName}`, full: 100, cq: safeVal(r.opt_cq), mcq: safeVal(r.opt_mcq), prac: s.optPrac ? safeVal(r.opt_prac) : '-', tot: safeVal(s.optTotal), gp: s.optRes.gp.toFixed(2), gr: s.optRes.grade }
+      ];
+    }
+
+    subList.forEach((sub, idx) => {
+      let markDetails = `CQ:${sub.cq} | MCQ:${sub.mcq}`;
+      if (sub.prac !== '-') markDetails += ` | Prac:${sub.prac}`;
+      text += `*${idx + 1}. ${sub.name}*\n   Marks: ${sub.tot}/${sub.full} (${markDetails})\n   Grade: ${sub.gr} | GP: ${sub.gp}\n`;
+    });
+
+    text += `━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+    text += `📊 *RESULT SUMMARY:*\n`;
+    text += `▫️ *Grand Total Marks:* ${s.grandTotal}\n`;
+    text += `▫️ *GPA:* ${s.gpa.toFixed(2)} / 5.00\n`;
+    text += `▫️ *Final Letter Grade:* ${s.finalGrade}\n`;
+    text += `▫️ *Result Status:* ${s.isPassed ? '✅ PASSED' : '❌ FAILED'}\n`;
+    text += `▫️ *Merit Position:* #${s.rank || '-'}\n`;
+    text += `━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+    text += `_Note: This is an official digital statement of results issued by the school administration._`;
+
+    return text;
+  }
+
+  function sendWhatsAppDirectReport(id) {
+    const list = unifiedDatabase.filter(s => s.studentClass === activeClass && (s.examTerm || 'Annual Exam') === activeExamTerm);
+    const ranked = list.map((s, idx) => ({ ...s, rank: idx + 1 }));
+    const s = ranked.find(item => item.id === id);
+    if (!s) return;
+
+    let phone = s.phone ? String(s.phone).trim().replace(/[^0-9]/g, '') : '';
+    if (!phone) {
+      phone = prompt(`Please enter guardian WhatsApp number for ${s.name}:`, '01');
+      if (!phone) return;
+      s.phone = phone;
+      saveDB();
+      saveToGoogleDrive(s);
+    }
+    
+    if (phone.startsWith('0')) {
+      phone = '88' + phone;
+    } else if (!phone.startsWith('880')) {
+      phone = '880' + phone;
+    }
+
+    const reportCardText = buildExactReportCardText(s);
+    const encodedMessage = encodeURIComponent(reportCardText);
+    window.open(`https://wa.me/${phone}?text=${encodedMessage}`, '_blank');
+  }
+
+  // Google Drive Cloud API Operations
+  async function loadDataFromGoogleDrive() {
+    try {
+      const res = await fetch(GOOGLE_DRIVE_API_URL);
+      const data = await res.json();
+      if (Array.isArray(data) && data.length > 0) {
+        unifiedDatabase = data;
+        localStorage.setItem('unified_result_db_newcastle_v6', JSON.stringify(unifiedDatabase));
+        renderMasterTable();
+        alert("✅ Google Drive থেকে সফলভাবে ডেটা সিঙ্ক করা হয়েছে!");
+      } else {
+        alert("ℹ️ Google Drive-এ বর্তমানে কোনো ডেটা নেই।");
+      }
+    } catch (err) {
+      console.warn("Cloud load fallback:", err);
+    }
+  }
+
+  async function saveToGoogleDrive(record) {
+    try {
+      await fetch(GOOGLE_DRIVE_API_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "save", record: record })
+      });
+    } catch (err) {
+      console.error("Cloud save error:", err);
+    }
+  }
+
+  async function deleteFromGoogleDrive(id) {
+    try {
+      await fetch(GOOGLE_DRIVE_API_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "delete", id: id })
+      });
+    } catch (err) {
+      console.error("Cloud delete error:", err);
+    }
+  }
+
+  const defaultJuniorSample = [
+    { roll: 1, studentId: "C8-01", name: "Abdullah Al Mamun", phone: "01711000001", examTerm: "Annual Exam", b1_cq: 58, b1_mcq: 27, b2_cq: 28, b2_mcq: 18, e1: 78, e2: 42, m_cq: 62, m_mcq: 28, rel_cq: 64, rel_mcq: 28, ict_mcq: 23, ict_prac: 23, j_sci_cq: 58, j_sci_mcq: 26, j_bgs_cq: 59, j_bgs_mcq: 25 },
+    { roll: 2, studentId: "C8-02", name: "Fatima Tuz Zohra", phone: "01711000002", examTerm: "Annual Exam", b1_cq: 60, b1_mcq: 28, b2_cq: 29, b2_mcq: 19, e1: 84, e2: 45, m_cq: 65, m_mcq: 29, rel_cq: 66, rel_mcq: 29, ict_mcq: 24, ict_prac: 24, j_sci_cq: 62, j_sci_mcq: 28, j_bgs_cq: 61, j_bgs_mcq: 27 },
+    { roll: 3, studentId: "C8-03", name: "Tanvir Ahmed", phone: "01711000003", examTerm: "Annual Exam", b1_cq: 48, b1_mcq: 24, b2_cq: 22, b2_mcq: 16, e1: 65, e2: 36, m_cq: 52, m_mcq: 22, rel_cq: 55, rel_mcq: 24, ict_mcq: 18, ict_prac: 19, j_sci_cq: 50, j_sci_mcq: 21, j_bgs_cq: 52, j_bgs_mcq: 20 },
+    { roll: 4, studentId: "C8-04", name: "Nusrat Jahan Mim", phone: "01711000004", examTerm: "Annual Exam", b1_cq: 42, b1_mcq: 22, b2_cq: 20, b2_mcq: 15, e1: 58, e2: 32, m_cq: 45, m_mcq: 20, rel_cq: 52, rel_mcq: 22, ict_mcq: 17, ict_prac: 17, j_sci_cq: 44, j_sci_mcq: 19, j_bgs_cq: 48, j_bgs_mcq: 19 },
+    { roll: 5, studentId: "C8-05", name: "Sabbir Hossain", phone: "01711000005", examTerm: "Annual Exam", b1_cq: 38, b1_mcq: 20, b2_cq: 18, b2_mcq: 14, e1: 52, e2: 28, m_cq: 40, m_mcq: 18, rel_cq: 46, rel_mcq: 20, ict_mcq: 15, ict_prac: 15, j_sci_cq: 38, j_sci_mcq: 18, j_bgs_cq: 42, j_bgs_mcq: 17 },
+    { roll: 6, studentId: "C8-06", name: "Sadia Islam", phone: "01711000006", examTerm: "Annual Exam", b1_cq: 55, b1_mcq: 26, b2_cq: 27, b2_mcq: 18, e1: 75, e2: 40, m_cq: 58, m_mcq: 26, rel_cq: 62, rel_mcq: 27, ict_mcq: 21, ict_prac: 21, j_sci_cq: 56, j_sci_mcq: 25, j_bgs_cq: 58, j_bgs_mcq: 24 },
+    { roll: 7, studentId: "C8-07", name: "Mehedi Hasan", phone: "01711000007", examTerm: "Annual Exam", b1_cq: 35, b1_mcq: 18, b2_cq: 15, b2_mcq: 12, e1: 45, e2: 25, m_cq: 35, m_mcq: 15, rel_cq: 42, rel_mcq: 18, ict_mcq: 14, ict_prac: 13, j_sci_cq: 32, j_sci_mcq: 16, j_bgs_cq: 36, j_bgs_mcq: 15 },
+    { roll: 8, studentId: "C8-08", name: "Ayesha Siddiqua", phone: "01711000008", examTerm: "Annual Exam", b1_cq: 59, b1_mcq: 27, b2_cq: 28, b2_mcq: 18, e1: 82, e2: 44, m_cq: 64, m_mcq: 28, rel_cq: 65, rel_mcq: 28, ict_mcq: 23, ict_prac: 22, j_sci_cq: 60, j_sci_mcq: 27, j_bgs_cq: 60, j_bgs_mcq: 26 },
+    { roll: 9, studentId: "C8-09", name: "Rakibul Islam", phone: "01711000009", examTerm: "Annual Exam", b1_cq: 46, b1_mcq: 23, b2_cq: 21, b2_mcq: 15, e1: 62, e2: 34, m_cq: 49, m_mcq: 21, rel_cq: 53, rel_mcq: 23, ict_mcq: 18, ict_prac: 17, j_sci_cq: 48, j_sci_mcq: 20, j_bgs_cq: 50, j_bgs_mcq: 19 },
+    { roll: 10, studentId: "C8-10", name: "Tasnim Anjum", phone: "01711000010", examTerm: "Annual Exam", b1_cq: 52, b1_mcq: 25, b2_cq: 25, b2_mcq: 17, e1: 70, e2: 38, m_cq: 55, m_mcq: 24, rel_cq: 60, rel_mcq: 26, ict_mcq: 20, ict_prac: 20, j_sci_cq: 54, j_sci_mcq: 24, j_bgs_cq: 55, j_bgs_mcq: 23 },
+    { roll: 11, studentId: "C8-11", name: "Nahid Parvez", phone: "01711000011", examTerm: "Annual Exam", b1_cq: 32, b1_mcq: 16, b2_cq: 12, b2_mcq: 10, e1: 40, e2: 22, m_cq: 30, m_mcq: 14, rel_cq: 38, rel_mcq: 16, ict_mcq: 12, ict_prac: 12, j_sci_cq: 28, j_sci_mcq: 14, j_bgs_cq: 32, j_bgs_mcq: 13 },
+    { roll: 12, studentId: "C8-12", name: "Sumaiya Akter", phone: "01711000012", examTerm: "Annual Exam", b1_cq: 56, b1_mcq: 27, b2_cq: 27, b2_mcq: 18, e1: 78, e2: 41, m_cq: 60, m_mcq: 27, rel_cq: 63, rel_mcq: 28, ict_mcq: 22, ict_prac: 21, j_sci_cq: 57, j_sci_mcq: 26, j_bgs_cq: 58, j_bgs_mcq: 25 },
+    { roll: 13, studentId: "C8-13", name: "Mahfuzur Rahman", phone: "01711000013", examTerm: "Annual Exam", b1_cq: 44, b1_mcq: 21, b2_cq: 19, b2_mcq: 14, e1: 60, e2: 33, m_cq: 47, m_mcq: 19, rel_cq: 50, rel_mcq: 21, ict_mcq: 16, ict_prac: 16, j_sci_cq: 45, j_sci_mcq: 19, j_bgs_cq: 46, j_bgs_mcq: 18 },
+    { roll: 14, studentId: "C8-14", name: "Farhana Yeasmin", phone: "01711000014", examTerm: "Annual Exam", b1_cq: 50, b1_mcq: 24, b2_cq: 24, b2_mcq: 16, e1: 68, e2: 37, m_cq: 53, m_mcq: 23, rel_cq: 58, rel_mcq: 25, ict_mcq: 19, ict_prac: 19, j_sci_cq: 52, j_sci_mcq: 23, j_bgs_cq: 54, j_bgs_mcq: 22 },
+    { roll: 15, studentId: "C8-15", name: "Arif Chowdhury", phone: "01711000015", examTerm: "Annual Exam", b1_cq: 20, b1_mcq: 10, b2_cq: 10, b2_mcq: 8, e1: 30, e2: 15, m_cq: 18, m_mcq: 8, rel_cq: 30, rel_mcq: 12, ict_mcq: 7, ict_prac: 9, j_sci_cq: 20, j_sci_mcq: 9, j_bgs_cq: 22, j_bgs_mcq: 10 }
+  ];
+
+  const defaultSeniorSample = [
+    { roll: 1, studentId: "SSC-01", name: "Abrar Fahim", phone: "01711000016", examTerm: "Annual Exam", group: "Science", b1_cq: 60, b1_mcq: 27, b2_cq: 62, b2_mcq: 28, e1: 82, e2: 85, m_cq: 65, m_mcq: 28, rel_cq: 64, rel_mcq: 27, ict_mcq: 23, ict_prac: 24, s_core_name: "Bangladesh & Global Studies (BGS)", s_core_cq: 62, s_core_mcq: 26, g1_name: "Physics", g1_cq: 45, g1_mcq: 24, g1_prac: 24, g2_name: "Chemistry", g2_cq: 46, g2_mcq: 23, g2_prac: 25, g3_name: "Biology", g3_cq: 44, g3_mcq: 24, g3_prac: 24, opt_name: "Higher Mathematics", opt_cq: 48, opt_mcq: 24, opt_prac: 25 },
+    { roll: 2, studentId: "SSC-02", name: "Farzana Yasmin", phone: "01711000017", examTerm: "Annual Exam", group: "Science", b1_cq: 58, b1_mcq: 26, b2_cq: 60, b2_mcq: 26, e1: 79, e2: 81, m_cq: 60, m_mcq: 26, rel_cq: 62, rel_mcq: 26, ict_mcq: 22, ict_prac: 23, s_core_name: "Bangladesh & Global Studies (BGS)", s_core_cq: 59, s_core_mcq: 25, g1_name: "Physics", g1_cq: 42, g1_mcq: 22, g1_prac: 23, g2_name: "Chemistry", g2_cq: 43, g2_mcq: 22, g2_prac: 24, g3_name: "Biology", g3_cq: 42, g3_mcq: 22, g3_prac: 24, opt_name: "Higher Mathematics", opt_cq: 44, opt_mcq: 22, opt_prac: 24 },
+    { roll: 3, studentId: "SSC-03", name: "Mahmud Hasan", phone: "01711000018", examTerm: "Annual Exam", group: "Business Studies", b1_cq: 50, b1_mcq: 23, b2_cq: 54, b2_mcq: 24, e1: 65, e2: 70, m_cq: 52, m_mcq: 22, rel_cq: 58, rel_mcq: 24, ict_mcq: 20, ict_prac: 20, s_core_name: "General Science", s_core_cq: 52, s_core_mcq: 23, g1_name: "Accounting", g1_cq: 58, g1_mcq: 26, g1_prac: 0, g2_name: "Business Entrepreneurship", g2_cq: 55, g2_mcq: 24, g2_prac: 0, g3_name: "Finance & Banking", g3_cq: 56, g3_mcq: 25, g3_prac: 0, opt_name: "Agriculture Studies", opt_cq: 42, opt_mcq: 21, opt_prac: 23 },
+    { roll: 4, studentId: "SSC-04", name: "Shamima Akter", phone: "01711000019", examTerm: "Annual Exam", group: "Humanities", b1_cq: 52, b1_mcq: 24, b2_cq: 56, b2_mcq: 25, e1: 68, e2: 72, m_cq: 48, m_mcq: 20, rel_cq: 60, rel_mcq: 25, ict_mcq: 21, ict_prac: 21, s_core_name: "General Science", s_core_cq: 50, s_core_mcq: 22, g1_name: "Geography & Environment", g1_cq: 54, g1_mcq: 24, g1_prac: 0, g2_name: "History of BD & World Civ.", g2_cq: 56, g2_mcq: 25, g2_prac: 0, g3_name: "Civics & Citizenship", g3_cq: 55, g3_mcq: 24, g3_prac: 0, opt_name: "Economics", opt_cq: 52, opt_mcq: 23, opt_prac: 0 }
+  ];
+
+  let unifiedDatabase = JSON.parse(localStorage.getItem('unified_result_db_newcastle_v6') || 'null');
+  if (!unifiedDatabase || unifiedDatabase.length === 0) {
+    unifiedDatabase = [
+      ...defaultJuniorSample.map(d => calculateStudent(d, 'Class 8', 'Annual Exam')),
+      ...defaultSeniorSample.map(d => calculateStudent(d, 'Class 9', 'Annual Exam'))
+    ];
+    saveDB();
+  }
+
+  function saveDB() {
+    unifiedDatabase.sort((a, b) => {
+      if (a.studentClass !== b.studentClass) return a.studentClass.localeCompare(b.studentClass);
+      if (a.examTerm !== b.examTerm) return a.examTerm.localeCompare(b.examTerm);
+      if (a.isPassed !== b.isPassed) return b.isPassed ? 1 : -1;
+      if (b.gpa !== a.gpa) return b.gpa - a.gpa;
+      return b.grandTotal - a.grandTotal;
+    });
+    localStorage.setItem('unified_result_db_newcastle_v6', JSON.stringify(unifiedDatabase));
+  }
+
+  function onClassSwitched(cls) {
+    activeClass = cls;
+    updateDashboardTitle();
+    const senior = isSeniorClass(cls);
+
+    document.getElementById('grpInputWrapper').style.display = senior ? 'block' : 'none';
+    document.getElementById('groupFilterWrapper').style.display = senior ? 'inline-flex' : 'none';
+    document.getElementById('juniorExtras').style.display = senior ? 'none' : 'block';
+    document.getElementById('seniorExtras').style.display = senior ? 'block' : 'none';
+
+    if (senior) {
+      document.getElementById('banTitle').innerText = '1. Bangla 1st (100) & Bangla 2nd (100) | Pass: CQ ≥ 46, MCQ ≥ 20, Total ≥ 66';
+      document.getElementById('lbl_b2_cq').innerText = 'Bangla 2nd CQ (70)';
+      document.getElementById('lbl_b2_mcq').innerText = 'Bangla 2nd MCQ (30)';
+      document.getElementById('b2_cq').max = 70;
+      document.getElementById('b2_mcq').max = 30;
+
+      document.getElementById('engTitle').innerText = '2. English 1st (100) & English 2nd (100) | Pass: Combined Total ≥ 66';
+      document.getElementById('lbl_e2').innerText = 'English 2nd Paper (100)';
+      document.getElementById('e2').max = 100;
+
+      onStreamChanged();
+    } else {
+      document.getElementById('banTitle').innerText = '1. Bangla 1st (100) & Bangla 2nd (50) | Pass: CQ ≥ 33, MCQ ≥ 17, Total ≥ 50';
+      document.getElementById('lbl_b2_cq').innerText = 'Bangla 2nd CQ (35)';
+      document.getElementById('lbl_b2_mcq').innerText = 'Bangla 2nd MCQ (15)';
+      document.getElementById('b2_cq').max = 70;
+      document.getElementById('b2_mcq').max = 30;
+
+      document.getElementById('engTitle').innerText = '2. English 1st (100) & English 2nd (50) | Pass: Combined Total ≥ 50';
+      document.getElementById('lbl_e2').innerText = 'English 2nd Paper (50)';
+      document.getElementById('e2').max = 50;
+    }
+
+    renderMasterTable();
+  }
+
+  function onExamTermChanged(term) {
+    activeExamTerm = term;
+    document.getElementById('formExamTerm').value = term;
+    updateDashboardTitle();
+    renderMasterTable();
+  }
+
+  function updateDashboardTitle() {
+    document.getElementById('dashClass').innerText = `${activeClass} (${activeExamTerm})`;
+    document.getElementById('printHeaderSubtitle').innerText = `Japani bazar, Zia soroni, Soniakra, Dhaka-1236 | ${activeClass} - ${activeExamTerm} (Session 2026)`;
+  }
+
+  function onStreamChanged() {
+    const grp = document.getElementById('streamSelect').value;
+    const core = document.getElementById('s_core_name');
+    const g1 = document.getElementById('g1_name');
+    const g2 = document.getElementById('g2_name');
+    const g3 = document.getElementById('g3_name');
+    const opt = document.getElementById('opt_name');
+
+    if (grp === 'Science') {
+      core.value = 'Bangladesh & Global Studies (BGS)';
+      g1.value = 'Physics';
+      g2.value = 'Chemistry';
+      g3.value = 'Biology';
+      opt.innerHTML = `
+        <option value="Higher Mathematics">Higher Mathematics (Practical)</option>
+        <option value="Agriculture Studies">Agriculture Studies (Practical)</option>
+        <option value="Home Science">Home Science (Practical)</option>
+      `;
+    } else if (grp === 'Business Studies') {
+      core.value = 'General Science';
+      g1.value = 'Accounting';
+      g2.value = 'Business Entrepreneurship';
+      g3.value = 'Finance & Banking';
+      opt.innerHTML = `
+        <option value="Agriculture Studies">Agriculture Studies (Practical)</option>
+        <option value="Economics">Economics</option>
+        <option value="Home Science">Home Science (Practical)</option>
+      `;
+    } else {
+      core.value = 'General Science';
+      g1.value = 'Geography & Environment';
+      g2.value = 'History of BD & World Civ.';
+      g3.value = 'Civics & Citizenship';
+      opt.innerHTML = `
+        <option value="Economics">Economics</option>
+        <option value="Agriculture Studies">Agriculture Studies (Practical)</option>
+        <option value="Home Science">Home Science (Practical)</option>
+      `;
+    }
+    adjustSeniorPracticalFields();
+  }
+
+  function adjustSeniorPracticalFields() {
+    const grp = document.getElementById('streamSelect').value;
+    const isSci = (grp === 'Science');
+    ['1', '2', '3'].forEach(num => {
+      document.getElementById(`box_g${num}_prac`).style.display = isSci ? 'block' : 'none';
+      document.getElementById(`lbl_g${num}_cq`).innerText = isSci ? 'CQ (50)' : 'CQ (70)';
+      document.getElementById(`lbl_g${num}_mcq`).innerText = isSci ? 'MCQ (25)' : 'MCQ (30)';
+      document.getElementById(`g${num}_cq`).max = isSci ? 50 : 70;
+      document.getElementById(`g${num}_mcq`).max = isSci ? 25 : 30;
+    });
+
+    const optVal = document.getElementById('opt_name').value;
+    const optPr = isPractical(optVal);
+    document.getElementById('box_opt_prac').style.display = optPr ? 'block' : 'none';
+    document.getElementById('lbl_opt_cq').innerText = optPr ? 'CQ (50)' : 'CQ (70)';
+    document.getElementById('lbl_opt_mcq').innerText = optPr ? 'MCQ (25)' : 'MCQ (30)';
+    document.getElementById('opt_cq').max = optPr ? 50 : 70;
+    document.getElementById('opt_mcq').max = optPr ? 25 : 30;
+  }
+
+  function handleFormSubmit(e) {
+    e.preventDefault();
+    const senior = isSeniorClass(activeClass);
+    const chosenTerm = document.getElementById('formExamTerm').value;
+
+    let raw = {
+      roll: parseInt(document.getElementById('roll').value) || 0,
+      studentId: document.getElementById('studentId').value.trim(),
+      name: document.getElementById('name').value.trim(),
+      phone: document.getElementById('phone').value.trim(),
+      examTerm: chosenTerm,
+      b1_cq: parseInt(document.getElementById('b1_cq').value) || 0,
+      b1_mcq: parseInt(document.getElementById('b1_mcq').value) || 0,
+      b2_cq: parseInt(document.getElementById('b2_cq').value) || 0,
+      b2_mcq: parseInt(document.getElementById('b2_mcq').value) || 0,
+      e1: parseInt(document.getElementById('e1').value) || 0,
+      e2: parseInt(document.getElementById('e2').value) || 0,
+      m_cq: parseInt(document.getElementById('m_cq').value) || 0,
+      m_mcq: parseInt(document.getElementById('m_mcq').value) || 0,
+      rel_cq: parseInt(document.getElementById('rel_cq').value) || 0,
+      rel_mcq: parseInt(document.getElementById('rel_mcq').value) || 0,
+      ict_mcq: parseInt(document.getElementById('ict_mcq').value) || 0,
+      ict_prac: parseInt(document.getElementById('ict_prac').value) || 0,
+    };
+
+    if (!senior) {
+      raw.j_sci_cq = parseInt(document.getElementById('j_sci_cq').value) || 0;
+      raw.j_sci_mcq = parseInt(document.getElementById('j_sci_mcq').value) || 0;
+      raw.j_bgs_cq = parseInt(document.getElementById('j_bgs_cq').value) || 0;
+      raw.j_bgs_mcq = parseInt(document.getElementById('j_bgs_mcq').value) || 0;
+    } else {
+      const grp = document.getElementById('streamSelect').value;
+      const isSci = (grp === 'Science');
+      const optVal = document.getElementById('opt_name').value;
+      const optPr = isPractical(optVal);
+
+      raw.group = grp;
+      raw.s_core_name = document.getElementById('s_core_name').value;
+      raw.s_core_cq = parseInt(document.getElementById('s_core_cq').value) || 0;
+      raw.s_core_mcq = parseInt(document.getElementById('s_core_mcq').value) || 0;
+
+      raw.g1_name = document.getElementById('g1_name').value;
+      raw.g1_cq = parseInt(document.getElementById('g1_cq').value) || 0;
+      raw.g1_mcq = parseInt(document.getElementById('g1_mcq').value) || 0;
+      raw.g1_prac = isSci ? (parseInt(document.getElementById('g1_prac').value) || 0) : 0;
+
+      raw.g2_name = document.getElementById('g2_name').value;
+      raw.g2_cq = parseInt(document.getElementById('g2_cq').value) || 0;
+      raw.g2_mcq = parseInt(document.getElementById('g2_mcq').value) || 0;
+      raw.g2_prac = isSci ? (parseInt(document.getElementById('g2_prac').value) || 0) : 0;
+
+      raw.g3_name = document.getElementById('g3_name').value;
+      raw.g3_cq = parseInt(document.getElementById('g3_cq').value) || 0;
+      raw.g3_mcq = parseInt(document.getElementById('g3_mcq').value) || 0;
+      raw.g3_prac = isSci ? (parseInt(document.getElementById('g3_prac').value) || 0) : 0;
+
+      raw.opt_name = optVal;
+      raw.opt_cq = parseInt(document.getElementById('opt_cq').value) || 0;
+      raw.opt_mcq = parseInt(document.getElementById('opt_mcq').value) || 0;
+      raw.opt_prac = optPr ? (parseInt(document.getElementById('opt_prac').value) || 0) : 0;
+    }
+
+    const newRecord = calculateStudent(raw, activeClass, chosenTerm);
+    unifiedDatabase.push(newRecord);
+    saveDB();
+    saveToGoogleDrive(newRecord);
+    renderMasterTable();
+    e.target.reset();
+    document.getElementById('formExamTerm').value = activeExamTerm;
+    if (senior) onStreamChanged();
+  }
+
+  function deleteRecord(id) {
+    if (confirm("Delete this student record?")) {
+      unifiedDatabase = unifiedDatabase.filter(s => s.id !== id);
+      saveDB();
+      deleteFromGoogleDrive(id);
+      renderMasterTable();
+    }
+  }
+
+  function resetClassSampleData() {
+    if (confirm(`Reset ${activeClass} (${activeExamTerm}) to default template demo students?`)) {
+      const senior = isSeniorClass(activeClass);
+      unifiedDatabase = unifiedDatabase.filter(s => !(s.studentClass === activeClass && s.examTerm === activeExamTerm));
+      const sample = senior ? defaultSeniorSample : defaultJuniorSample;
+      sample.forEach(d => {
+        unifiedDatabase.push(calculateStudent(d, activeClass, activeExamTerm));
+      });
+      saveDB();
+      renderMasterTable();
+    }
+  }
+
+  function renderMasterTable() {
+    const thead = document.getElementById('masterTableHead');
+    const tbody = document.getElementById('masterTableBody');
+    tbody.innerHTML = '';
+    const q = document.getElementById('searchBox').value.toLowerCase().trim();
+    const senior = isSeniorClass(activeClass);
+
+    let list = unifiedDatabase.filter(s => s.studentClass === activeClass && (s.examTerm || 'Annual Exam') === activeExamTerm);
+
+    if (senior) {
+      const grpFilter = document.getElementById('groupFilter').value;
+      if (grpFilter !== 'ALL') {
+        list = list.filter(s => s.group === grpFilter);
+      }
+    }
+
+    const ranked = list.map((s, idx) => ({ ...s, rank: idx + 1 }));
+
+    const total = list.length;
+    const passed = list.filter(s => s.isPassed).length;
+    const failed = total - passed;
+    const rate = total > 0 ? ((passed / total) * 100).toFixed(1) : 0;
+    const avgGpa = total > 0 ? (list.reduce((acc, s) => acc + s.gpa, 0) / total).toFixed(2) : '0.00';
+    const highestMark = total > 0 ? Math.max(...list.map(s => safeVal(s.grandTotal))) : 0;
+
+    document.getElementById('dashTotal').innerText = total;
+    document.getElementById('dashHighest').innerText = highestMark;
+    document.getElementById('dashPassed').innerText = passed;
+    document.getElementById('dashFailed').innerText = failed;
+    document.getElementById('dashRate').innerText = `${rate}%`;
+    document.getElementById('dashAvgGpa').innerText = avgGpa;
+    document.getElementById('tabulationHeading').innerText = `${activeClass} - ${activeExamTerm} Master Tabulation Sheet (${total} Students)`;
+
+    if (!senior) {
+      thead.innerHTML = `
+        <tr>
+          <th>Roll</th>
+          <th>ID</th>
+          <th>Student Name</th>
+          <th>Exam Term</th>
+          <th>Ban 1st</th>
+          <th>Ban 2nd</th>
+          <th>Eng 1st</th>
+          <th>Eng 2nd</th>
+          <th>Math</th>
+          <th>Relig</th>
+          <th>Science</th>
+          <th>BGS</th>
+          <th>ICT (M+P)</th>
+          <th>Total</th>
+          <th>Highest</th>
+          <th>GPA</th>
+          <th>Grade</th>
+          <th>Status</th>
+          <th>Pos</th>
+          <th class="no-print">Actions</th>
+        </tr>
+      `;
+    } else {
+      thead.innerHTML = `
+        <tr>
+          <th>Roll</th>
+          <th>ID</th>
+          <th>Student Name</th>
+          <th>Group</th>
+          <th>Exam Term</th>
+          <th>Ban 1st</th>
+          <th>Ban 2nd</th>
+          <th>Eng 1st</th>
+          <th>Eng 2nd</th>
+          <th>Math</th>
+          <th>Relig</th>
+          <th>ICT (M+P)</th>
+          <th>Core</th>
+          <th>Sub 1</th>
+          <th>Sub 2</th>
+          <th>Sub 3</th>
+          <th>4th Sub</th>
+          <th>Total</th>
+          <th>Highest</th>
+          <th>GPA</th>
+          <th>Grade</th>
+          <th>Status</th>
+          <th>Pos</th>
+          <th class="no-print">Actions</th>
+        </tr>
+      `;
+    }
+
+    const filtered = ranked.filter(s =>
+      s.name.toLowerCase().includes(q) ||
+      String(s.roll).includes(q) ||
+      s.studentId.toLowerCase().includes(q) ||
+      (s.group && s.group.toLowerCase().includes(q))
+    );
+
+    const cols = senior ? 24 : 20;
+    if (filtered.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="${cols}" style="padding: 20px; color: #94a3b8;">No student records found in ${activeClass} (${activeExamTerm}). Click "Load Default Sample" above to restore data.</td></tr>`;
+      return;
+    }
+
+    filtered.forEach(s => {
+      const tr = document.createElement('tr');
+      if (s.isPassed && s.rank === 1) tr.className = 'first-place';
+
+      let actionButtons = `
+        <td class="no-print">
+          <button class="btn-action-print" title="Open A4 Card" onclick="openTranscript(${s.id})">🖨️ Card</button>
+          <button class="btn-wa-action" title="Send Exact Report Card to WhatsApp" onclick="sendWhatsAppDirectReport(${s.id})">💬 WhatsApp</button>
+          <button class="btn-delete" title="Delete Record" onclick="deleteRecord(${s.id})">✕</button>
+        </td>
+      `;
+
+      if (!senior) {
+        tr.innerHTML = `
+          <td><strong>${s.roll}</strong></td>
+          <td>${s.studentId}</td>
+          <td style="text-align: left; font-weight: 600;">${s.name}</td>
+          <td><span style="font-size:10px; background:#f1f5f9; color:#334155; padding:2px 5px; border-radius:3px;">${s.examTerm}</span></td>
+          <td>${s.b1_total}</td>
+          <td>${s.b2_total}</td>
+          <td>${s.e1}</td>
+          <td>${s.e2}</td>
+          <td>${s.mathTotal}</td>
+          <td>${s.relTotal}</td>
+          <td>${safeVal(s.sciTotal)}</td>
+          <td>${safeVal(s.bgsTotal)}</td>
+          <td>${s.ictTotal} <span style="font-size:10px; color:var(--muted);">(${s.ict_mcq}+${s.ict_prac})</span></td>
+          <td style="font-weight: 700;">${s.grandTotal}</td>
+          <td style="font-weight: 700; color:#0369a1; background:#f0f9ff;">${highestMark}</td>
+          <td style="font-weight: 700; color:${s.isPassed ? 'green' : 'red'};">${s.gpa.toFixed(2)}</td>
+          <td style="font-weight: 700;">${s.finalGrade}</td>
+          <td style="font-weight: 600; color:${s.isPassed ? 'green' : 'red'};">${s.isPassed ? 'Pass' : 'Fail'}</td>
+          <td style="font-weight: 700; background:${s.isPassed ? '#e0e7ff' : '#f1f5f9'};">${s.isPassed ? '#' + s.rank : '-'}</td>
+          ${actionButtons}
+        `;
+      } else {
+        tr.innerHTML = `
+          <td><strong>${s.roll}</strong></td>
+          <td>${s.studentId}</td>
+          <td style="text-align: left; font-weight: 600;">${s.name}</td>
+          <td><span style="font-size:11px; background:#eff6ff; color:#1e40af; padding:2px 5px; border-radius:3px;">${s.group}</span></td>
+          <td><span style="font-size:10px; background:#f1f5f9; color:#334155; padding:2px 5px; border-radius:3px;">${s.examTerm}</span></td>
+          <td>${s.b1_total}</td>
+          <td>${s.b2_total}</td>
+          <td>${s.e1}</td>
+          <td>${s.e2}</td>
+          <td>${s.mathTotal}</td>
+          <td>${s.relTotal}</td>
+          <td>${s.ictTotal} <span style="font-size:10px; color:var(--muted);">(${s.ict_mcq}+${s.ict_prac})</span></td>
+          <td>${safeVal(s.coreTotal)}</td>
+          <td>${safeVal(s.g1Total)}</td>
+          <td>${safeVal(s.g2Total)}</td>
+          <td>${safeVal(s.g3Total)}</td>
+          <td>${safeVal(s.optTotal)} <span style="font-size:10px; color:#16a34a;">(+${safeVal(s.optBonus).toFixed(1)})</span></td>
+          <td style="font-weight: 700;">${s.grandTotal}</td>
+          <td style="font-weight: 700; color:#0369a1; background:#f0f9ff;">${highestMark}</td>
+          <td style="font-weight: 700; color:${s.isPassed ? 'green' : 'red'};">${s.gpa.toFixed(2)}</td>
+          <td style="font-weight: 700;">${s.finalGrade}</td>
+          <td style="font-weight: 600; color:${s.isPassed ? 'green' : 'red'};">${s.isPassed ? 'Pass' : 'Fail'}</td>
+          <td style="font-weight: 700; background:${s.isPassed ? '#e0e7ff' : '#f1f5f9'};">${s.isPassed ? '#' + s.rank : '-'}</td>
+          ${actionButtons}
+        `;
+      }
+      tbody.appendChild(tr);
+    });
+  }
+
+  function getSubjectHighestMark(subKey) {
+    const list = unifiedDatabase.filter(s => s.studentClass === activeClass && (s.examTerm || 'Annual Exam') === activeExamTerm);
+    if (list.length === 0) return 0;
+    return Math.max(...list.map(s => {
+      if (subKey === 'ban1') return safeVal(s.b1_total);
+      if (subKey === 'ban2') return safeVal(s.b2_total);
+      if (subKey === 'eng1') return safeVal(s.e1);
+      if (subKey === 'eng2') return safeVal(s.e2);
+      if (subKey === 'math') return safeVal(s.mathTotal);
+      if (subKey === 'rel') return safeVal(s.relTotal);
+      if (subKey === 'ict') return safeVal(s.ictTotal);
+      if (subKey === 'sci') return safeVal(s.sciTotal);
+      if (subKey === 'bgs') return safeVal(s.bgsTotal);
+      if (subKey === 'core') return safeVal(s.coreTotal);
+      if (subKey === 'g1') return safeVal(s.g1Total);
+      if (subKey === 'g2') return safeVal(s.g2Total);
+      if (subKey === 'g3') return safeVal(s.g3Total);
+      if (subKey === 'opt') return safeVal(s.optTotal);
+      return 0;
+    }));
+  }
+
+  function openTranscript(id) {
+    const list = unifiedDatabase.filter(s => s.studentClass === activeClass && (s.examTerm || 'Annual Exam') === activeExamTerm);
+    const ranked = list.map((s, idx) => ({ ...s, rank: idx + 1 }));
+    const s = ranked.find(item => item.id === id);
+    if (!s) return;
+
+    const senior = isSeniorClass(s.studentClass);
+    const classHighest = Math.max(...list.map(item => safeVal(item.grandTotal)));
+
+    document.getElementById('modalBoardLabel').innerText = `${s.examTerm.toUpperCase()} EVALUATION REPORT - 2026`;
+
+    document.getElementById('modalStudentMeta').innerHTML = `
+      <div><strong>Student Name:</strong> ${s.name}</div>
+      <div><strong>Class:</strong> ${s.studentClass} ${senior ? `(${s.group})` : ''}</div>
+      <div><strong>Student ID:</strong> ${s.studentId}</div>
+      <div><strong>Class Roll:</strong> ${s.roll}</div>
+      <div><strong>Parent Phone:</strong> ${s.phone || 'N/A'}</div>
+      <div><strong>Exam Term:</strong> ${s.examTerm}</div>
+      <div><strong>Class Highest:</strong> ${classHighest}</div>
+      <div><strong>Result Status:</strong> ${s.isPassed ? 'PASSED' : 'NEEDS IMPROVEMENT'}</div>
+    `;
+
+    const r = s.rawMarks;
+    let subs = [];
+
+    if (!senior) {
+      subs = [
+        { name: 'Bangla 1st Paper', full: 100, cq: safeVal(r.b1_cq), mcq: safeVal(r.b1_mcq), prac: '-', tot: safeVal(s.b1_total), highest: getSubjectHighestMark('ban1'), gp: '-', gr: '-', f: false },
+        { name: 'Bangla 2nd Paper', full: 50, cq: safeVal(r.b2_cq), mcq: safeVal(r.b2_mcq), prac: '-', tot: safeVal(s.b2_total), highest: getSubjectHighestMark('ban2'), gp: s.banRes.gp.toFixed(2), gr: s.banRes.grade, f: s.banFail },
+        { name: 'English 1st Paper', full: 100, cq: safeVal(r.e1), mcq: '-', prac: '-', tot: safeVal(s.e1), highest: getSubjectHighestMark('eng1'), gp: '-', gr: '-', f: false },
+        { name: 'English 2nd Paper', full: 50, cq: safeVal(r.e2), mcq: '-', prac: '-', tot: safeVal(s.e2), highest: getSubjectHighestMark('eng2'), gp: s.engRes.gp.toFixed(2), gr: s.engRes.grade, f: s.engFail },
+        { name: 'Mathematics', full: 100, cq: safeVal(r.m_cq), mcq: safeVal(r.m_mcq), prac: '-', tot: safeVal(s.mathTotal), highest: getSubjectHighestMark('math'), gp: s.mathRes.gp.toFixed(2), gr: s.mathRes.grade, f: s.mathFail },
+        { name: 'Religion & Moral Education', full: 100, cq: safeVal(r.rel_cq), mcq: safeVal(r.rel_mcq), prac: '-', tot: safeVal(s.relTotal), highest: getSubjectHighestMark('rel'), gp: s.relRes.gp.toFixed(2), gr: s.relRes.grade, f: s.relFail },
+        { name: 'General Science', full: 100, cq: safeVal(r.j_sci_cq), mcq: safeVal(r.j_sci_mcq), prac: '-', tot: safeVal(s.sciTotal), highest: getSubjectHighestMark('sci'), gp: s.sciRes.gp.toFixed(2), gr: s.sciRes.grade, f: s.sciFail },
+        { name: 'Bangladesh & Global Studies', full: 100, cq: safeVal(r.j_bgs_cq), mcq: safeVal(r.j_bgs_mcq), prac: '-', tot: safeVal(s.bgsTotal), highest: getSubjectHighestMark('bgs'), gp: s.bgsRes.gp.toFixed(2), gr: s.bgsRes.grade, f: s.bgsFail },
+        { name: 'ICT (MCQ: 25, Practical: 25)', full: 50, cq: '-', mcq: safeVal(r.ict_mcq), prac: safeVal(r.ict_prac), tot: safeVal(s.ictTotal), highest: getSubjectHighestMark('ict'), gp: s.ictRes.gp.toFixed(2), gr: s.ictRes.grade, f: s.ictFail }
+      ];
+    } else {
+      subs = [
+        { name: 'Bangla 1st Paper', full: 100, cq: safeVal(r.b1_cq), mcq: safeVal(r.b1_mcq), prac: '-', tot: safeVal(s.b1_total), highest: getSubjectHighestMark('ban1'), gp: '-', gr: '-', f: false },
+        { name: 'Bangla 2nd Paper', full: 100, cq: safeVal(r.b2_cq), mcq: safeVal(r.b2_mcq), prac: '-', tot: safeVal(s.b2_total), highest: getSubjectHighestMark('ban2'), gp: s.banRes.gp.toFixed(2), gr: s.banRes.grade, f: s.banFail },
+        { name: 'English 1st Paper', full: 100, cq: safeVal(r.e1), mcq: '-', prac: '-', tot: safeVal(s.e1), highest: getSubjectHighestMark('eng1'), gp: '-', gr: '-', f: false },
+        { name: 'English 2nd Paper', full: 100, cq: safeVal(r.e2), mcq: '-', prac: '-', tot: safeVal(s.e2), highest: getSubjectHighestMark('eng2'), gp: s.engRes.gp.toFixed(2), gr: s.engRes.grade, f: s.engFail },
+        { name: 'Mathematics', full: 100, cq: safeVal(r.m_cq), mcq: safeVal(r.m_mcq), prac: '-', tot: safeVal(s.mathTotal), highest: getSubjectHighestMark('math'), gp: s.mathRes.gp.toFixed(2), gr: s.mathRes.grade, f: s.mathFail },
+        { name: 'Religion & Moral Edu.', full: 100, cq: safeVal(r.rel_cq), mcq: safeVal(r.rel_mcq), prac: '-', tot: safeVal(s.relTotal), highest: getSubjectHighestMark('rel'), gp: s.relRes.gp.toFixed(2), gr: s.relRes.grade, f: s.relFail },
+        { name: 'ICT (MCQ: 25, Practical: 25)', full: 50, cq: '-', mcq: safeVal(r.ict_mcq), prac: safeVal(r.ict_prac), tot: safeVal(s.ictTotal), highest: getSubjectHighestMark('ict'), gp: s.ictRes.gp.toFixed(2), gr: s.ictRes.grade, f: s.ictFail },
+        { name: s.coreName, full: 100, cq: safeVal(r.s_core_cq), mcq: safeVal(r.s_core_mcq), prac: '-', tot: safeVal(s.coreTotal), highest: getSubjectHighestMark('core'), gp: s.coreRes.gp.toFixed(2), gr: s.coreRes.grade, f: s.coreFail },
+        { name: s.g1Name, full: 100, cq: safeVal(r.g1_cq), mcq: safeVal(r.g1_mcq), prac: s.s1Prac ? safeVal(r.g1_prac) : '-', tot: safeVal(s.g1Total), highest: getSubjectHighestMark('g1'), gp: s.g1Res.gp.toFixed(2), gr: s.g1Res.grade, f: s.g1Fail },
+        { name: s.g2Name, full: 100, cq: safeVal(r.g2_cq), mcq: safeVal(r.g2_mcq), prac: s.s2Prac ? safeVal(r.g2_prac) : '-', tot: safeVal(s.g2Total), highest: getSubjectHighestMark('g2'), gp: s.g2Res.gp.toFixed(2), gr: s.g2Res.grade, f: s.g2Fail },
+        { name: s.g3Name, full: 100, cq: safeVal(r.g3_cq), mcq: safeVal(r.g3_mcq), prac: s.s3Prac ? safeVal(r.g3_prac) : '-', tot: safeVal(s.g3Total), highest: getSubjectHighestMark('g3'), gp: s.g3Res.gp.toFixed(2), gr: s.g3Res.grade, f: s.g3Fail },
+        { name: `4th Sub: ${s.optName}`, full: 100, cq: safeVal(r.opt_cq), mcq: safeVal(r.opt_mcq), prac: s.optPrac ? safeVal(r.opt_prac) : '-', tot: safeVal(s.optTotal), highest: getSubjectHighestMark('opt'), gp: s.optRes.gp.toFixed(2), gr: s.optRes.grade, f: false }
+      ];
+    }
+
+    const tbody = document.getElementById('modalTranscriptBody');
+    tbody.innerHTML = '';
+    subs.forEach((sub, i) => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${i+1}</td>
+        <td style="text-align: left; font-weight:600;">${sub.name}</td>
+        <td>${sub.full}</td>
+        <td>${sub.cq}</td>
+        <td>${sub.mcq}</td>
+        <td>${sub.prac}</td>
+        <td><strong>${sub.tot}</strong></td>
+        <td style="color:#0369a1; font-weight:600;">${sub.highest}</td>
+        <td>${sub.gp}</td>
+        <td>${sub.gr}</td>
+        <td style="color:${sub.f ? 'red' : 'green'}; font-weight:600;">${sub.f ? 'Fail' : 'Pass'}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    const maxMarksStr = senior ? `${s.grandTotal}` : `${s.grandTotal} / 750`;
+    document.getElementById('modalSummaryGrid').innerHTML = `
+      <div class="summary-card"><div class="s-lbl">Grand Total</div><div class="s-val">${maxMarksStr}</div></div>
+      <div class="summary-card"><div class="s-lbl">Class Highest</div><div class="s-val" style="color:#0369a1;">${classHighest}</div></div>
+      <div class="summary-card"><div class="s-lbl">GPA (0 - 5.00)</div><div class="s-val" style="color:${s.isPassed ? 'green' : 'red'}">${s.gpa.toFixed(2)}</div></div>
+      <div class="summary-card"><div class="s-lbl">Letter Grade</div><div class="s-val">${s.finalGrade}</div></div>
+      <div class="summary-card"><div class="s-lbl">Merit Position</div><div class="s-val">${s.isPassed ? '#' + s.rank : 'Failed'}</div></div>
+    `;
+
+    document.getElementById('modalWaBtn').onclick = () => sendWhatsAppDirectReport(s.id);
+    document.getElementById('transcriptModal').style.display = 'flex';
+  }
+
+  function closeModal() {
+    document.getElementById('transcriptModal').style.display = 'none';
+  }
+
+  function printIndividualA4() {
+    const oldStyle = document.getElementById('dynamic-print-style');
+    if (oldStyle) oldStyle.remove();
+
+    const style = document.createElement('style');
+    style.id = 'dynamic-print-style';
+    style.innerHTML = `
+      @page {
+        size: A4 portrait !important;
+        margin: 8mm 10mm !important;
+      }
+    `;
+    document.head.appendChild(style);
+
+    document.body.className = 'printing-individual';
+    window.print();
+    document.body.className = '';
+  }
+
+  function printMasterA4() {
+    const oldStyle = document.getElementById('dynamic-print-style');
+    if (oldStyle) oldStyle.remove();
+
+    const style = document.createElement('style');
+    style.id = 'dynamic-print-style';
+    style.innerHTML = `
+      @page {
+        size: A4 landscape !important;
+        margin: 6mm 6mm !important;
+      }
+    `;
+    document.head.appendChild(style);
+
+    document.body.className = 'printing-master';
+    window.print();
+    document.body.className = '';
+  }
+
+  function exportCSV() {
+    const senior = isSeniorClass(activeClass);
+    const list = unifiedDatabase.filter(s => s.studentClass === activeClass && (s.examTerm || 'Annual Exam') === activeExamTerm);
+    const highestMark = list.length > 0 ? Math.max(...list.map(s => safeVal(s.grandTotal))) : 0;
+    let csv = "";
+    if (!senior) {
+      csv = "Class,Exam_Term,Roll,ID,Name,Phone,Ban_1st,Ban_2nd,Eng_1st,Eng_2nd,Math,Religion,Science,BGS,ICT,Total,Highest,GPA,Grade,Status\n";
+      list.forEach(s => {
+        csv += `"${s.studentClass}","${s.examTerm}","${s.roll}","${s.studentId}","${s.name}","${s.phone || ''}",${s.b1_total},${s.b2_total},${s.e1},${s.e2},${s.mathTotal},${s.relTotal},${safeVal(s.sciTotal)},${safeVal(s.bgsTotal)},${s.ictTotal},${s.grandTotal},${highestMark},${s.gpa},"${s.finalGrade}","${s.isPassed ? 'Pass' : 'Fail'}"\n`;
+      });
+    } else {
+      csv = "Class,Group,Exam_Term,Roll,ID,Name,Phone,Ban_1st,Ban_2nd,Eng_1st,Eng_2nd,Math,Religion,ICT,Core,Sub1,Sub2,Sub3,Opt,Bonus,Total,Highest,GPA,Grade,Status\n";
+      list.forEach(s => {
+        csv += `"${s.studentClass}","${s.group}","${s.examTerm}","${s.roll}","${s.studentId}","${s.name}","${s.phone || ''}",${s.b1_total},${s.b2_total},${s.e1},${s.e2},${s.mathTotal},${s.relTotal},${s.ictTotal},${safeVal(s.coreTotal)},${safeVal(s.g1Total)},${safeVal(s.g2Total)},${safeVal(s.g3Total)},${safeVal(s.optTotal)},${safeVal(s.optBonus).toFixed(2)},${s.grandTotal},${highestMark},${s.gpa},"${s.finalGrade}","${s.isPassed ? 'Pass' : 'Fail'}"\n`;
+      });
+    }
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.setAttribute("download", `${activeClass}_${activeExamTerm}_Tabulation_Sheet.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
+  loadDataFromGoogleDrive();
+  onClassSwitched('Class 8');
+</script>
+</body>
+</html>
