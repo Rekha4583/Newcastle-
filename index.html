@@ -21,6 +21,7 @@
       --highlight: #fef3c7;
       --whatsapp: #25d366;
       --whatsapp-hover: #1da851;
+      --edit: #f59e0b;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', 'Hind Siliguri', sans-serif; }
@@ -118,8 +119,23 @@
     input, select { width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px; font-size: 13px; outline: none; background: #fff; }
     input:focus, select:focus { border-color: var(--primary); }
 
+    .edit-mode-indicator {
+      display: none;
+      background: #fef3c7;
+      border: 1.5px solid #f59e0b;
+      padding: 10px 16px;
+      border-radius: 8px;
+      color: #92400e;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 14px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .form-btn-row { display: flex; gap: 10px; margin-top: 15px; }
     .btn-submit {
-      width: 100%;
+      flex: 1;
       padding: 12px;
       background: var(--primary);
       color: white;
@@ -128,10 +144,21 @@
       font-size: 15px;
       font-weight: bold;
       cursor: pointer;
-      margin-top: 15px;
       transition: 0.2s;
     }
     .btn-submit:hover { background: var(--primary-hover); }
+    .btn-cancel-edit {
+      display: none;
+      background: #64748b;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 12px 20px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .btn-cancel-edit:hover { background: #475569; }
 
     .table-responsive { width: 100%; overflow-x: auto; margin-top: 15px; border: 1px solid #e2e8f0; border-radius: 8px; }
     table.master-table { width: 100%; border-collapse: collapse; font-size: 11.5px; min-width: 1550px; background: #fff; }
@@ -140,7 +167,9 @@
     table.master-table tbody tr:nth-child(even) { background: #f8fafc; }
     table.master-table tbody tr.first-place { background: var(--highlight) !important; font-weight: 600; }
 
-    .btn-action-print { background: #eff6ff; border: 1px solid #93c5fd; color: var(--primary); font-size: 11px; font-weight: 600; cursor: pointer; padding: 5px 8px; border-radius: 5px; }
+    .btn-action-edit { background: #fef3c7; border: 1px solid #fcd34d; color: #b45309; font-size: 11px; font-weight: 700; cursor: pointer; padding: 5px 8px; border-radius: 5px; }
+    .btn-action-edit:hover { background: #fde68a; }
+    .btn-action-print { background: #eff6ff; border: 1px solid #93c5fd; color: var(--primary); font-size: 11px; font-weight: 600; cursor: pointer; padding: 5px 8px; border-radius: 5px; margin-left: 2px; }
     .btn-action-print:hover { background: #dbeafe; }
     .btn-wa-action {
       background: #25d366;
@@ -163,6 +192,24 @@
     .list-header-row { display: flex; justify-content: space-between; align-items: center; margin-top: 30px; margin-bottom: 12px; }
     .btn-print-master { padding: 8px 16px; background: #fff; border: 1px solid var(--primary); color: var(--primary); border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; }
     .search-box { width: 100%; padding: 10px 14px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; margin-bottom: 14px; }
+
+    /* Tabulation Signature Area */
+    .master-signature-area {
+      display: none;
+      margin-top: 60px;
+      padding-top: 20px;
+      justify-content: space-between;
+      width: 100%;
+    }
+    .master-signature-box {
+      border-top: 1.5px solid #0f172a;
+      width: 220px;
+      text-align: center;
+      font-size: 11pt;
+      font-weight: 700;
+      color: #0f172a;
+      padding-top: 6px;
+    }
 
     /* Modal / Individual Transcript */
     .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.65); z-index: 1000; justify-content: center; align-items: center; padding: 15px; }
@@ -266,7 +313,7 @@
         justify-content: center;
         gap: 12px;
         margin-bottom: 10px;
-        border-bottom: 1px solid #334155;
+        border-bottom: 1.5px solid #0f172a;
         padding-bottom: 6px;
       }
       body.printing-master .print-header img { width: 55px; height: 55px; object-fit: contain; }
@@ -274,6 +321,11 @@
       body.printing-master table.master-table { width: 100% !important; min-width: 100% !important; font-size: 7.2pt !important; }
       body.printing-master table.master-table th, body.printing-master table.master-table td { padding: 3px 2px !important; border: 1px solid #334155 !important; }
       body.printing-master table.master-table thead tr { background: #e2e8f0 !important; color: #000 !important; }
+
+      body.printing-master .master-signature-area {
+        display: flex !important;
+        page-break-inside: avoid !important;
+      }
     }
   </style>
 </head>
@@ -295,26 +347,24 @@
       <label for="classSelect" style="font-weight: 700; color: var(--primary);">Academic Class:</label>
       <select id="classSelect" onchange="onClassSwitched(this.value)">
         <optgroup label="Standard Curriculum (Std)">
-          <option value="Std-6">Std-6 </option>
-          <option value="Std-7">Std-7 </option>
-          <option value="Std-8">Std-8 </option>
-          <option value="Std-9">Std-9 </option>
-          <option value="Std-10">Std-10 </option>
+          <option value="Std-6">Std-6 (Junior 750)</option>
+          <option value="Std-7">Std-7 (Junior 750)</option>
+          <option value="Std-8" selected>Std-8 (Junior 750)</option>
+          <option value="Std-9">Std-9 (SSC Curriculum)</option>
+          <option value="Std-10">Std-10 (SSC Curriculum)</option>
         </optgroup>
         <optgroup label="Class Curriculum">
-          <option value="Class 6">Class 6 </option>
-          <option value="Class 7">Class 7 </option>
-          <option value="Class 8">Class 8 </option>
-          <option value="Class 9">Class 9</option>
-          <option value="Class 10">Class 10 </option>
+          <option value="Class 6">Class 6 (Junior 750)</option>
+          <option value="Class 7">Class 7 (Junior 750)</option>
+          <option value="Class 8">Class 8 (Junior 750)</option>
+          <option value="Class 9">Class 9 (SSC Curriculum)</option>
+          <option value="Class 10">Class 10 (SSC Curriculum)</option>
         </optgroup>
       </select>
 
       <label for="examTermSelect" style="font-weight: 700; color: var(--primary); margin-left: 8px;">Examination:</label>
       <select id="examTermSelect" onchange="onExamTermChanged(this.value)">
-        <option value="1st Semester">1st Semester Examination</option>
-        <option value="2nd Semester">2nd Semester Examination</option>
-        <option value="Annual Exam" selected>Annual Examination</option>
+        <!-- Options populated dynamically -->
       </select>
 
       <span id="groupFilterWrapper" style="display: none; align-items: center; gap: 6px;">
@@ -345,6 +395,13 @@
   </div>
 
   <form id="marksForm" onsubmit="handleFormSubmit(event)">
+    <input type="hidden" id="editingStudentId" value="">
+
+    <div class="edit-mode-indicator" id="editNotice">
+      <span id="editNoticeText">✏️ Editing Record for Student</span>
+      <button type="button" onclick="cancelEditMode()" style="background:#d97706; color:#fff; border:none; padding:4px 10px; border-radius:4px; font-weight:bold; cursor:pointer;">✕ Cancel Edit</button>
+    </div>
+
     <div class="row">
       <div class="form-group" style="flex: 2;">
         <label>Student Full Name</label>
@@ -365,17 +422,15 @@
       <div class="form-group" style="flex: 1.2;">
         <label>Exam Session</label>
         <select id="formExamTerm">
-          <option value="1st Semester">1st Semester Exam</option>
-          <option value="2nd Semester">2nd Semester Exam</option>
-          <option value="Annual Exam" selected>Annual Exam</option>
+          <!-- Dynamically matched -->
         </select>
       </div>
       <div class="form-group" id="grpInputWrapper" style="display: none; flex: 1.5;">
         <label>Group / Stream</label>
         <select id="streamSelect" onchange="onStreamChanged()">
-          <option value="Science">Science </option>
-          <option value="Business Studies">Business Studies </option>
-          <option value="Humanities">Humanities </option>
+          <option value="Science">Science (বিজ্ঞান বিভাগ)</option>
+          <option value="Business Studies">Business Studies (ব্যবসায় শিক্ষা)</option>
+          <option value="Humanities">Humanities (মানবিক বিভাগ)</option>
         </select>
       </div>
     </div>
@@ -480,7 +535,7 @@
       </div>
 
       <div class="section-title">8. 4th Optional Subject (100) | GP above 2.00 is Bonus Points</div>
-      <div class="row">
+      <div class="row" style="margin-bottom: 6px;">
         <div class="form-group" style="flex: 2;">
           <label>Optional Subject</label>
           <select id="opt_name" onchange="adjustSeniorPracticalFields()">
@@ -496,7 +551,10 @@
       </div>
     </div>
 
-    <button type="submit" class="btn-submit">💾 Calculate & Save Student Result</button>
+    <div class="form-btn-row">
+      <button type="submit" class="btn-submit" id="submitBtn">💾 Calculate & Save Student Result</button>
+      <button type="button" class="btn-cancel-edit" id="cancelEditBtn" onclick="cancelEditMode()">✕ Cancel</button>
+    </div>
   </form>
 
   <div class="list-header-row">
@@ -520,6 +578,13 @@
       <thead id="masterTableHead"></thead>
       <tbody id="masterTableBody"></tbody>
     </table>
+  </div>
+
+  <!-- Signatures for Master Tabulation Print -->
+  <div class="master-signature-area">
+    <div class="master-signature-box">Class Teacher</div>
+    <div class="master-signature-box">Exam Controller</div>
+    <div class="master-signature-box">Principal / Headmaster</div>
   </div>
 </div>
 
@@ -591,7 +656,67 @@
     return cls === 'Std-9' || cls === 'Std-10' || cls === 'Class 9' || cls === 'Class 10'; 
   }
 
+  function isClass10(cls) {
+    return cls === 'Std-10' || cls === 'Class 10';
+  }
+
+  function updateExamTermOptions(cls) {
+    const topTermSelect = document.getElementById('examTermSelect');
+    const formTermSelect = document.getElementById('formExamTerm');
+    const class10Mode = isClass10(cls);
+
+    let terms = [];
+    if (class10Mode) {
+      terms = [
+        { val: "1st Semester", label: "1st Semester Examination" },
+        { val: "Pre-Test Exam", label: "Pre-Test Examination" },
+        { val: "Test Exam", label: "Test Examination" }
+      ];
+    } else {
+      terms = [
+        { val: "1st Semester", label: "1st Semester Examination" },
+        { val: "2nd Semester", label: "2nd Semester Examination" },
+        { val: "Annual Exam", label: "Annual Examination" }
+      ];
+    }
+
+    const prevTerm = activeExamTerm;
+    topTermSelect.innerHTML = '';
+    formTermSelect.innerHTML = '';
+
+    terms.forEach(t => {
+      const opt1 = document.createElement('option');
+      opt1.value = t.val;
+      opt1.textContent = t.label;
+      topTermSelect.appendChild(opt1);
+
+      const opt2 = document.createElement('option');
+      opt2.value = t.val;
+      opt2.textContent = t.label;
+      formTermSelect.appendChild(opt2);
+    });
+
+    let matchingTerm = terms.find(t => t.val === prevTerm);
+    if (!matchingTerm) {
+      if (class10Mode) {
+        if (prevTerm === '2nd Semester') matchingTerm = { val: 'Pre-Test Exam' };
+        else if (prevTerm === 'Annual Exam') matchingTerm = { val: 'Test Exam' };
+        else matchingTerm = terms[2];
+      } else {
+        if (prevTerm === 'Pre-Test Exam') matchingTerm = { val: '2nd Semester' };
+        else if (prevTerm === 'Test Exam') matchingTerm = { val: 'Annual Exam' };
+        else matchingTerm = terms[2];
+      }
+    }
+
+    activeExamTerm = matchingTerm ? matchingTerm.val : terms[0].val;
+    topTermSelect.value = activeExamTerm;
+    formTermSelect.value = activeExamTerm;
+  }
+
   function autoGenerateId() {
+    const editId = document.getElementById('editingStudentId').value;
+    if (editId) return;
     const rollVal = document.getElementById('roll').value;
     if (!rollVal) return;
     const padded = String(rollVal).padStart(2, '0');
@@ -905,7 +1030,7 @@
   function sendWhatsAppDirectReport(id) {
     const list = unifiedDatabase.filter(s => s.studentClass === activeClass && (s.examTerm || 'Annual Exam') === activeExamTerm);
     const ranked = list.map((s, idx) => ({ ...s, rank: idx + 1 }));
-    const s = ranked.find(item => item.id === id);
+    const s = ranked.find(item => item.id == id);
     if (!s) return;
 
     let phone = s.phone ? String(s.phone).trim().replace(/[^0-9]/g, '') : '';
@@ -922,6 +1047,94 @@
 
     const reportCardText = buildExactReportCardText(s);
     window.open(`https://wa.me/${phone}?text=${encodeURIComponent(reportCardText)}`, '_blank');
+  }
+
+  // Edit Student Feature
+  function editStudent(id) {
+    const s = unifiedDatabase.find(item => item.id == id);
+    if (!s) return;
+
+    if (s.studentClass !== activeClass) {
+      document.getElementById('classSelect').value = s.studentClass;
+      onClassSwitched(s.studentClass);
+    }
+
+    const term = s.examTerm || activeExamTerm;
+    document.getElementById('formExamTerm').value = term;
+
+    document.getElementById('editingStudentId').value = s.id;
+    document.getElementById('name').value = s.name || '';
+    document.getElementById('roll').value = s.roll || '';
+    document.getElementById('studentId').value = s.studentId || '';
+    document.getElementById('phone').value = s.phone || '';
+    document.getElementById('presentDays').value = s.presentDays !== undefined ? s.presentDays : '';
+    document.getElementById('totalWorkingDays').value = s.totalWorkingDays !== undefined ? s.totalWorkingDays : 200;
+    document.getElementById('teacherRemarks').value = s.teacherRemarks || '';
+
+    const r = s.rawMarks || {};
+    document.getElementById('b1_cq').value = r.b1_cq !== undefined ? r.b1_cq : '';
+    document.getElementById('b1_mcq').value = r.b1_mcq !== undefined ? r.b1_mcq : '';
+    document.getElementById('b2_cq').value = r.b2_cq !== undefined ? r.b2_cq : '';
+    document.getElementById('b2_mcq').value = r.b2_mcq !== undefined ? r.b2_mcq : '';
+    document.getElementById('e1').value = r.e1 !== undefined ? r.e1 : '';
+    document.getElementById('e2').value = r.e2 !== undefined ? r.e2 : '';
+    document.getElementById('m_cq').value = r.m_cq !== undefined ? r.m_cq : '';
+    document.getElementById('m_mcq').value = r.m_mcq !== undefined ? r.m_mcq : '';
+    document.getElementById('rel_cq').value = r.rel_cq !== undefined ? r.rel_cq : '';
+    document.getElementById('rel_mcq').value = r.rel_mcq !== undefined ? r.rel_mcq : '';
+    document.getElementById('ict_mcq').value = r.ict_mcq !== undefined ? r.ict_mcq : '';
+    document.getElementById('ict_prac').value = r.ict_prac !== undefined ? r.ict_prac : '';
+
+    if (!isSeniorClass(s.studentClass)) {
+      document.getElementById('j_sci_cq').value = r.j_sci_cq !== undefined ? r.j_sci_cq : '';
+      document.getElementById('j_sci_mcq').value = r.j_sci_mcq !== undefined ? r.j_sci_mcq : '';
+      document.getElementById('j_bgs_cq').value = r.j_bgs_cq !== undefined ? r.j_bgs_cq : '';
+      document.getElementById('j_bgs_mcq').value = r.j_bgs_mcq !== undefined ? r.j_bgs_mcq : '';
+    } else {
+      if (s.group) {
+        document.getElementById('streamSelect').value = s.group;
+        onStreamChanged();
+      }
+      document.getElementById('s_core_cq').value = r.s_core_cq !== undefined ? r.s_core_cq : '';
+      document.getElementById('s_core_mcq').value = r.s_core_mcq !== undefined ? r.s_core_mcq : '';
+      document.getElementById('g1_cq').value = r.g1_cq !== undefined ? r.g1_cq : '';
+      document.getElementById('g1_mcq').value = r.g1_mcq !== undefined ? r.g1_mcq : '';
+      document.getElementById('g1_prac').value = r.g1_prac !== undefined ? r.g1_prac : 0;
+      document.getElementById('g2_cq').value = r.g2_cq !== undefined ? r.g2_cq : '';
+      document.getElementById('g2_mcq').value = r.g2_mcq !== undefined ? r.g2_mcq : '';
+      document.getElementById('g2_prac').value = r.g2_prac !== undefined ? r.g2_prac : 0;
+      document.getElementById('g3_cq').value = r.g3_cq !== undefined ? r.g3_cq : '';
+      document.getElementById('g3_mcq').value = r.g3_mcq !== undefined ? r.g3_mcq : '';
+      document.getElementById('g3_prac').value = r.g3_prac !== undefined ? r.g3_prac : 0;
+
+      if (r.opt_name) {
+        document.getElementById('opt_name').value = r.opt_name;
+        adjustSeniorPracticalFields();
+      }
+      document.getElementById('opt_cq').value = r.opt_cq !== undefined ? r.opt_cq : '';
+      document.getElementById('opt_mcq').value = r.opt_mcq !== undefined ? r.opt_mcq : '';
+      document.getElementById('opt_prac').value = r.opt_prac !== undefined ? r.opt_prac : 0;
+    }
+
+    document.getElementById('submitBtn').innerHTML = '🔄 Update Student Result';
+    document.getElementById('submitBtn').style.background = '#f59e0b';
+    document.getElementById('cancelEditBtn').style.display = 'block';
+    document.getElementById('editNotice').style.display = 'flex';
+    document.getElementById('editNoticeText').innerText = `✏️ Editing Marks for: ${s.name} (Roll #${s.roll}, ID: ${s.studentId})`;
+
+    document.getElementById('marksForm').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function cancelEditMode() {
+    document.getElementById('marksForm').reset();
+    document.getElementById('editingStudentId').value = '';
+    document.getElementById('submitBtn').innerHTML = '💾 Calculate & Save Student Result';
+    document.getElementById('submitBtn').style.background = 'var(--primary)';
+    document.getElementById('cancelEditBtn').style.display = 'none';
+    document.getElementById('editNotice').style.display = 'none';
+    document.getElementById('formExamTerm').value = activeExamTerm;
+    if (isSeniorClass(activeClass)) onStreamChanged();
+    autoGenerateId();
   }
 
   async function loadDataFromGoogleDrive() {
@@ -978,6 +1191,7 @@
 
   function onClassSwitched(cls) {
     activeClass = cls;
+    updateExamTermOptions(cls);
     updateDashboardTitle();
     const senior = isSeniorClass(cls);
 
@@ -1089,8 +1303,10 @@
     e.preventDefault();
     const senior = isSeniorClass(activeClass);
     const chosenTerm = document.getElementById('formExamTerm').value;
+    const editingId = document.getElementById('editingStudentId').value;
 
     let raw = {
+      id: editingId ? editingId : undefined,
       roll: parseInt(document.getElementById('roll').value) || 0,
       studentId: document.getElementById('studentId').value.trim(),
       name: document.getElementById('name').value.trim(),
@@ -1143,25 +1359,42 @@
     }
 
     const newRecord = calculateStudent(raw, activeClass, chosenTerm);
-    const existingIdx = unifiedDatabase.findIndex(s => s.studentClass === activeClass && s.examTerm === chosenTerm && s.roll === newRecord.roll);
-    if (existingIdx >= 0) {
-      unifiedDatabase[existingIdx] = newRecord;
+
+    if (editingId) {
+      const idx = unifiedDatabase.findIndex(item => item.id == editingId);
+      if (idx >= 0) {
+        newRecord.id = editingId;
+        unifiedDatabase[idx] = newRecord;
+      } else {
+        unifiedDatabase.push(newRecord);
+      }
+      cancelEditMode();
+      alert("✅ Student Result Updated Successfully!");
     } else {
-      unifiedDatabase.push(newRecord);
+      const existingIdx = unifiedDatabase.findIndex(s => s.studentClass === activeClass && s.examTerm === chosenTerm && s.roll === newRecord.roll);
+      if (existingIdx >= 0) {
+        newRecord.id = unifiedDatabase[existingIdx].id;
+        unifiedDatabase[existingIdx] = newRecord;
+      } else {
+        unifiedDatabase.push(newRecord);
+      }
+      e.target.reset();
+      document.getElementById('formExamTerm').value = activeExamTerm;
+      if (senior) onStreamChanged();
+      autoGenerateId();
+      alert("✅ Student Result Successfully Saved!");
     }
 
     saveDB();
     saveToGoogleDrive(newRecord);
     renderMasterTable();
-    e.target.reset();
-    document.getElementById('formExamTerm').value = activeExamTerm;
-    if (senior) onStreamChanged();
-    alert("✅ Student Result Successfully Saved!");
   }
 
   function deleteRecord(id) {
     if (confirm("Delete this student record?")) {
-      unifiedDatabase = unifiedDatabase.filter(s => s.id !== id);
+      const editingId = document.getElementById('editingStudentId').value;
+      if (editingId == id) cancelEditMode();
+      unifiedDatabase = unifiedDatabase.filter(s => s.id != id);
       saveDB();
       deleteFromGoogleDrive(id);
       renderMasterTable();
@@ -1240,13 +1473,14 @@
 
       let actionButtons = `
         <td class="no-print">
-          <button class="btn-action-print" title="Open & Print Card" onclick="openTranscript(${s.id})">🖨️ Card</button>
-          <button class="btn-wa-action" title="Send WhatsApp Report Card" onclick="sendWhatsAppDirectReport(${s.id})">💬 WA</button>
-          <button class="btn-delete" title="Delete Record" onclick="deleteRecord(${s.id})">✕</button>
+          <button class="btn-action-edit" title="Edit Student Record" onclick="editStudent('${s.id}')">✏️ Edit</button>
+          <button class="btn-action-print" title="Open & Print Card" onclick="openTranscript('${s.id}')">🖨️ Card</button>
+          <button class="btn-wa-action" title="Send WhatsApp Report Card" onclick="sendWhatsAppDirectReport('${s.id}')">💬 WA</button>
+          <button class="btn-delete" title="Delete Record" onclick="deleteRecord('${s.id}')">✕</button>
         </td>
       `;
 
-      let attStr = `${s.presentDays}/${s.totalWorkingDays}`;
+      let attStr = `${s.presentDays !== undefined ? s.presentDays : 0}/${s.totalWorkingDays !== undefined ? s.totalWorkingDays : 0}`;
 
       if (!senior) {
         tr.innerHTML = `
@@ -1294,7 +1528,7 @@
   function openTranscript(id) {
     const list = unifiedDatabase.filter(s => s.studentClass === activeClass && (s.examTerm || 'Annual Exam') === activeExamTerm);
     const ranked = list.map((s, idx) => ({ ...s, rank: idx + 1 }));
-    const s = ranked.find(item => item.id === id);
+    const s = ranked.find(item => item.id == id);
     if (!s) return;
 
     const senior = isSeniorClass(s.studentClass);
