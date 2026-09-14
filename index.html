@@ -37,25 +37,39 @@
       border-bottom: 2px solid #e2e8f0;
       margin-bottom: 16px;
     }
-    .school-brand-banner img {
+    .logo-container {
       width: 75px;
       height: 75px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .logo-container img {
+      width: 100%;
+      height: 100%;
       object-fit: contain;
       border-radius: 8px;
     }
-    .logo-crest-fallback {
-      width: 75px;
-      height: 75px;
+    .universal-crest {
+      width: 72px;
+      height: 72px;
       border-radius: 12px;
-      background: linear-gradient(135deg, #1e3a8a, #0f172a);
+      background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
       border: 2px solid #facc15;
-      display: none;
+      display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
       color: #facc15;
-      font-weight: 800;
-      font-size: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      flex-shrink: 0;
     }
+    .universal-crest .crest-star { font-size: 11px; margin-bottom: -2px; }
+    .universal-crest .crest-text { font-size: 17px; font-weight: 900; letter-spacing: 1px; color: #fff; }
+    .universal-crest .crest-sub { font-size: 8px; font-weight: 700; color: #facc15; }
+
     .school-brand-text { text-align: center; }
     .school-brand-text h1 {
       font-size: 24px;
@@ -167,7 +181,6 @@
     table.master-table tbody tr:nth-child(even) { background: #f8fafc; }
     table.master-table tbody tr.first-place { background: var(--highlight) !important; font-weight: 600; }
 
-    /* Part-wise Individual Red Color Styling */
     .fail-part {
       background-color: #fee2e2 !important;
       color: #b91c1c !important;
@@ -207,11 +220,12 @@
     .list-header-row { display: flex; justify-content: space-between; align-items: center; margin-top: 30px; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
     .btn-header-actions { display: flex; gap: 8px; flex-wrap: wrap; }
     .btn-print-master { padding: 8px 14px; background: #fff; border: 1px solid var(--primary); color: var(--primary); border-radius: 6px; font-weight: 600; font-size: 12px; cursor: pointer; }
+    .btn-print-merit { padding: 8px 14px; background: #1e3a8a; border: 1px solid #1e3a8a; color: #fff; border-radius: 6px; font-weight: 700; font-size: 12px; cursor: pointer; }
+    .btn-print-merit:hover { background: #172554; }
     .btn-print-all-cards { padding: 8px 14px; background: #059669; border: 1px solid #059669; color: #fff; border-radius: 6px; font-weight: 700; font-size: 12px; cursor: pointer; }
     .btn-print-all-cards:hover { background: #047857; }
     .search-box { width: 100%; padding: 10px 14px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; margin-bottom: 14px; }
 
-    /* Tabulation Signature Area */
     .master-signature-area {
       display: none;
       margin-top: 60px;
@@ -242,7 +256,6 @@
       padding-bottom: 12px;
       margin-bottom: 14px;
     }
-    .transcript-header img { width: 70px; height: 70px; object-fit: contain; }
     .transcript-header .title-area { text-align: center; }
     .transcript-header h2 { font-size: 20px; color: var(--primary); font-weight: 800; margin-bottom: 2px; }
     .transcript-header .tagline { font-size: 12px; color: #b45309; font-weight: 600; font-style: italic; }
@@ -278,10 +291,10 @@
     .signature-box { border-top: 1.5px solid #334155; width: 160px; text-align: center; font-size: 11px; font-weight: 600; padding-top: 4px; }
 
     .print-header { display: none; }
-
     #bulkPrintContainer { display: none; }
+    #meritPrintContainer { display: none; }
 
-    /* Print Rules */
+    /* Print Styles */
     @media print {
       html, body {
         background: #ffffff !important;
@@ -292,7 +305,7 @@
       }
 
       /* Individual Print */
-      body.printing-individual .app-container, body.printing-individual #bulkPrintContainer { display: none !important; }
+      body.printing-individual .app-container, body.printing-individual #bulkPrintContainer, body.printing-individual #meritPrintContainer { display: none !important; }
       body.printing-individual .modal-overlay {
         display: block !important;
         position: static !important;
@@ -313,7 +326,7 @@
       body.printing-individual .no-print { display: none !important; }
 
       /* Master Tabulation Print */
-      body.printing-master .modal-overlay, body.printing-master #bulkPrintContainer { display: none !important; }
+      body.printing-master .modal-overlay, body.printing-master #bulkPrintContainer, body.printing-master #meritPrintContainer { display: none !important; }
       body.printing-master .app-container {
         box-shadow: none !important;
         max-width: 100% !important;
@@ -339,7 +352,6 @@
         border-bottom: 1.5px solid #0f172a;
         padding-bottom: 6px;
       }
-      body.printing-master .print-header img { width: 55px; height: 55px; object-fit: contain; }
       body.printing-master .table-responsive { display: block !important; border: none !important; overflow: visible !important; }
       body.printing-master table.master-table { width: 100% !important; min-width: 100% !important; font-size: 7.2pt !important; }
       body.printing-master table.master-table th, body.printing-master table.master-table td { padding: 3px 2px !important; border: 1px solid #334155 !important; }
@@ -347,7 +359,7 @@
       body.printing-master .master-signature-area { display: flex !important; page-break-inside: avoid !important; }
 
       /* Bulk All Cards Print */
-      body.printing-bulk .app-container, body.printing-bulk .modal-overlay { display: none !important; }
+      body.printing-bulk .app-container, body.printing-bulk .modal-overlay, body.printing-bulk #meritPrintContainer { display: none !important; }
       body.printing-bulk #bulkPrintContainer {
         display: block !important;
         width: 100% !important;
@@ -365,6 +377,32 @@
         page-break-after: auto !important;
       }
       body.printing-bulk .signature-area { display: flex !important; }
+
+      /* Merit List Print */
+      body.printing-merit .app-container, body.printing-merit .modal-overlay, body.printing-merit #bulkPrintContainer { display: none !important; }
+      body.printing-merit #meritPrintContainer {
+        display: block !important;
+        width: 100% !important;
+        padding: 10mm 12mm !important;
+        box-sizing: border-box !important;
+      }
+      body.printing-merit table.merit-table {
+        width: 100% !important;
+        border-collapse: collapse !important;
+        font-size: 10pt !important;
+        margin-top: 14px !important;
+      }
+      body.printing-merit table.merit-table th, body.printing-merit table.merit-table td {
+        border: 1px solid #334155 !important;
+        padding: 7px 10px !important;
+        text-align: center !important;
+      }
+      body.printing-merit table.merit-table thead tr {
+        background: #f1f5f9 !important;
+        color: #000 !important;
+        font-weight: 800 !important;
+      }
+      body.printing-merit .signature-area { display: flex !important; margin-top: 50px !important; }
     }
   </style>
 </head>
@@ -372,8 +410,9 @@
 
 <div class="app-container">
   <div class="school-brand-banner">
-    <img src="1000040018.png" alt="Newcastle Logo" onerror="handleMainLogoError(this)">
-    <div class="logo-crest-fallback" id="crestFallback">NIS</div>
+    <div class="logo-container">
+      <img src="1000040018.jpg" alt="Logo" onerror="renderLogoFallback(this)">
+    </div>
     <div class="school-brand-text">
       <h1>NEWCASTLE INTERNATIONAL SCHOOL</h1>
       <div class="motto">"A House of Creative Education"</div>
@@ -402,9 +441,7 @@
       </select>
 
       <label for="examTermSelect" style="font-weight: 700; color: var(--primary); margin-left: 8px;">Examination:</label>
-      <select id="examTermSelect" onchange="onExamTermChanged(this.value)">
-        <!-- Dynamically populated -->
-      </select>
+      <select id="examTermSelect" onchange="onExamTermChanged(this.value)"></select>
 
       <span id="groupFilterWrapper" style="display: none; align-items: center; gap: 6px;">
         <label for="groupFilter" style="font-weight: 700; color: var(--primary); margin-left: 8px;">Group Filter:</label>
@@ -460,9 +497,7 @@
       </div>
       <div class="form-group" style="flex: 1.2;">
         <label>Exam Session</label>
-        <select id="formExamTerm">
-          <!-- Dynamically matched -->
-        </select>
+        <select id="formExamTerm"></select>
       </div>
       <div class="form-group" id="grpInputWrapper" style="display: none; flex: 1.5;">
         <label>Group / Stream</label>
@@ -599,15 +634,18 @@
   <div class="list-header-row">
     <h2 style="font-size: 16px;" id="tabulationHeading">Master Tabulation Sheet</h2>
     <div class="btn-header-actions">
+      <button class="btn-print-merit" onclick="printMeritListA4()">📜 Print Merit List (A4)</button>
       <button class="btn-print-all-cards" onclick="printAllReportCardsA4()">🖨️ Print All Report Cards (Bulk A4)</button>
       <button class="btn-print-master" onclick="printMasterA4()">🖨️ Print Master Tabulation (A4 Landscape)</button>
     </div>
   </div>
 
-  <input type="text" id="searchBox" class="search-box" placeholder="Search by name, roll, student ID..." oninput="renderMasterTable()">
+  <input type="text" id="searchBox" class="search-box" placeholder="Search by roll, name, student ID..." oninput="renderMasterTable()">
 
   <div class="print-header">
-    <img src="1000040018.png" alt="Logo" onerror="this.style.display='none'">
+    <div class="logo-container" style="width: 55px; height: 55px;">
+      <img src="1000040018.jpg" alt="Logo" onerror="renderLogoFallback(this)">
+    </div>
     <div style="text-align: center;">
       <h2 style="font-size: 13pt; margin-bottom: 2px; color: var(--primary);">NEWCASTLE INTERNATIONAL SCHOOL</h2>
       <p style="font-size: 8.5pt; color: #b45309; font-style: italic; margin-bottom: 2px;">"A House of Creative Education"</p>
@@ -622,7 +660,6 @@
     </table>
   </div>
 
-  <!-- Signatures for Master Tabulation Print -->
   <div class="master-signature-area">
     <div class="master-signature-box">Class Teacher</div>
     <div class="master-signature-box">Exam Controller</div>
@@ -632,57 +669,14 @@
 
 <!-- Modal: Transcript (Single A4 Portrait) -->
 <div class="modal-overlay" id="transcriptModal">
-  <div class="transcript-sheet" id="singleTranscriptSheet">
-    <div class="transcript-header">
-      <img src="1000040018.png" alt="Newcastle Logo" onerror="handleMainLogoError(this)">
-      <div class="title-area">
-        <h2>NEWCASTLE INTERNATIONAL SCHOOL</h2>
-        <div class="tagline">"A House of Creative Education"</div>
-        <div class="addr">Japani bazar, Zia soroni, Soniakra, Dhaka-1236, Bangladesh</div>
-        <div class="report-name" id="modalBoardLabel">ACADEMIC TRANSCRIPT & PROGRESS REPORT</div>
-      </div>
-    </div>
-
-    <div class="student-meta-grid" id="modalStudentMeta"></div>
-
-    <table class="transcript-table">
-      <thead>
-        <tr>
-          <th>SL</th>
-          <th>Subject Name</th>
-          <th>Full</th>
-          <th>CQ</th>
-          <th>MCQ</th>
-          <th>Prac</th>
-          <th>Total</th>
-          <th>Highest</th>
-          <th>GP</th>
-          <th>Grade</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody id="modalTranscriptBody"></tbody>
-    </table>
-
-    <div class="summary-grid" id="modalSummaryGrid"></div>
-    <div class="remarks-card" id="modalRemarksBox"></div>
-
-    <div class="signature-area">
-      <div class="signature-box">Class Teacher</div>
-      <div class="signature-box">Exam Controller</div>
-      <div class="signature-box">Principal / Headmaster</div>
-    </div>
-
-    <div class="row no-print modal-footer" style="margin-top: 18px;">
-      <button class="btn-submit" style="background: #16a34a; margin-top: 0; flex: 1;" onclick="printIndividualA4()">🖨️ Print Transcript (A4 Portrait)</button>
-      <button class="btn-submit" id="modalWaBtn" style="background: var(--whatsapp); margin-top: 0; flex: 1;">💬 Send WhatsApp</button>
-      <button class="btn-submit" style="background: #64748b; margin-top: 0; flex: 0.6;" onclick="closeModal()">Close</button>
-    </div>
-  </div>
+  <div class="transcript-sheet" id="singleTranscriptSheet"></div>
 </div>
 
 <!-- Container for Bulk Printing All Report Cards at Once -->
 <div id="bulkPrintContainer"></div>
+
+<!-- Container for Official Merit List Print -->
+<div id="meritPrintContainer"></div>
 
 <script>
   const GOOGLE_DRIVE_API_URL = "https://script.google.com/macros/s/AKfycbza8bKmXhFZtMIDrM5F-vu4GQ0p4RgS6UEoKhJ_EPHcf7KNQqVOKvmzmni5iiSpG2dfaw/exec";
@@ -691,10 +685,26 @@
   let activeExamTerm = 'Annual Exam';
   let unifiedDatabase = JSON.parse(localStorage.getItem('unified_result_db_clean') || '[]');
 
-  function handleMainLogoError(img) {
-    img.style.display = 'none';
-    const crest = document.getElementById('crestFallback');
-    if (crest) crest.style.display = 'flex';
+  function renderLogoFallback(imgElement) {
+    if (!imgElement) return;
+    const parent = imgElement.parentElement;
+    if (parent) {
+      parent.innerHTML = `
+        <div class="universal-crest">
+          <div class="crest-star">★ ★ ★</div>
+          <div class="crest-text">NIS</div>
+          <div class="crest-sub">ESTD 2026</div>
+        </div>
+      `;
+    }
+  }
+
+  function getLogoHTML(width = 72, height = 72) {
+    return `
+      <div class="logo-container" style="width: ${width}px; height: ${height}px;">
+        <img src="1000040018.jpg" alt="Logo" onerror="renderLogoFallback(this)">
+      </div>
+    `;
   }
 
   function isSeniorClass(cls) { 
@@ -847,7 +857,6 @@
     const banTotMCQ = b1_mcq + b2_mcq;
     const banTotal = b1_total + b2_total;
     
-    // Part-wise individual failure calculation
     let banCqFail = false, banMcqFail = false, banFail = false, banRes = { gp: 0, grade: 'F' };
     if (senior) {
       banCqFail = banTotCQ < 46;
@@ -994,6 +1003,31 @@
       isPassed,
       rawMarks: { ...raw, ...extraObj, examTerm, b1_cq, b1_mcq, b2_cq, b2_mcq, e1, e2, m_cq: math_cq, m_mcq: math_mcq, rel_cq, rel_mcq, ict_mcq, ict_prac }
     };
+  }
+
+  function getRankedStudents(cls, term) {
+    let list = unifiedDatabase.filter(s => s.studentClass === cls && (s.examTerm || 'Annual Exam') === term);
+
+    const sortedForRank = [...list].sort((a, b) => {
+      if (a.isPassed !== b.isPassed) return b.isPassed ? -1 : 1;
+      if (b.gpa !== a.gpa) return b.gpa - a.gpa;
+      return b.grandTotal - a.grandTotal;
+    });
+
+    const rankMap = new Map();
+    let currentRank = 1;
+    sortedForRank.forEach(s => {
+      if (s.isPassed) {
+        rankMap.set(s.id, currentRank++);
+      } else {
+        rankMap.set(s.id, null);
+      }
+    });
+
+    return list.map(s => ({
+      ...s,
+      rank: rankMap.get(s.id)
+    })).sort((a, b) => safeVal(a.roll) - safeVal(b.roll));
   }
 
   function getSubjectHighestMark(subKey) {
@@ -1196,7 +1230,6 @@
     subs.forEach((sub, i) => {
       const isSubjectFailed = sub.f;
       
-      // Individual Part-Wise Highlighting
       const cqDisplay = sub.cq !== '-' ? (sub.cqFail ? `<span class="fail-part">${sub.cq}</span>` : sub.cq) : '-';
       const mcqDisplay = sub.mcq !== '-' ? (sub.mcqFail ? `<span class="fail-part">${sub.mcq}</span>` : sub.mcq) : '-';
       const pracDisplay = sub.prac !== '-' ? (sub.pracFail ? `<span class="fail-part">${sub.prac}</span>` : sub.prac) : '-';
@@ -1226,7 +1259,7 @@
 
     return `
       <div class="transcript-header">
-        <img src="1000040018.jpg" alt="Newcastle Logo" onerror="handleMainLogoError(this)">
+        ${getLogoHTML(70, 70)}
         <div class="title-area">
           <h2>NEWCASTLE INTERNATIONAL SCHOOL</h2>
           <div class="tagline">"A House of Creative Education"</div>
@@ -1288,7 +1321,6 @@
   function buildExactReportCardText(s) {
     const senior = isSeniorClass(s.studentClass);
     const term = s.examTerm || 'Annual Exam';
-    const r = s.rawMarks;
 
     let text = `🏫 *NEWCASTLE INTERNATIONAL SCHOOL*\n`;
     text += `_"A House of Creative Education"_\n`;
@@ -1330,9 +1362,8 @@
   }
 
   function sendWhatsAppDirectReport(id) {
-    const list = unifiedDatabase.filter(s => s.studentClass === activeClass && (s.examTerm || 'Annual Exam') === activeExamTerm);
-    const ranked = list.map((s, idx) => ({ ...s, rank: idx + 1 }));
-    const s = ranked.find(item => item.id == id);
+    const list = getRankedStudents(activeClass, activeExamTerm);
+    const s = list.find(item => item.id == id);
     if (!s) return;
 
     let phone = s.phone ? String(s.phone).trim().replace(/[^0-9]/g, '') : '';
@@ -1351,7 +1382,6 @@
     window.open(`https://wa.me/${phone}?text=${encodeURIComponent(reportCardText)}`, '_blank');
   }
 
-  // Edit Student Feature
   function editStudent(id) {
     const s = unifiedDatabase.find(item => item.id == id);
     if (!s) return;
@@ -1484,9 +1514,7 @@
     unifiedDatabase.sort((a, b) => {
       if (a.studentClass !== b.studentClass) return a.studentClass.localeCompare(b.studentClass);
       if (a.examTerm !== b.examTerm) return a.examTerm.localeCompare(b.examTerm);
-      if (a.isPassed !== b.isPassed) return b.isPassed ? 1 : -1;
-      if (b.gpa !== a.gpa) return b.gpa - a.gpa;
-      return b.grandTotal - a.grandTotal;
+      return safeVal(a.roll) - safeVal(b.roll);
     });
     localStorage.setItem('unified_result_db_clean', JSON.stringify(unifiedDatabase));
   }
@@ -1710,13 +1738,13 @@
     const q = document.getElementById('searchBox').value.toLowerCase().trim();
     const senior = isSeniorClass(activeClass);
 
-    let list = unifiedDatabase.filter(s => s.studentClass === activeClass && (s.examTerm || 'Annual Exam') === activeExamTerm);
+    let list = getRankedStudents(activeClass, activeExamTerm);
+
     if (senior) {
       const grpFilter = document.getElementById('groupFilter').value;
       if (grpFilter !== 'ALL') list = list.filter(s => s.group === grpFilter);
     }
 
-    const ranked = list.map((s, idx) => ({ ...s, rank: idx + 1 }));
     const total = list.length;
     const passed = list.filter(s => s.isPassed).length;
     const failed = total - passed;
@@ -1756,7 +1784,7 @@
       `;
     }
 
-    const filtered = ranked.filter(s =>
+    const filtered = list.filter(s =>
       s.name.toLowerCase().includes(q) ||
       String(s.roll).includes(q) ||
       s.studentId.toLowerCase().includes(q) ||
@@ -1842,9 +1870,8 @@
   }
 
   function openTranscript(id) {
-    const list = unifiedDatabase.filter(s => s.studentClass === activeClass && (s.examTerm || 'Annual Exam') === activeExamTerm);
-    const ranked = list.map((s, idx) => ({ ...s, rank: idx + 1 }));
-    const s = ranked.find(item => item.id == id);
+    const list = getRankedStudents(activeClass, activeExamTerm);
+    const s = list.find(item => item.id == id);
     if (!s) return;
 
     const classHighest = Math.max(...list.map(item => safeVal(item.grandTotal)));
@@ -1890,19 +1917,18 @@
   }
 
   function printAllReportCardsA4() {
-    const list = unifiedDatabase.filter(s => s.studentClass === activeClass && (s.examTerm || 'Annual Exam') === activeExamTerm);
+    const list = getRankedStudents(activeClass, activeExamTerm);
     if (!list || list.length === 0) {
       alert("⚠️ No student records available in this class and examination term to print.");
       return;
     }
 
-    const ranked = list.map((s, idx) => ({ ...s, rank: idx + 1 }));
     const classHighest = Math.max(...list.map(item => safeVal(item.grandTotal)));
 
     const bulkContainer = document.getElementById('bulkPrintContainer');
     bulkContainer.innerHTML = '';
 
-    ranked.forEach(s => {
+    list.forEach(s => {
       const cardDiv = document.createElement('div');
       cardDiv.className = 'bulk-card-page';
       cardDiv.innerHTML = generateReportCardHTML(s, classHighest);
@@ -1921,20 +1947,108 @@
     document.body.className = '';
   }
 
+  // Official Merit List Print without SL and ID columns
+  function printMeritListA4() {
+    const list = getRankedStudents(activeClass, activeExamTerm);
+    if (!list || list.length === 0) {
+      alert("⚠️ No student records found in this class to generate merit list.");
+      return;
+    }
+
+    const senior = isSeniorClass(activeClass);
+    const container = document.getElementById('meritPrintContainer');
+    container.innerHTML = '';
+
+    let rowsHtml = '';
+    list.forEach(s => {
+      const isPassed = s.isPassed;
+      const rankBadge = isPassed ? `#${s.rank}` : '-';
+      const highlightClass = (isPassed && s.rank <= 3) ? 'background:#fef3c7; font-weight:bold;' : '';
+      
+      rowsHtml += `
+        <tr style="${highlightClass}">
+          <td style="font-weight: 800; font-size: 11pt;">${s.roll}</td>
+          <td style="text-align: left; padding-left: 14px; font-weight: 700;">${s.name}</td>
+          ${senior ? `<td>${s.group || 'General'}</td>` : ''}
+          <td style="font-weight: 800; color: #0f3460;">${s.grandTotal}</td>
+          <td style="font-weight: 800; color:${isPassed ? 'green' : 'red'};">${s.gpa.toFixed(2)}</td>
+          <td style="font-weight: 700;">${s.finalGrade}</td>
+          <td style="font-weight: 700; color:${isPassed ? 'green' : 'red'};">${isPassed ? 'Passed' : 'Failed'}</td>
+          <td style="font-weight: 800; font-size: 11pt; color: #1e3a8a;">${rankBadge}</td>
+        </tr>
+      `;
+    });
+
+    container.innerHTML = `
+      <div class="transcript-header" style="border-bottom: 2px solid #0f172a;">
+        ${getLogoHTML(65, 65)}
+        <div class="title-area">
+          <h2 style="font-size: 18pt; margin-bottom: 2px; color: #0f172a;">NEWCASTLE INTERNATIONAL SCHOOL</h2>
+          <p style="font-size: 10pt; color: #b45309; font-style: italic; margin-bottom: 2px;">"A House of Creative Education"</p>
+          <p style="font-size: 9pt; color: #475569;">Japani bazar, Zia soroni, Soniakra, Dhaka-1236 | Session 2026</p>
+          <div style="display:inline-block; margin-top:6px; padding:4px 16px; background:#0f172a; color:#fff; border-radius:20px; font-size:10pt; font-weight:800; text-transform:uppercase; letter-spacing:0.5px;">
+            ${activeClass} - ${activeExamTerm} Official Merit List
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; margin-top:10px; font-size:10pt; font-weight:700; color:#334155; padding: 6px 10px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px;">
+        <span>Academic Class: ${activeClass}</span>
+        <span>Total Students: ${list.length}</span>
+        <span>Passed: ${list.filter(item => item.isPassed).length} | Failed: ${list.filter(item => !item.isPassed).length}</span>
+      </div>
+
+      <table class="merit-table">
+        <thead>
+          <tr>
+            <th style="width: 70px;">Roll</th>
+            <th style="text-align: left; padding-left: 14px;">Student Name</th>
+            ${senior ? '<th style="width: 110px;">Group</th>' : ''}
+            <th style="width: 95px;">Total Mark</th>
+            <th style="width: 75px;">GPA</th>
+            <th style="width: 75px;">Grade</th>
+            <th style="width: 90px;">Status</th>
+            <th style="width: 90px;">Position</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${rowsHtml}
+        </tbody>
+      </table>
+
+      <div class="signature-area">
+        <div class="signature-box">Class Teacher</div>
+        <div class="signature-box">Exam Controller</div>
+        <div class="signature-box">Principal / Headmaster</div>
+      </div>
+    `;
+
+    const old = document.getElementById('dyn-print-style');
+    if (old) old.remove();
+    const st = document.createElement('style');
+    st.id = 'dyn-print-style';
+    st.innerHTML = `@page { size: A4 portrait !important; margin: 10mm 12mm !important; }`;
+    document.head.appendChild(st);
+
+    document.body.className = 'printing-merit';
+    window.print();
+    document.body.className = '';
+  }
+
   function exportCSV() {
     const senior = isSeniorClass(activeClass);
-    const list = unifiedDatabase.filter(s => s.studentClass === activeClass && (s.examTerm || 'Annual Exam') === activeExamTerm);
+    const list = getRankedStudents(activeClass, activeExamTerm);
     const highestMark = list.length > 0 ? Math.max(...list.map(s => safeVal(s.grandTotal))) : 0;
     let csv = "";
     if (!senior) {
-      csv = "Class,Exam_Term,Roll,ID,Name,Phone,Attendance,Ban_1st,Ban_2nd,Eng_1st,Eng_2nd,Math,Religion,Science,BGS,ICT,Total,Highest,GPA,Grade,Status\n";
+      csv = "Class,Exam_Term,Roll,ID,Name,Phone,Attendance,Ban_1st,Ban_2nd,Eng_1st,Eng_2nd,Math,Religion,Science,BGS,ICT,Total,Highest,GPA,Grade,Status,Position\n";
       list.forEach(s => {
-        csv += `"${s.studentClass}","${s.examTerm}","${s.roll}","${s.studentId}","${s.name}","${s.phone || ''}","${s.presentDays}/${s.totalWorkingDays}",${s.b1_total},${s.b2_total},${s.e1},${s.e2},${s.mathTotal},${s.relTotal},${safeVal(s.sciTotal)},${safeVal(s.bgsTotal)},${s.ictTotal},${s.grandTotal},${highestMark},${s.gpa},"${s.finalGrade}","${s.isPassed ? 'Pass' : 'Fail'}"\n`;
+        csv += `"${s.studentClass}","${s.examTerm}","${s.roll}","${s.studentId}","${s.name}","${s.phone || ''}","${s.presentDays}/${s.totalWorkingDays}",${s.b1_total},${s.b2_total},${s.e1},${s.e2},${s.mathTotal},${s.relTotal},${safeVal(s.sciTotal)},${safeVal(s.bgsTotal)},${s.ictTotal},${s.grandTotal},${highestMark},${s.gpa},"${s.finalGrade}","${s.isPassed ? 'Pass' : 'Fail'}","${s.isPassed ? s.rank : '-'}"\n`;
       });
     } else {
-      csv = "Class,Group,Exam_Term,Roll,ID,Name,Phone,Attendance,Ban_1st,Ban_2nd,Eng_1st,Eng_2nd,Math,Religion,ICT,Core,Sub1,Sub2,Sub3,Opt,Bonus,Total,Highest,GPA,Grade,Status\n";
+      csv = "Class,Group,Exam_Term,Roll,ID,Name,Phone,Attendance,Ban_1st,Ban_2nd,Eng_1st,Eng_2nd,Math,Religion,ICT,Core,Sub1,Sub2,Sub3,Opt,Bonus,Total,Highest,GPA,Grade,Status,Position\n";
       list.forEach(s => {
-        csv += `"${s.studentClass}","${s.group}","${s.examTerm}","${s.roll}","${s.studentId}","${s.name}",${s.b1_total},${s.b2_total},${s.e1},${s.e2},${s.mathTotal},${s.relTotal},${s.ictTotal},${safeVal(s.coreTotal)},${safeVal(s.g1Total)},${safeVal(s.g2Total)},${safeVal(s.g3Total)},${safeVal(s.optTotal)},${safeVal(s.optBonus).toFixed(2)},${s.grandTotal},${highestMark},${s.gpa},"${s.finalGrade}","${s.isPassed ? 'Pass' : 'Fail'}"\n`;
+        csv += `"${s.studentClass}","${s.group}","${s.examTerm}","${s.roll}","${s.studentId}","${s.name}",${s.b1_total},${s.b2_total},${s.e1},${s.e2},${s.mathTotal},${s.relTotal},${s.ictTotal},${safeVal(s.coreTotal)},${safeVal(s.g1Total)},${safeVal(s.g2Total)},${safeVal(s.g3Total)},${safeVal(s.optTotal)},${safeVal(s.optBonus).toFixed(2)},${s.grandTotal},${highestMark},${s.gpa},"${s.finalGrade}","${s.isPassed ? 'Pass' : 'Fail'}","${s.isPassed ? s.rank : '-'}"\n`;
       });
     }
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
