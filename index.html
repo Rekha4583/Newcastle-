@@ -26,7 +26,7 @@
 
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', 'Hind Siliguri', sans-serif; }
     body { background-color: var(--bg); color: var(--text); padding: 20px 10px; display: flex; justify-content: center; min-height: 100vh; }
-    .app-container { width: 100%; max-width: 1600px; background: var(--card); border-radius: 12px; padding: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+    .app-container { width: 100%; max-width: 1600px; background: var(--card); border-radius: 12px; padding: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); position: relative; }
     
     .school-brand-banner {
       display: flex;
@@ -36,6 +36,7 @@
       padding-bottom: 14px;
       border-bottom: 2px solid #e2e8f0;
       margin-bottom: 16px;
+      position: relative;
     }
     .logo-container {
       width: 75px;
@@ -91,6 +92,42 @@
       font-weight: 500;
     }
 
+    /* Auth Corner Button */
+    .auth-corner {
+      position: absolute;
+      top: 0;
+      right: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-auth {
+      padding: 6px 14px;
+      font-size: 12px;
+      font-weight: 700;
+      border-radius: 6px;
+      cursor: pointer;
+      border: 1.5px solid var(--primary);
+      background: #eff6ff;
+      color: var(--primary);
+      transition: 0.2s;
+    }
+    .btn-auth:hover {
+      background: var(--primary);
+      color: #fff;
+    }
+    .auth-status-tag {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      background: #dcfce7;
+      color: #166534;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
     .header-bar {
       background: #eff6ff;
       border: 1px solid #bfdbfe;
@@ -115,6 +152,30 @@
     .dash-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; text-align: center; }
     .dash-card .val { font-size: 20px; font-weight: 800; color: var(--primary); margin-top: 4px; }
     .dash-card .lbl { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; }
+
+    /* Admin Locked Notice Banner */
+    .admin-locked-banner {
+      background: #fffbeb;
+      border: 1.5px solid #fde68a;
+      border-radius: 8px;
+      padding: 16px;
+      text-align: center;
+      margin-bottom: 20px;
+      color: #92400e;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .admin-locked-banner button {
+      margin-top: 8px;
+      padding: 6px 16px;
+      font-size: 12px;
+      font-weight: 700;
+      background: #d97706;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
 
     .section-title {
       font-size: 13px;
@@ -290,6 +351,32 @@
     .signature-area { display: none; margin-top: 40px; justify-content: space-between; }
     .signature-box { border-top: 1.5px solid #334155; width: 160px; text-align: center; font-size: 11px; font-weight: 600; padding-top: 4px; }
 
+    /* Login Modal Specific */
+    .login-box {
+      background: #fff;
+      width: 100%;
+      max-width: 400px;
+      border-radius: 12px;
+      padding: 28px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      text-align: center;
+    }
+    .login-box h3 {
+      font-size: 18px;
+      color: var(--primary);
+      margin-bottom: 4px;
+      font-weight: 800;
+    }
+    .login-box p {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+    .login-box .form-group {
+      text-align: left;
+      margin-bottom: 14px;
+    }
+
     .print-header { display: none; }
     #bulkPrintContainer { display: none; }
     #meritPrintContainer { display: none; }
@@ -341,6 +428,7 @@
       body.printing-master .school-brand-banner,
       body.printing-master .header-bar,
       body.printing-master .list-header-row,
+      body.printing-master .admin-locked-banner,
       body.printing-master .no-print { display: none !important; }
 
       body.printing-master .print-header {
@@ -409,6 +497,12 @@
 <body>
 
 <div class="app-container">
+  <!-- Auth Corner Area -->
+  <div class="auth-corner no-print">
+    <div id="authStatusBadge"></div>
+    <button class="btn-auth" id="authBtn" onclick="handleAuthAction()">🔒 Login</button>
+  </div>
+
   <div class="school-brand-banner">
     <div class="logo-container">
       <img src="1000040018.png" alt="Logo" onerror="renderLogoFallback(this)">
@@ -470,7 +564,15 @@
     <div class="dash-card"><div class="lbl">Avg GPA</div><div class="val" id="dashAvgGpa">0.00</div></div>
   </div>
 
-  <form id="marksForm" onsubmit="handleFormSubmit(event)">
+  <!-- Locked Notice for non-admin viewers -->
+  <div class="admin-locked-banner" id="adminLockedBanner">
+    🔒 You are currently viewing in <strong>Guest / Read-Only Mode</strong>. To add or modify student marks, please log in with teacher/admin credentials.
+    <br>
+    <button onclick="openLoginModal()">🔑 Click Here to Login</button>
+  </div>
+
+  <!-- Entry Form (Only visible to logged-in Admin/Teacher) -->
+  <form id="marksForm" onsubmit="handleFormSubmit(event)" style="display: none;">
     <input type="hidden" id="editingStudentId" value="">
 
     <div class="edit-mode-indicator" id="editNotice">
@@ -667,6 +769,30 @@
   </div>
 </div>
 
+<!-- Modal: Login -->
+<div class="modal-overlay" id="loginModal">
+  <div class="login-box">
+    <div style="font-size: 32px; margin-bottom: 8px;">🔐</div>
+    <h3>Admin / Teacher Login</h3>
+    <p>Sign in to enter, edit or delete examination results.</p>
+    
+    <form onsubmit="handleLoginSubmit(event)">
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" id="loginUser" placeholder="e.g. admin" required>
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="loginPass" placeholder="••••••••" required>
+      </div>
+      <div style="display: flex; gap: 8px; margin-top: 20px;">
+        <button type="submit" class="btn-submit" style="margin-top:0; padding: 10px;">Sign In</button>
+        <button type="button" class="btn-cancel-edit" style="display:block; margin-top:0; padding: 10px 16px;" onclick="closeLoginModal()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 <!-- Modal: Transcript (Single A4 Portrait) -->
 <div class="modal-overlay" id="transcriptModal">
   <div class="transcript-sheet" id="singleTranscriptSheet"></div>
@@ -681,9 +807,77 @@
 <script>
   const GOOGLE_DRIVE_API_URL = "https://script.google.com/macros/s/AKfycbza8bKmXhFZtMIDrM5F-vu4GQ0p4RgS6UEoKhJ_EPHcf7KNQqVOKvmzmni5iiSpG2dfaw/exec";
 
+  // Auth State
+  let isLoggedIn = localStorage.getItem('nis_is_logged_in') === 'true';
+
   let activeClass = 'Std-8';
   let activeExamTerm = 'Annual Exam';
   let unifiedDatabase = JSON.parse(localStorage.getItem('unified_result_db_clean') || '[]');
+
+  // Auth Handling
+  function updateAuthUI() {
+    const authBtn = document.getElementById('authBtn');
+    const badge = document.getElementById('authStatusBadge');
+    const form = document.getElementById('marksForm');
+    const lockedBanner = document.getElementById('adminLockedBanner');
+
+    if (isLoggedIn) {
+      authBtn.innerText = "🚪 Logout";
+      authBtn.style.borderColor = "#dc2626";
+      authBtn.style.color = "#dc2626";
+      badge.innerHTML = `<span class="auth-status-tag">● Logged In (Admin)</span>`;
+      form.style.display = 'block';
+      lockedBanner.style.display = 'none';
+    } else {
+      authBtn.innerText = "🔒 Login";
+      authBtn.style.borderColor = "var(--primary)";
+      authBtn.style.color = "var(--primary)";
+      badge.innerHTML = ``;
+      form.style.display = 'none';
+      lockedBanner.style.display = 'block';
+    }
+  }
+
+  function handleAuthAction() {
+    if (isLoggedIn) {
+      if (confirm("Are you sure you want to log out?")) {
+        isLoggedIn = false;
+        localStorage.removeItem('nis_is_logged_in');
+        updateAuthUI();
+        renderMasterTable();
+      }
+    } else {
+      openLoginModal();
+    }
+  }
+
+  function openLoginModal() {
+    document.getElementById('loginUser').value = '';
+    document.getElementById('loginPass').value = '';
+    document.getElementById('loginModal').style.display = 'flex';
+  }
+
+  function closeLoginModal() {
+    document.getElementById('loginModal').style.display = 'none';
+  }
+
+  function handleLoginSubmit(e) {
+    e.preventDefault();
+    const u = document.getElementById('loginUser').value.trim();
+    const p = document.getElementById('loginPass').value.trim();
+
+    // Default School Credentials
+    if ((u === 'admin' && p === 'nis2026') || (u === 'teacher' && p === 'nis2026')) {
+      isLoggedIn = true;
+      localStorage.setItem('nis_is_logged_in', 'true');
+      closeLoginModal();
+      updateAuthUI();
+      renderMasterTable();
+      alert("✅ Login successful! You now have full editor permissions.");
+    } else {
+      alert("❌ Invalid username or password! (Default: admin / nis2026)");
+    }
+  }
 
   function renderLogoFallback(imgElement) {
     if (!imgElement) return;
@@ -1005,11 +1199,9 @@
     };
   }
 
-  // পজিশন নির্ণয় নম্বরের ভিত্তিতে, কিন্তু তালিকা সাজানো থাকবে রোলের ক্রমানুসারে (১, ২, ৩...)
   function getRankedStudents(cls, term) {
     let list = unifiedDatabase.filter(s => s.studentClass === cls && (s.examTerm || 'Annual Exam') === term);
 
-    // ১. নম্বরের ভিত্তিতে মেধা স্থান (Rank) হিসাব
     const sortedByMarks = [...list].sort((a, b) => {
       if (a.isPassed !== b.isPassed) return b.isPassed ? -1 : 1;
       if (b.grandTotal !== a.grandTotal) return b.grandTotal - a.grandTotal;
@@ -1027,7 +1219,6 @@
       }
     });
 
-    // ২. রোল নম্বর অনুযায়ী ক্রমানুসারে (Roll 1, 2, 3...) সাজিয়ে রিটার্ন
     return list.map(s => ({
       ...s,
       rank: rankMap.get(s.id)
@@ -1387,6 +1578,12 @@
   }
 
   function editStudent(id) {
+    if (!isLoggedIn) {
+      alert("🔒 Please log in as Teacher/Admin to edit records.");
+      openLoginModal();
+      return;
+    }
+
     const s = unifiedDatabase.find(item => item.id == id);
     if (!s) return;
 
@@ -1635,6 +1832,12 @@
 
   function handleFormSubmit(e) {
     e.preventDefault();
+    if (!isLoggedIn) {
+      alert("🔒 Please log in as Teacher/Admin to save results.");
+      openLoginModal();
+      return;
+    }
+
     const senior = isSeniorClass(activeClass);
     const chosenTerm = document.getElementById('formExamTerm').value;
     const editingId = document.getElementById('editingStudentId').value;
@@ -1725,6 +1928,12 @@
   }
 
   function deleteRecord(id) {
+    if (!isLoggedIn) {
+      alert("🔒 Please log in as Teacher/Admin to delete records.");
+      openLoginModal();
+      return;
+    }
+
     if (confirm("Delete this student record?")) {
       const editingId = document.getElementById('editingStudentId').value;
       if (editingId == id) cancelEditMode();
@@ -1797,7 +2006,7 @@
 
     const cols = senior ? 25 : 21;
     if (filtered.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="${cols}" style="padding: 24px; color: #94a3b8;">No student records found in ${activeClass} (${activeExamTerm}). Enter marks above.</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="${cols}" style="padding: 24px; color: #94a3b8;">No student records found in ${activeClass} (${activeExamTerm}).</td></tr>`;
       return;
     }
 
@@ -1805,12 +2014,19 @@
       const tr = document.createElement('tr');
       if (s.isPassed && s.rank === 1) tr.className = 'first-place';
 
+      let adminActions = '';
+      if (isLoggedIn) {
+        adminActions = `
+          <button class="btn-action-edit" title="Edit Student Record" onclick="editStudent('${s.id}')">✏️ Edit</button>
+          <button class="btn-delete" title="Delete Record" onclick="deleteRecord('${s.id}')">✕</button>
+        `;
+      }
+
       let actionButtons = `
         <td class="no-print">
-          <button class="btn-action-edit" title="Edit Student Record" onclick="editStudent('${s.id}')">✏️ Edit</button>
+          ${adminActions}
           <button class="btn-action-print" title="Open & Print Card" onclick="openTranscript('${s.id}')">🖨️ Card</button>
           <button class="btn-wa-action" title="Send WhatsApp Report Card" onclick="sendWhatsAppDirectReport('${s.id}')">💬 WA</button>
-          <button class="btn-delete" title="Delete Record" onclick="deleteRecord('${s.id}')">✕</button>
         </td>
       `;
 
@@ -1951,7 +2167,6 @@
     document.body.className = '';
   }
 
-  // Official Merit List Print - Sorted by Roll (1, 2, 3...) with Mark-Based Position
   function printMeritListA4() {
     const list = getRankedStudents(activeClass, activeExamTerm);
     if (!list || list.length === 0) {
@@ -2065,6 +2280,7 @@
   }
 
   loadDataFromGoogleDrive();
+  updateAuthUI();
   onClassSwitched('Std-8');
 </script>
 </body>
